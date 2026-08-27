@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PhoneCall, MessageSquare, X, Headphones, Sparkles } from 'lucide-react';
+import { PhoneCall, X, Headphones } from 'lucide-react';
+import { useStore } from '../context/StoreContext';
 
 export const FloatingContactHub = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { storeSettings } = useStore();
+
+  const cleanWhatsapp = (storeSettings?.whatsapp || '201140087799').replace(/[^0-9]/g, '');
+  const cleanPhone = storeSettings?.phone || '01140087799';
 
   return (
     <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40" dir="rtl">
@@ -27,14 +32,14 @@ export const FloatingContactHub = () => {
                   <span className="text-[10px] text-emerald-600 font-semibold">● متواجدون الآن للرد فوراً</span>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="space-y-2 text-xs">
               <a
-                href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1%20%D9%88%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA"
+                href={`https://wa.me/${cleanWhatsapp}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1%20%D9%88%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 p-2.5 rounded-2xl font-bold border border-emerald-200 transition-colors"
@@ -49,7 +54,7 @@ export const FloatingContactHub = () => {
               </a>
 
               <a
-                href="tel:01140087799"
+                href={`tel:${cleanPhone}`}
                 className="flex items-center gap-2.5 bg-brand-50 hover:bg-brand-100 text-brand-800 p-2.5 rounded-2xl font-bold border border-brand-200 transition-colors"
               >
                 <div className="w-7 h-7 rounded-xl bg-brand-600 text-white flex items-center justify-center text-xs">
@@ -57,7 +62,7 @@ export const FloatingContactHub = () => {
                 </div>
                 <div>
                   <span className="block font-black">اتصال بالخط الساخن</span>
-                  <span className="text-[10px] text-brand-600">01140087799</span>
+                  <span className="text-[10px] text-brand-600 font-mono">{cleanPhone}</span>
                 </div>
               </a>
             </div>

@@ -140,6 +140,30 @@ export const StoreProvider = ({ children }) => {
     localStorage.setItem('turbocool_coupons', JSON.stringify(coupons));
   }, [coupons]);
 
+  // Real-time Cross-tab Live Synchronization Listener
+  useEffect(() => {
+    const handleStorage = (e) => {
+      try {
+        if (e.key === 'turbocool_products' && e.newValue) {
+          setProducts(JSON.parse(e.newValue));
+        }
+        if (e.key === 'turbocool_services' && e.newValue) {
+          setServices(JSON.parse(e.newValue));
+        }
+        if (e.key === 'turbocool_settings' && e.newValue) {
+          setStoreSettings(JSON.parse(e.newValue));
+        }
+        if (e.key === 'turbocool_coupons' && e.newValue) {
+          setCoupons(JSON.parse(e.newValue));
+        }
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('turbocool_cart', JSON.stringify(cart));
   }, [cart]);
