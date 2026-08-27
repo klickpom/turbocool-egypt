@@ -1,23 +1,43 @@
-User-agent: *
-Allow: /
-Disallow: /#admin
+# ========================================================
+# Optimized 2026 robots.txt for AI Search & AEO Indexing
+# Turbo Cool Egypt - https://turbocool-egypt.shop
+# ========================================================
 
+# Standard Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: GPTBot
+User-agent: Yandex
 Allow: /
 
+# AI Search Engine & Retrieval Bots (Search Citations)
+# OAI-SearchBot - ChatGPT Search & Live Web Retrieval
+User-agent: OAI-SearchBot
+Allow: /
+
+# PerplexityBot - Perplexity AI Real-Time Search & Sourced References
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: ClaudeBot
+# Claude-Web - Anthropic Claude 3.5 Real-Time Web Browsing
+User-agent: Claude-Web
 Allow: /
 
+# Google-Extended - Google Gemini AI Overviews & Search Summaries
 User-agent: Google-Extended
 Allow: /
 
+# Applebot-Extended - Apple Intelligence Siri & Spotlight AI Answers
+User-agent: Applebot-Extended
+Allow: /
+
+# Default Directive for All Other Crawlers
+User-agent: *
+Allow: /
+Disallow: /#admin
+
+# Authoritative Sitemap Index
 Sitemap: https://turbocool-egypt.shop/sitemap.xml
