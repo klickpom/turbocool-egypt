@@ -11,13 +11,15 @@ import {
   PhoneCall, 
   CheckCircle2, 
   Flame, 
-  Wind,
-  Award,
-  Zap
+  Wind, 
+  Award 
 } from 'lucide-react';
 
 export const Hero = () => {
-  const { setActiveTab } = useStore();
+  const { setActiveTab, storeSettings } = useStore();
+
+  const cleanWhatsapp = (storeSettings?.whatsapp || '201140087799').replace(/[^0-9]/g, '');
+  const cleanPhone = storeSettings?.phone || '01140087799';
 
   const scrollToSection = (id, tabName) => {
     setActiveTab(tabName);
@@ -28,7 +30,7 @@ export const Hero = () => {
   };
 
   return (
-    <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-brand-900 via-brand-950 to-slate-900 text-white pt-8 pb-16 md:pt-14 md:pb-24">
+    <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white pt-10 pb-16 md:pt-16 md:pb-24">
       {/* Background Animated Gradient Orbs */}
       <motion.div 
         animate={{
@@ -44,7 +46,7 @@ export const Hero = () => {
           opacity: [0.1, 0.2, 0.1]
         }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-ice-400/15 rounded-full blur-3xl pointer-events-none -z-0"
+        className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-sky-400/15 rounded-full blur-3xl pointer-events-none -z-0"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -63,10 +65,10 @@ export const Hero = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-800/90 to-brand-700/70 border border-brand-400/40 px-4 py-1.5 rounded-full shadow-inner backdrop-blur-md"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-800/90 to-brand-900/80 border border-brand-500/30 px-4 py-1.5 rounded-full shadow-inner backdrop-blur-md"
             >
               <Award className="w-4 h-4 text-amber-400 animate-pulse" />
-              <span className="text-xs md:text-sm font-extrabold text-ice-200">
+              <span className="text-xs md:text-sm font-extrabold text-sky-200">
                 موزع معتمد رسمي: شارب • كاريير • LG • فريش • ميديا • جري • تورنيدو
               </span>
             </motion.div>
@@ -78,8 +80,8 @@ export const Hero = () => {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.25] text-white"
             >
-              عيش في <span className="bg-gradient-to-r from-ice-300 via-sky-200 to-white bg-clip-text text-transparent">نقاء وانتعاش</span> مع{' '}
-              <span className="text-ice-400 relative inline-block underline decoration-brand-400 decoration-wavy decoration-2">
+              عيش في <span className="bg-gradient-to-r from-sky-300 via-teal-200 to-white bg-clip-text text-transparent">نقاء وانتعاش</span> مع{' '}
+              <span className="text-sky-400 relative inline-block underline decoration-brand-400 decoration-wavy decoration-2">
                 تربو كوول
               </span>
             </motion.h1>
@@ -124,7 +126,7 @@ export const Hero = () => {
             >
               <button
                 onClick={() => scrollToSection('catalog-section', 'catalog')}
-                className="flex items-center gap-2 bg-gradient-to-r from-brand-500 to-sky-500 hover:from-brand-600 hover:to-sky-600 text-white font-extrabold text-sm md:text-base px-6 py-3.5 rounded-2xl shadow-glow hover:shadow-glow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                className="flex items-center gap-2 bg-gradient-to-r from-brand-600 to-sky-500 hover:from-brand-500 hover:to-sky-400 text-white font-extrabold text-sm md:text-base px-6 py-3.5 rounded-2xl shadow-glow hover:shadow-glow-lg transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
               >
                 <span>تصفح أحدث عروض التكييفات</span>
                 <ArrowLeft className="w-4 h-4" />
@@ -132,17 +134,17 @@ export const Hero = () => {
 
               <button
                 onClick={() => scrollToSection('calculator-section', 'calculator')}
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm md:text-base px-5 py-3.5 rounded-2xl backdrop-blur-md transition-all duration-200"
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm md:text-base px-5 py-3.5 rounded-2xl backdrop-blur-md transition-all duration-200 cursor-pointer"
               >
-                <Calculator className="w-4 h-4 text-ice-300" />
+                <Calculator className="w-4 h-4 text-sky-300" />
                 <span>احسب قدرة غرفتك 📐</span>
               </button>
 
               <a
-                href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA"
+                href={`https://wa.me/${cleanWhatsapp}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm md:text-base px-4 py-3.5 rounded-2xl shadow-md transition-all"
+                className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm md:text-base px-4 py-3.5 rounded-2xl shadow-md transition-all cursor-pointer"
               >
                 <PhoneCall className="w-4 h-4" />
                 <span>معاينة فنية فورية</span>
@@ -154,14 +156,14 @@ export const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="grid grid-cols-3 gap-4 pt-6 border-t border-brand-800/80"
+              className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800"
             >
               <div>
                 <div className="text-2xl md:text-3xl font-black text-white">+15,000</div>
                 <div className="text-xs text-slate-400 font-medium">عميل سعيد في مصر</div>
               </div>
               <div>
-                <div className="text-2xl md:text-3xl font-black text-ice-300">+10</div>
+                <div className="text-2xl md:text-3xl font-black text-sky-300">+10</div>
                 <div className="text-xs text-slate-400 font-medium">سنوات خبرة معتمدة</div>
               </div>
               <div>
@@ -182,7 +184,7 @@ export const Hero = () => {
             <div className="relative mx-auto max-w-md lg:max-w-none">
               
               {/* Decorative Frame */}
-              <div className="relative rounded-3xl bg-gradient-to-tr from-brand-900/90 via-slate-800/80 to-brand-800/60 p-5 border border-white/15 shadow-2xl backdrop-blur-xl">
+              <div className="relative rounded-3xl bg-gradient-to-tr from-slate-900/95 via-slate-800/90 to-brand-950/80 p-5 border border-slate-700/60 shadow-2xl backdrop-blur-xl">
                 
                 {/* Floating Top Badge */}
                 <div className="absolute -top-3.5 left-6 bg-gradient-to-r from-rose-600 to-amber-500 text-white text-xs font-black px-3.5 py-1 rounded-full shadow-lg flex items-center gap-1.5 animate-bounce">
@@ -191,7 +193,7 @@ export const Hero = () => {
                 </div>
 
                 {/* Product/Logo Banner Showcase */}
-                <div className="rounded-2xl overflow-hidden bg-slate-950/60 border border-white/10 p-5 text-center space-y-4">
+                <div className="rounded-2xl overflow-hidden bg-slate-950/80 border border-slate-800 p-5 text-center space-y-4">
                   <div className="w-28 h-28 mx-auto rounded-3xl bg-white p-2 shadow-glow flex items-center justify-center">
                     <img 
                       src="/logo.jpg" 
@@ -205,8 +207,8 @@ export const Hero = () => {
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-black text-white">تربو كوول للتكييف والتبريد</h3>
-                    <p className="text-xs text-ice-300 font-semibold mt-0.5">
+                    <h3 className="text-xl font-black text-white">{storeSettings?.companyName || 'تربو كوول للتكييف والتبريد'}</h3>
+                    <p className="text-xs text-sky-300 font-semibold mt-0.5">
                       تجهيز وصيانة وتوريد كافة أنظمة التكييف والتبريد
                     </p>
                   </div>
@@ -215,7 +217,7 @@ export const Hero = () => {
                   <div className="grid grid-cols-2 gap-2.5 text-right text-xs pt-1">
                     <div className="bg-white/5 rounded-2xl p-3 border border-white/10">
                       <span className="text-slate-400 block text-[10px]">تكنولوجيا الإنفرتر</span>
-                      <span className="text-ice-200 font-bold">توفير حتى 60% كهرباء</span>
+                      <span className="text-sky-200 font-bold">توفير حتى 60% كهرباء</span>
                     </div>
                     <div className="bg-white/5 rounded-2xl p-3 border border-white/10">
                       <span className="text-slate-400 block text-[10px]">سرعة التنفيذ</span>
@@ -227,23 +229,23 @@ export const Hero = () => {
                     </div>
                     <div className="bg-white/5 rounded-2xl p-3 border border-white/10">
                       <span className="text-slate-400 block text-[10px]">التغطية الجغرافية</span>
-                      <span className="text-amber-300 font-bold">الجيزة والقاهرة الكبرى</span>
+                      <span className="text-amber-300 font-bold">{storeSettings?.coverageAreas || 'الجيزة والقاهرة الكبرى'}</span>
                     </div>
                   </div>
 
                   {/* Fast Action button */}
                   <button 
                     onClick={() => scrollToSection('services-section', 'services')}
-                    className="w-full py-3.5 bg-gradient-to-r from-ice-400 to-brand-500 hover:from-ice-500 hover:to-brand-600 text-slate-950 font-black rounded-2xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-gradient-to-r from-sky-400 to-brand-500 hover:from-sky-500 hover:to-brand-600 text-slate-950 font-black rounded-2xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <Wrench className="w-4 h-4 text-slate-900" />
+                    <Wrench className="w-4 h-4 text-slate-950" />
                     <span>احجز صيانة أو تركيب فوري</span>
                   </button>
                 </div>
 
                 {/* Floating Cool Breeze Tag */}
-                <div className="absolute -bottom-4 -right-3 bg-brand-800 text-ice-200 border border-brand-400/40 text-xs font-bold px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2 backdrop-blur-md">
-                  <Wind className="w-4 h-4 text-ice-300 animate-spin" style={{ animationDuration: '8s' }} />
+                <div className="absolute -bottom-4 -right-3 bg-slate-900 text-sky-200 border border-slate-700 text-xs font-bold px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2 backdrop-blur-md">
+                  <Wind className="w-4 h-4 text-sky-400 animate-spin" style={{ animationDuration: '8s' }} />
                   <span>هواء نقي وتبريد استوائي 100%</span>
                 </div>
 
