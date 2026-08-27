@@ -13,7 +13,8 @@ import {
   Wrench, 
   ShieldCheck, 
   MessageSquare,
-  ChevronDown
+  ChevronDown,
+  Lock
 } from 'lucide-react';
 
 export const Header = () => {
@@ -28,7 +29,9 @@ export const Header = () => {
     setSearchQuery,
     activeTab,
     setActiveTab,
-    setSelectedBrand
+    setSelectedBrand,
+    storeSettings,
+    navigateToView
   } = useStore();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -59,17 +62,17 @@ export const Header = () => {
               <Sparkles className="w-3 h-3" /> عروض 2026
             </span>
             <span className="text-slate-200 font-medium truncate">
-              🚚 توريد وتركيب فوري 24 ساعة + معاينة مجانية بالجيزة والقاهرة!
+              🚚 {storeSettings.topBanner || 'توريد وتركيب فوري 24 ساعة + معاينة مجانية بالجيزة والقاهرة!'}
             </span>
           </div>
 
           <div className="flex items-center gap-3 text-[11px] sm:text-xs">
             <a 
-              href="tel:01140087799" 
-              className="flex items-center gap-1 hover:text-ice-300 transition-colors font-bold"
+              href={`tel:${storeSettings.phone}`} 
+              className="flex items-center gap-1 hover:text-ice-300 transition-colors font-bold font-mono"
             >
               <PhoneCall className="w-3.5 h-3.5 text-ice-400" />
-              <span>01140087799</span>
+              <span>{storeSettings.phone}</span>
             </a>
             <span className="hidden md:inline text-brand-400">|</span>
             <span className="hidden lg:inline text-slate-300">موزع معتمد (شارب - كاريير - LG - فريش)</span>
@@ -329,7 +332,7 @@ export const Header = () => {
 
               <div className="flex items-center gap-2">
                 <a
-                  href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA"
+                  href={`https://wa.me/${storeSettings.whatsapp.replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA`}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-sm transition-colors"
@@ -391,13 +394,24 @@ export const Header = () => {
             
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
               <a
-                href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9"
+                href={`https://wa.me/${storeSettings.whatsapp.replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-2.5 text-center bg-emerald-600 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md"
               >
                 💬 تواصل واتساب فوري مع المبيعات
               </a>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  navigateToView('admin');
+                }}
+                className="w-full py-2 text-center text-xs text-slate-500 hover:text-sky-600 flex items-center justify-center gap-1"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                <span>لوحة تحكم الإدارة</span>
+              </button>
             </div>
           </div>
         )}

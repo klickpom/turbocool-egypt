@@ -1,5 +1,5 @@
 import React from 'react';
-import { StoreProvider } from './context/StoreContext';
+import { StoreProvider, useStore } from './context/StoreContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { BrandBar } from './components/BrandBar';
@@ -18,8 +18,15 @@ import { QuickViewModal } from './components/QuickViewModal';
 import { BookingModal } from './components/BookingModal';
 import { ComparisonModal } from './components/ComparisonModal';
 import { MobileBottomBar } from './components/MobileBottomBar';
+import { AdminDashboard } from './components/AdminDashboard';
 
 function AppContent() {
+  const { currentView } = useStore();
+
+  if (currentView === 'admin') {
+    return <AdminDashboard />;
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-cairo selection:bg-brand-500 selection:text-white" dir="rtl">
       {/* Navigation & Header */}

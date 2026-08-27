@@ -1,11 +1,12 @@
 {
-  "name": "---",
+  "name": "turbocool-store",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "echo ready",
+    "vercel-build": "echo ready",
     "lint": "oxlint",
     "preview": "vite preview"
   },

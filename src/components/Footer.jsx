@@ -4,16 +4,12 @@ import {
   PhoneCall, 
   MapPin, 
   Clock, 
-  Mail, 
-  ShieldCheck, 
-  Heart,
-  Sparkles,
   ArrowUp,
-  Share2
+  Lock
 } from 'lucide-react';
 
 export const Footer = () => {
-  const { setActiveTab, setSelectedBrand } = useStore();
+  const { setActiveTab, setSelectedBrand, storeSettings, navigateToView } = useStore();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -52,7 +48,7 @@ export const Footer = () => {
                 />
               </div>
               <div>
-                <h3 className="text-xl font-black text-white">تربو كوول للتكييف والتبريد</h3>
+                <h3 className="text-xl font-black text-white">{storeSettings.companyName || 'تربو كوول للتكييف والتبريد'}</h3>
                 <p className="text-xs text-ice-300 font-bold uppercase tracking-wider">
                   TURBO COOL CONDITIONING & SERVICE
                 </p>
@@ -65,7 +61,7 @@ export const Footer = () => {
 
             <div className="flex items-center gap-3 pt-2">
               <a
-                href="https://www.facebook.com/share/1HKQUrdqZT/"
+                href={storeSettings.facebookUrl || "https://www.facebook.com/share/1HKQUrdqZT/"}
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition-colors shadow-sm"
@@ -76,7 +72,7 @@ export const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://wa.me/201000000000"
+                href={`https://wa.me/${storeSettings.whatsapp.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center transition-colors shadow-sm text-sm font-bold"
@@ -85,7 +81,7 @@ export const Footer = () => {
                 💬
               </a>
               <a
-                href="tel:01140087799"
+                href={`tel:${storeSettings.phone}`}
                 className="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center transition-colors shadow-sm"
                 title="اتصال هاتفي"
               >
@@ -169,7 +165,7 @@ export const Footer = () => {
                 <PhoneCall className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-slate-300 font-bold">المبيعات والحجوزات:</span>
-                  <a href="tel:01140087799" className="text-white hover:text-ice-300 font-mono">01140087799</a>
+                  <a href={`tel:${storeSettings.phone}`} className="text-white hover:text-ice-300 font-mono">{storeSettings.phone}</a>
                 </div>
               </div>
 
@@ -177,7 +173,7 @@ export const Footer = () => {
                 <MapPin className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-slate-300 font-bold">نطاق التغطية:</span>
-                  <span>الجيزة، القاهرة الكبرى، 6 أكتوبر، زايد، التجمع</span>
+                  <span>{storeSettings.coverageAreas}</span>
                 </div>
               </div>
 
@@ -185,7 +181,7 @@ export const Footer = () => {
                 <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-slate-300 font-bold">مواعيد العمل:</span>
-                  <span>يومياً من 9:00 ص حتى 11:00 م (خدمة الطوارئ 24/7)</span>
+                  <span>{storeSettings.workingHours}</span>
                 </div>
               </div>
             </div>
@@ -193,19 +189,29 @@ export const Footer = () => {
 
         </div>
 
-        {/* Bottom copyright row */}
+        {/* Bottom copyright row & Admin Link */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            جميع الحقوق محفوظة © {new Date().getFullYear()} - <strong>تربو كوول للتكييف والتبريد (Turbo Cool)</strong>
+            جميع الحقوق محفوظة © {new Date().getFullYear()} - <strong>{storeSettings.companyName || 'تربو كوول للتكييف والتبريد (Turbo Cool)'}</strong>
           </p>
 
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
-          >
-            <span>العودة للأعلى</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigateToView('admin')}
+              className="flex items-center gap-1.5 text-slate-400 hover:text-sky-400 transition-colors px-2 py-1 rounded-lg hover:bg-slate-900 border border-transparent hover:border-slate-800"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>لوحة تحكم الإدارة</span>
+            </button>
+
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
+            >
+              <span>العودة للأعلى</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
       </div>

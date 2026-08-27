@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
-import { SERVICES } from '../data/services';
 import { 
   Wrench, 
   RefreshCw, 
@@ -9,10 +8,9 @@ import {
   Layers, 
   Zap, 
   CheckCircle2, 
-  ArrowLeft,
-  PhoneCall,
-  Clock,
-  ShieldCheck
+  ArrowLeft, 
+  PhoneCall, 
+  Clock 
 } from 'lucide-react';
 
 const iconMap = {
@@ -25,7 +23,7 @@ const iconMap = {
 };
 
 export const ServicesSection = () => {
-  const { setBookingService } = useStore();
+  const { setBookingService, services, storeSettings } = useStore();
 
   return (
     <section id="services-section" className="py-16 bg-white border-t border-slate-200/80 relative">
@@ -47,7 +45,7 @@ export const ServicesSection = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((service) => {
+          {services.map((service) => {
             const IconComponent = iconMap[service.icon] || Wrench;
             return (
               <div
@@ -62,7 +60,7 @@ export const ServicesSection = () => {
                       <IconComponent className="w-6 h-6" />
                     </div>
                     <span className="text-[11px] font-extrabold text-brand-800 bg-brand-100/80 px-3 py-1 rounded-full border border-brand-200">
-                      {service.badge}
+                      {service.badge || 'خدمة معتمدة'}
                     </span>
                   </div>
 
@@ -82,14 +80,16 @@ export const ServicesSection = () => {
                   </p>
 
                   {/* Features List */}
-                  <ul className="space-y-1.5 pt-2 border-t border-slate-200/60 text-xs text-slate-700">
-                    {service.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {service.features && service.features.length > 0 && (
+                    <ul className="space-y-1.5 pt-2 border-t border-slate-200/60 text-xs text-slate-700">
+                      {service.features.map((feat, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                 </div>
 
@@ -97,7 +97,7 @@ export const ServicesSection = () => {
                 <div className="pt-6 mt-4 border-t border-slate-100">
                   <button
                     onClick={() => setBookingService(service)}
-                    className="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-black rounded-xl shadow-sm hover:shadow flex items-center justify-center gap-2 transition-all"
+                    className="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white text-xs font-black rounded-xl shadow-sm hover:shadow flex items-center justify-center gap-2 transition-all cursor-pointer"
                   >
                     <span>طلب حجز الخدمة فوراً</span>
                     <ArrowLeft className="w-4 h-4" />
@@ -126,11 +126,11 @@ export const ServicesSection = () => {
 
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <a
-              href="tel:01140087799"
+              href={`tel:${storeSettings.emergencyPhone || storeSettings.phone}`}
               className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-2xl shadow-lg transition-all"
             >
               <PhoneCall className="w-4 h-4" />
-              <span>اتصل بالطوارئ: 01140087799</span>
+              <span>اتصل بالطوارئ: {storeSettings.emergencyPhone || storeSettings.phone}</span>
             </a>
           </div>
         </div>
