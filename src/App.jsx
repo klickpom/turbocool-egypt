@@ -9,7 +9,7 @@ import { ProductCatalog } from './components/ProductCatalog';
 import { ServicesSection } from './components/ServicesSection';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { CustomerReviews } from './components/CustomerReviews';
-import { FAQSection } from './components/FAQSection';
+import { SeoContentHub } from './components/SeoContentHub';
 import { Footer } from './components/Footer';
 import { LiveSalesNotification } from './components/LiveSalesNotification';
 import { FloatingContactHub } from './components/FloatingContactHub';
@@ -58,8 +58,8 @@ function AppContent() {
         {/* Testimonials & Social Proof */}
         <CustomerReviews />
 
-        {/* FAQ Section */}
-        <FAQSection />
+        {/* Continuous SEO, GEO & AEO Knowledge Hub & FAQs */}
+        <SeoContentHub />
       </main>
 
       {/* Full Footer */}
