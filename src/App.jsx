@@ -6,6 +6,7 @@ import { BrandBar } from './components/BrandBar';
 import { CapacityCalculator } from './components/CapacityCalculator';
 import { AcRemoteSimulator } from './components/AcRemoteSimulator';
 import { ProductCatalog } from './components/ProductCatalog';
+import { AirConditionerPriceTable2026 } from './components/AirConditionerPriceTable2026';
 import { ServicesSection } from './components/ServicesSection';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { CustomerReviews } from './components/CustomerReviews';
@@ -48,6 +49,9 @@ function AppContent() {
 
         {/* Full E-Commerce Product Catalog */}
         <ProductCatalog />
+
+        {/* Dedicated 2026 Air Conditioner Price Table (SEO Top Ranker) */}
+        <AirConditionerPriceTable2026 />
 
         {/* Maintenance & Installation Services */}
         <ServicesSection />
