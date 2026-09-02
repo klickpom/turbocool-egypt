@@ -6,9 +6,10 @@ import confetti from 'canvas-confetti';
 const StoreContext = createContext();
 
 export const DEFAULT_SETTINGS = {
-  phone: '01140087799',
-  whatsapp: '201140087799',
-  emergencyPhone: '01140087799',
+  salesPhone: '01097640898', // رقم السيلز المباشر
+  whatsapp: '201097640898',   // رقم السيلز والواتساب
+  phone: '01006836537',      // رقم الاتصال المباشر
+  emergencyPhone: '01023499515', // رقم الطوارئ 24/7
   topBanner: 'تستحق الانتعاش! توريد وتركيب فوري خلال 24 ساعة + معاينة مجانية بالجيزة والقاهرة!',
   companyName: 'تربو كوول للتكييف والتبريد',
   slogan: 'عيش في نقاء وانتعاش مع تربو كوول',
@@ -36,11 +37,23 @@ export const StoreProvider = ({ children }) => {
     return 'store';
   });
 
-  // Dynamic Products state (synced with localStorage)
+  // Dynamic Products state (synced with localStorage & auto-merging new models)
   const [products, setProducts] = useState(() => {
     try {
       const saved = localStorage.getItem('turbocool_products');
-      return saved ? JSON.parse(saved) : DEFAULT_PRODUCTS;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Smart merge newly added official models (Carrier XCOOL & Midea models)
+        const existingIds = new Set(parsed.map(p => p.id));
+        const missingDefaults = DEFAULT_PRODUCTS.filter(p => !existingIds.has(p.id));
+        if (missingDefaults.length > 0) {
+          const merged = [...parsed, ...missingDefaults];
+          localStorage.setItem('turbocool_products', JSON.stringify(merged));
+          return merged;
+        }
+        return parsed;
+      }
+      return DEFAULT_PRODUCTS;
     } catch {
       return DEFAULT_PRODUCTS;
     }
@@ -56,11 +69,34 @@ export const StoreProvider = ({ children }) => {
     }
   });
 
-  // Store Settings (phone, whatsapp, texts)
+  // Store Settings (phone, whatsapp, texts - auto-migrated to new official numbers)
   const [storeSettings, setStoreSettings] = useState(() => {
     try {
       const saved = localStorage.getItem('turbocool_settings');
-      return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : DEFAULT_SETTINGS;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Automatically migrate if using old default numbers
+        if (
+          parsed.phone === '01140087799' || 
+          parsed.whatsapp === '201140087799' || 
+          parsed.whatsapp === '01140087799' ||
+          parsed.emergencyPhone === '01140087799' ||
+          !parsed.salesPhone
+        ) {
+          const updated = {
+            ...DEFAULT_SETTINGS,
+            ...parsed,
+            phone: '01006836537',
+            whatsapp: '201097640898',
+            salesPhone: '01097640898',
+            emergencyPhone: '01023499515'
+          };
+          localStorage.setItem('turbocool_settings', JSON.stringify(updated));
+          return updated;
+        }
+        return { ...DEFAULT_SETTINGS, ...parsed };
+      }
+      return DEFAULT_SETTINGS;
     } catch {
       return DEFAULT_SETTINGS;
     }
@@ -106,6 +142,28 @@ export const StoreProvider = ({ children }) => {
     }
   });
 
+  // Orders state (received orders tracked in Admin panel)
+  const [orders, setOrders] = useState(() => {
+    try {
+      const saved = localStorage.getItem('turbocool_orders');
+      return saved ? JSON.parse(saved) : [
+        {
+          id: 'ORD-708101',
+          date: 'اليوم، 04:15 م',
+          timestamp: Date.now() - 3600000,
+          customerName: 'أحمد محمود',
+          customerPhone: '01012345678',
+          customerAddress: 'الشيخ زايد - الحي الثامن',
+          items: [{ name: 'تكييف كاريير 1.5 حصان إكس كول بارد فقط ديجيتال Miraco XCOOL', quantity: 1, price: 24500, hpText: '1.5 حصان' }],
+          total: 24500,
+          status: 'جديد 🟢'
+        }
+      ];
+    } catch {
+      return [];
+    }
+  });
+
   // UI Modals & Drawers
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
@@ -140,6 +198,10 @@ export const StoreProvider = ({ children }) => {
     localStorage.setItem('turbocool_coupons', JSON.stringify(coupons));
   }, [coupons]);
 
+  useEffect(() => {
+    localStorage.setItem('turbocool_orders', JSON.stringify(orders));
+  }, [orders]);
+
   // Real-time Cross-tab Live Synchronization Listener
   useEffect(() => {
     const handleStorage = (e) => {
@@ -155,6 +217,9 @@ export const StoreProvider = ({ children }) => {
         }
         if (e.key === 'turbocool_coupons' && e.newValue) {
           setCoupons(JSON.parse(e.newValue));
+        }
+        if (e.key === 'turbocool_orders' && e.newValue) {
+          setOrders(JSON.parse(e.newValue));
         }
       } catch {
         // ignore
@@ -409,6 +474,24 @@ export const StoreProvider = ({ children }) => {
     const discountAmount = orderDetails.discount || 0;
     const finalTotal = cartTotal - discountAmount;
 
+    // Save order locally for Admin Dashboard tracking
+    const orderRecord = {
+      id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toLocaleDateString('ar-EG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      timestamp: Date.now(),
+      customerName,
+      customerPhone,
+      customerAddress,
+      notes,
+      coupon,
+      discountAmount,
+      items: [...cart],
+      total: finalTotal,
+      type: 'سلة مشتريات',
+      status: 'جديد 🟢'
+    };
+    setOrders(prev => [orderRecord, ...prev]);
+
     let itemsList = cart.map((item, idx) => 
       `${idx + 1}. *${item.name}*\n   - الموديل: ${item.modelCode || item.id}\n   - القدرة: ${item.hpText}\n   - الكمية: ${item.quantity}\n   - السعر: ${item.price.toLocaleString('ar-EG')} ج.م`
     ).join('\n\n');
@@ -436,6 +519,21 @@ export const StoreProvider = ({ children }) => {
   };
 
   const handleInstantProductOrder = (product) => {
+    // Save instant order to state for Admin Dashboard tracking
+    const orderRecord = {
+      id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toLocaleDateString('ar-EG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      timestamp: Date.now(),
+      customerName: 'طلب شراء فوري',
+      customerPhone: 'واتساب مباشر',
+      customerAddress: 'القاهرة / الجيزة',
+      items: [{ name: product.name, modelCode: product.modelCode, hpText: product.hpText, quantity: 1, price: product.price }],
+      total: product.price,
+      type: 'طلب فوري',
+      status: 'جديد 🟢'
+    };
+    setOrders(prev => [orderRecord, ...prev]);
+
     const message = `❄️ *استفسار وطلب شراء فوري - تربو كوول* ❄️\n` +
       `----------------------------------------\n` +
       `الجهاز: *${product.name}*\n` +
@@ -452,6 +550,22 @@ export const StoreProvider = ({ children }) => {
   };
 
   const handleServiceBookingSubmit = (service, formDetails) => {
+    // Save service booking to orders
+    const orderRecord = {
+      id: 'SRV-' + Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toLocaleDateString('ar-EG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      timestamp: Date.now(),
+      customerName: formDetails.name || 'طلب صيانة',
+      customerPhone: formDetails.phone || 'غير محدد',
+      customerAddress: formDetails.address || 'القاهرة / الجيزة',
+      notes: formDetails.notes,
+      items: [{ name: `خدمة: ${service.title}`, quantity: 1, price: service.price }],
+      total: service.price,
+      type: 'حجز صيانة',
+      status: 'جديد 🟢'
+    };
+    setOrders(prev => [orderRecord, ...prev]);
+
     const message = `🔧 *حجز خدمة فنية / صيانة - تربو كوول* 🔧\n` +
       `----------------------------------------\n` +
       `الخدمة المطلوبة: *${service.title}*\n` +
@@ -469,6 +583,22 @@ export const StoreProvider = ({ children }) => {
     window.open(`https://wa.me/${targetWhatsapp}?text=${encoded}`, '_blank');
     setBookingService(null);
     showToast('تم إرسال طلب الحجز بنجاح! سيتواصل معك الفني فوراً 🚀');
+  };
+
+  // Order Management Functions for Admin
+  const updateOrderStatus = (orderId, newStatus) => {
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+    showToast(`تم تحديث حالة الطلب (${orderId}) إلى "${newStatus}" بنجاح! 📋`);
+  };
+
+  const deleteOrder = (orderId) => {
+    setOrders(prev => prev.filter(o => o.id !== orderId));
+    showToast('تم حذف الطلب بنجاح', 'info');
+  };
+
+  const clearOrders = () => {
+    setOrders([]);
+    showToast('تم مسح سجل الطلبات بالكامل', 'info');
   };
 
   // Filtered Products
@@ -512,6 +642,10 @@ export const StoreProvider = ({ children }) => {
         addCoupon,
         deleteCoupon,
         resetToDefaults,
+        orders,
+        updateOrderStatus,
+        deleteOrder,
+        clearOrders,
         cart,
         addToCart,
         removeFromCart,

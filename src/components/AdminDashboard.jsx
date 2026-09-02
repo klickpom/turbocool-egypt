@@ -35,7 +35,10 @@ import {
   Camera,
   Layers,
   ChevronRight,
-  AlertCircle
+  AlertCircle,
+  ShoppingBag,
+  User,
+  MapPin
 } from 'lucide-react';
 
 const PRESET_AC_IMAGES = [
@@ -76,6 +79,10 @@ export const AdminDashboard = () => {
     addCoupon,
     deleteCoupon,
     resetToDefaults,
+    orders = [],
+    updateOrderStatus,
+    deleteOrder,
+    clearOrders,
     navigateToView,
     showToast,
   } = useStore();
@@ -476,6 +483,21 @@ export const AdminDashboard = () => {
             </button>
 
             <button
+              onClick={() => setActiveTab('orders')}
+              className={`flex-1 md:w-full flex items-center justify-center md:justify-start gap-2 px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all shrink-0 cursor-pointer ${
+                activeTab === 'orders'
+                  ? 'bg-gradient-to-r from-brand-600 to-sky-600 text-white shadow-glow'
+                  : 'text-slate-300 bg-slate-800/60 md:bg-transparent hover:bg-slate-800/80 hover:text-white'
+              }`}
+            >
+              <ShoppingBag className="w-4 h-4 shrink-0 text-emerald-400" />
+              <span className="whitespace-nowrap">الطلبات الواردة</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold mr-auto">
+                {orders.length}
+              </span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('services')}
               className={`flex-1 md:w-full flex items-center justify-center md:justify-start gap-2 px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all shrink-0 cursor-pointer ${
                 activeTab === 'services'
@@ -508,7 +530,7 @@ export const AdminDashboard = () => {
               }`}
             >
               <Settings className="w-4 h-4 shrink-0" />
-              <span className="whitespace-nowrap">الإعدادات</span>
+              <span className="whitespace-nowrap">الإعدادات والأرقام</span>
             </button>
           </div>
 
@@ -785,42 +807,54 @@ export const AdminDashboard = () => {
 
           {/* ================= TAB 4: STORE SETTINGS ================= */}
           {activeTab === 'settings' && (
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 max-w-xl shadow-xl">
-              <h2 className="text-sm font-bold text-white mb-3">بيانات التواصل والواتساب</h2>
+            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 max-w-xl shadow-xl space-y-4">
+              <div>
+                <h2 className="text-base font-bold text-white">بيانات التواصل والواتساب المعتمدة</h2>
+                <p className="text-xs text-slate-400 mt-0.5">تم ضبط وتثبيت أرقامك الرسمية بنجاح</p>
+              </div>
 
-              <form onSubmit={handleSaveSettings} className="space-y-3.5 text-xs">
+              <form onSubmit={handleSaveSettings} className="space-y-4 text-xs">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">رقم واتساب المبيعات (الذي يستقبل الطلبات)</label>
+                  <label className="block text-slate-300 font-bold mb-1">
+                    🟢 رقم السيلز والواتساب (يستقبل الطلبات فوراً)
+                  </label>
                   <input
                     type="text"
                     value={settingsForm.whatsapp}
-                    onChange={(e) => setSettingsForm({ ...settingsForm, whatsapp: e.target.value })}
-                    placeholder="201140087799"
+                    onChange={(e) => setSettingsForm({ ...settingsForm, whatsapp: e.target.value, salesPhone: e.target.value })}
+                    placeholder="201097640898"
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:border-sky-400 focus:outline-none"
                   />
+                  <span className="text-[10px] text-emerald-400 mt-0.5 block font-mono">الرقم المعتمد: 01097640898</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-300 font-bold mb-1">رقم الهاتف المباشر</label>
+                    <label className="block text-slate-300 font-bold mb-1">
+                      📞 رقم الاتصال المباشر
+                    </label>
                     <input
                       type="text"
                       value={settingsForm.phone}
                       onChange={(e) => setSettingsForm({ ...settingsForm, phone: e.target.value })}
-                      placeholder="01140087799"
+                      placeholder="01006836537"
                       className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:border-sky-400 focus:outline-none"
                     />
+                    <span className="text-[10px] text-slate-400 mt-0.5 block font-mono">الرقم المعتمد: 01006836537</span>
                   </div>
 
                   <div>
-                    <label className="block text-slate-300 font-bold mb-1">خط الطوارئ 24/7</label>
+                    <label className="block text-slate-300 font-bold mb-1">
+                      🚨 خط الطوارئ 24/7
+                    </label>
                     <input
                       type="text"
                       value={settingsForm.emergencyPhone}
                       onChange={(e) => setSettingsForm({ ...settingsForm, emergencyPhone: e.target.value })}
-                      placeholder="01140087799"
+                      placeholder="01023499515"
                       className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:border-sky-400 focus:outline-none"
                     />
+                    <span className="text-[10px] text-slate-400 mt-0.5 block font-mono">الرقم المعتمد: 01023499515</span>
                   </div>
                 </div>
 
@@ -837,13 +871,154 @@ export const AdminDashboard = () => {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-sky-500 text-white font-bold flex items-center justify-center gap-1.5 shadow-glow"
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-sky-500 text-white font-bold flex items-center justify-center gap-1.5 shadow-glow cursor-pointer active:scale-98 transition-all"
                   >
                     <Save className="w-4 h-4" />
-                    <span>حفظ التعديلات فوراً</span>
+                    <span>حفظ وتثبيت الأرقام فوراً</span>
                   </button>
                 </div>
               </form>
+            </div>
+          )}
+
+          {/* ================= TAB 5: ORDERS MANAGEMENT ================= */}
+          {activeTab === 'orders' && (
+            <div className="space-y-4">
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                    <ShoppingBag className="w-4 h-4 text-emerald-400" />
+                    <span>سجل الطلبات الواردة من المتجر ({orders.length})</span>
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    جميع الطلبات التي تمت عبر سلة المشتريات والطلب السريع من المتجر
+                  </p>
+                </div>
+
+                {orders.length > 0 && (
+                  <button
+                    onClick={() => {
+                      if (window.confirm('هل أنت متأكد من مسح سجل الطلبات؟')) {
+                        clearOrders();
+                      }
+                    }}
+                    className="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-all cursor-pointer w-fit"
+                  >
+                    مسح السجل
+                  </button>
+                )}
+              </div>
+
+              {orders.length === 0 ? (
+                <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-12 text-center space-y-2">
+                  <ShoppingBag className="w-10 h-10 text-slate-600 mx-auto" />
+                  <p className="text-sm font-bold text-slate-300">لا توجد طلبات جديدة حالياً</p>
+                  <p className="text-xs text-slate-500">أي عميل يقوم بطلب أوردر أو استفسار سيظهر هنا فوراً</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {orders.map((ord) => (
+                    <div
+                      key={ord.id}
+                      className="bg-slate-900/90 border border-slate-800 hover:border-slate-700 rounded-2xl p-4 shadow-md space-y-3 transition-all"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-mono text-xs font-black text-sky-300 bg-sky-950/60 px-2.5 py-1 rounded-lg border border-sky-800">
+                            {ord.id}
+                          </span>
+                          <span className="text-xs text-slate-400 font-medium">{ord.date}</span>
+                          <span className="text-[11px] font-bold text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded-md border border-emerald-800">
+                            {ord.type || 'طلب شراء'}
+                          </span>
+                        </div>
+
+                        {/* Status switcher */}
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {['جديد 🟢', 'قيد التنفيذ ⏳', 'تم التوريد والتركيب ✅', 'ملغي ❌'].map((st) => (
+                            <button
+                              key={st}
+                              onClick={() => updateOrderStatus(ord.id, st)}
+                              className={`text-[10px] px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                                ord.status === st
+                                  ? 'bg-sky-500 text-slate-950 font-black shadow-sm'
+                                  : 'bg-slate-800 text-slate-400 hover:text-white'
+                              }`}
+                            >
+                              {st}
+                            </button>
+                          ))}
+
+                          <button
+                            onClick={() => deleteOrder(ord.id)}
+                            className="p-1 rounded-lg text-slate-500 hover:text-rose-400 transition-colors mr-1 cursor-pointer"
+                            title="حذف الطلب"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Customer Info */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                        <div>
+                          <span className="text-slate-400 text-[11px] block">اسم العميل:</span>
+                          <span className="font-bold text-white">{ord.customerName || 'عميل محترم'}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 text-[11px] block">رقم الهاتف:</span>
+                          <a
+                            href={`tel:${ord.customerPhone}`}
+                            className="font-bold font-mono text-emerald-400 hover:underline"
+                          >
+                            {ord.customerPhone}
+                          </a>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 text-[11px] block">العنوان / المنطقة:</span>
+                          <span className="text-slate-300">{ord.customerAddress || 'القاهرة / الجيزة'}</span>
+                        </div>
+                      </div>
+
+                      {/* Ordered Items */}
+                      <div className="space-y-1.5 text-xs">
+                        <span className="text-slate-400 font-bold block text-[11px]">الأجهزة والخدمات المطلوبة:</span>
+                        {ord.items && ord.items.map((it, idx) => (
+                          <div key={idx} className="flex items-center justify-between text-slate-300 bg-slate-950/40 px-3 py-1.5 rounded-lg">
+                            <span className="font-medium truncate max-w-[70%]">
+                              {it.quantity || 1}x {it.name} {it.hpText ? `(${it.hpText})` : ''}
+                            </span>
+                            <span className="font-bold text-white font-mono">
+                              {((it.price || 0) * (it.quantity || 1)).toLocaleString('ar-EG')} ج.م
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Total and Actions */}
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-800">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xs text-slate-400">الإجمالي:</span>
+                          <span className="text-base font-black text-emerald-400 font-mono">
+                            {ord.total?.toLocaleString('ar-EG')} ج.م
+                          </span>
+                        </div>
+
+                        {ord.customerPhone && ord.customerPhone !== 'غير محدد' && ord.customerPhone !== 'واتساب مباشر' && (
+                          <a
+                            href={`https://wa.me/${ord.customerPhone.replace(/[^0-9]/g, '')}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shadow-sm"
+                          >
+                            <span>مراسلة العميل واتساب 💬</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

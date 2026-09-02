@@ -68,11 +68,11 @@ export const Header = () => {
 
           <div className="flex items-center gap-3 text-xs">
             <a 
-              href={`tel:${storeSettings?.phone || '01140087799'}`} 
+              href={`tel:${storeSettings?.phone || '01006836537'}`} 
               className="flex items-center gap-1.5 hover:text-sky-300 transition-colors font-bold font-mono text-emerald-400"
             >
               <PhoneCall className="w-3.5 h-3.5" />
-              <span>{storeSettings?.phone || '01140087799'}</span>
+              <span>{storeSettings?.phone || '01006836537'}</span>
             </a>
             <span className="hidden md:inline text-slate-700">|</span>
             <span className="hidden lg:inline text-slate-400 text-xs">موزع معتمد (شارب - كاريير - LG - فريش)</span>
@@ -332,7 +332,7 @@ export const Header = () => {
 
               <div className="flex items-center gap-2">
                 <a
-                  href={`https://wa.me/${(storeSettings?.whatsapp || '201140087799').replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA`}
+                  href={`https://wa.me/${(storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B9%D8%B1%D9%88%D8%B6%20%D8%A7%D9%84%D8%AA%D9%83%D9%8A%D9%8A%D9%81%D8%A7%D8%AA`}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-3.5 py-1.5 rounded-xl shadow-sm transition-colors cursor-pointer"
@@ -394,7 +394,7 @@ export const Header = () => {
             
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
               <a
-                href={`https://wa.me/${(storeSettings?.whatsapp || '201140087799').replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9`}
+                href={`https://wa.me/${(storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-2.5 text-center bg-emerald-600 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md"

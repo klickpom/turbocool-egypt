@@ -164,13 +164,35 @@ export const Footer = () => {
               <div className="flex items-start gap-2.5">
                 <PhoneCall className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
-                  <span className="block text-slate-300 font-bold">المبيعات والحجوزات:</span>
-                  <a href={`tel:${storeSettings.phone}`} className="text-white hover:text-ice-300 font-mono">{storeSettings.phone}</a>
+                  <span className="block text-slate-300 font-bold">المبيعات والواتساب:</span>
+                  <a href={`tel:${storeSettings.salesPhone || storeSettings.whatsapp || '01097640898'}`} className="text-white hover:text-ice-300 font-mono">
+                    {storeSettings.salesPhone || storeSettings.whatsapp || '01097640898'}
+                  </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                <PhoneCall className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="block text-slate-300 font-bold">رقم الاتصال المباشر:</span>
+                  <a href={`tel:${storeSettings.phone || '01006836537'}`} className="text-white hover:text-ice-300 font-mono">
+                    {storeSettings.phone || '01006836537'}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <PhoneCall className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="block text-slate-300 font-bold">خط الطوارئ 24/7:</span>
+                  <a href={`tel:${storeSettings.emergencyPhone || '01023499515'}`} className="text-rose-300 hover:text-white font-mono font-bold">
+                    {storeSettings.emergencyPhone || '01023499515'}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="block text-slate-300 font-bold">نطاق التغطية:</span>
                   <span>{storeSettings.coverageAreas}</span>

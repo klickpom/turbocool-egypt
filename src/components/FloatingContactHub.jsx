@@ -7,8 +7,9 @@ export const FloatingContactHub = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { storeSettings } = useStore();
 
-  const cleanWhatsapp = (storeSettings?.whatsapp || '201140087799').replace(/[^0-9]/g, '');
-  const cleanPhone = storeSettings?.phone || '01140087799';
+  const cleanWhatsapp = (storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '');
+  const cleanPhone = storeSettings?.phone || '01006836537';
+  const cleanEmergency = storeSettings?.emergencyPhone || '01023499515';
 
   return (
     <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40" dir="rtl">
@@ -48,8 +49,8 @@ export const FloatingContactHub = () => {
                   💬
                 </div>
                 <div>
-                  <span className="block font-black">محادثة واتساب سريعة</span>
-                  <span className="text-[10px] text-emerald-600">رد خلال دقيقة واحدة</span>
+                  <span className="block font-black">واتساب المبيعات (01097640898)</span>
+                  <span className="text-[10px] text-emerald-600">استفسارات وحجوزات كاش وتقسيط</span>
                 </div>
               </a>
 
@@ -61,8 +62,21 @@ export const FloatingContactHub = () => {
                   <PhoneCall className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="block font-black">اتصال بالخط الساخن</span>
-                  <span className="text-[10px] text-brand-600 font-mono">{cleanPhone}</span>
+                  <span className="block font-black">اتصال مباشر (01006836537)</span>
+                  <span className="text-[10px] text-brand-600 font-mono">الخط الساخن للمبيعات</span>
+                </div>
+              </a>
+
+              <a
+                href={`tel:${cleanEmergency}`}
+                className="flex items-center gap-2.5 bg-rose-50 hover:bg-rose-100 text-rose-800 p-2 rounded-2xl font-bold border border-rose-200 transition-colors"
+              >
+                <div className="w-7 h-7 rounded-xl bg-rose-600 text-white flex items-center justify-center text-xs">
+                  🚨
+                </div>
+                <div>
+                  <span className="block font-black text-[11px]">طوارئ وصيانة 24/7 (01023499515)</span>
+                  <span className="text-[9px] text-rose-600 font-mono">خدمة فنية عاجلة</span>
                 </div>
               </a>
             </div>

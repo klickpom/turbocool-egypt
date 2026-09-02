@@ -19,7 +19,7 @@ import {
 export const Hero = () => {
   const { setActiveTab, storeSettings } = useStore();
 
-  const cleanWhatsapp = (storeSettings?.whatsapp || '201140087799').replace(/[^0-9]/g, '');
+  const cleanWhatsapp = (storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '');
 
   const scrollToSection = (id, tabName) => {
     setActiveTab(tabName);
