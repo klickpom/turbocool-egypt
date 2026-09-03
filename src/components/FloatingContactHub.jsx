@@ -12,7 +12,7 @@ export const FloatingContactHub = () => {
   const cleanEmergency = storeSettings?.emergencyPhone || '01023499515';
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40" dir="rtl">
+    <div className="hidden lg:block fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40" dir="rtl">
       
       {/* Expanded Quick Options Menu */}
       <AnimatePresence>

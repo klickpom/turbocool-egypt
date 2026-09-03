@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../context/StoreContext';
-import { motion } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 import { CoolBreezeParticles } from './CoolBreezeParticles';
 import { 
   Sparkles, 
@@ -18,6 +18,12 @@ import {
 
 export const Hero = () => {
   const { setActiveTab, storeSettings } = useStore();
+  const [liteMotion, setLiteMotion] = useState(true);
+
+  useEffect(() => {
+    const lite = window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)').matches;
+    setLiteMotion(lite);
+  }, []);
 
   const cleanWhatsapp = (storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '');
 
@@ -50,6 +56,7 @@ export const Hero = () => {
   };
 
   return (
+    <MotionConfig reducedMotion={liteMotion ? 'always' : 'user'}>
     <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white pt-24 pb-16 lg:pt-16 lg:pb-24">
       <CoolBreezeParticles />
 
@@ -73,7 +80,7 @@ export const Hero = () => {
               whileHover={{ scale: 1.02 }}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-800/95 to-brand-950/90 border border-sky-400/40 px-4 py-1.5 rounded-full shadow-lg shadow-sky-500/10 backdrop-blur-md cursor-default"
             >
-              <Award className="w-4 h-4 text-amber-400 animate-pulse" />
+              <Award className="w-4 h-4 text-amber-400 md:animate-pulse" />
               <span className="text-xs md:text-sm font-extrabold text-sky-200">
                 موزع معتمد رسمي: كاريير • ميديا — توريد مباشر من ميراكو
               </span>
@@ -84,7 +91,7 @@ export const Hero = () => {
               variants={itemVariants}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.25] text-white"
             >
-              عيش في <span className="bg-gradient-to-r from-sky-300 via-teal-200 to-white bg-clip-text text-transparent animate-pulse">نقاء وانتعاش</span> مع{' '}
+              عيش في <span className="bg-gradient-to-r from-sky-300 via-teal-200 to-white bg-clip-text text-transparent">نقاء وانتعاش</span> مع{' '}
               <span className="text-sky-400 relative inline-block underline decoration-brand-400 decoration-wavy decoration-2">
                 تربو كوول
               </span>
@@ -107,7 +114,7 @@ export const Hero = () => {
                 whileHover={{ scale: 1.04, y: -2 }}
                 className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm hover:border-emerald-400/40 hover:bg-emerald-500/10 transition-all shadow-sm"
               >
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 animate-bounce" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>ضمان معتمد 5-10 سنوات</span>
               </motion.div>
               <motion.div 
@@ -159,7 +166,7 @@ export const Hero = () => {
                 rel="noreferrer"
                 className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm md:text-base px-4 py-3.5 rounded-2xl shadow-lg shadow-emerald-600/30 transition-all cursor-pointer"
               >
-                <PhoneCall className="w-4 h-4 animate-bounce" />
+                <PhoneCall className="w-4 h-4" />
                 <span>معاينة فنية فورية</span>
               </motion.a>
             </motion.div>
@@ -273,7 +280,7 @@ export const Hero = () => {
                   transition={{ duration: 3, repeat: Infinity }}
                   className="absolute -bottom-4 -right-3 bg-slate-900 text-sky-200 border border-sky-400/30 text-xs font-bold px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2 backdrop-blur-md"
                 >
-                  <Wind className="w-4 h-4 text-sky-400 animate-spin" style={{ animationDuration: '6s' }} />
+                  <Wind className="w-4 h-4 text-sky-400 md:animate-spin" style={{ animationDuration: '6s' }} />
                   <span>هواء نقي وتبريد استوائي 100%</span>
                 </motion.div>
 
@@ -284,5 +291,6 @@ export const Hero = () => {
         </div>
       </div>
     </section>
+    </MotionConfig>
   );
 };

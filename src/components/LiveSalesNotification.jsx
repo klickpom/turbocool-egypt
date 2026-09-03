@@ -49,7 +49,7 @@ export const LiveSalesNotification = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.4 }}
-          className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 max-w-sm bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200/90 p-3.5 flex items-center gap-3 select-none"
+          className="hidden md:flex fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 max-w-sm bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200/90 p-3.5 items-center gap-3 select-none"
           dir="rtl"
         >
           <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 border border-brand-100 flex items-center justify-center shrink-0">

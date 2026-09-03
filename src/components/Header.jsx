@@ -66,7 +66,7 @@ export const Header = () => {
     <header className={`fixed lg:sticky top-0 z-50 w-full transition-all duration-300 ${
       glass
         ? 'bg-white/78 lg:bg-white/90 backdrop-blur-xl border-b border-white/50 shadow-[0_8px_30px_rgba(15,23,42,0.08)]'
-        : 'bg-white/12 lg:bg-white/85 backdrop-blur-md lg:backdrop-blur-xl border-b border-white/15 lg:border-slate-200'
+        : 'bg-transparent lg:bg-white/85 backdrop-blur-none lg:backdrop-blur-xl border-b border-transparent lg:border-slate-200'
     }`}
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
