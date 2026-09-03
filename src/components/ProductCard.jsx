@@ -1,30 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
 import { motion } from 'framer-motion';
-import { 
-  ShoppingCart, 
-  Heart, 
-  Scale, 
-  Eye, 
-  ShieldCheck, 
-  Zap, 
-  Maximize2, 
+import {
+  ShoppingCart,
+  Heart,
+  Scale,
+  ShieldCheck,
+  Truck,
   Check,
   Flame
 } from 'lucide-react';
 
 export const ProductCard = ({ product }) => {
-  const { 
-    addToCart, 
-    cart, 
-    toggleWishlist, 
-    isInWishlist, 
-    toggleCompare, 
-    isInCompare, 
+  const {
+    addToCart,
+    cart,
+    toggleWishlist,
+    isInWishlist,
+    toggleCompare,
+    isInCompare,
     setQuickViewProduct,
-    handleInstantProductOrder 
+    handleInstantProductOrder
   } = useStore();
 
+  const gallery = product.images?.length ? product.images : [product.image];
+  const [activeImage, setActiveImage] = useState(0);
   const isFavorited = isInWishlist(product.id);
   const isCompared = isInCompare(product.id);
   const cartItem = cart.find(item => item.id === product.id);
@@ -32,190 +32,153 @@ export const ProductCard = ({ product }) => {
   const savings = product.oldPrice - product.price;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      whileHover={{ y: -6, transition: { duration: 0.25 } }}
-      className="bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-2xl hover:border-sky-400/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group relative"
+      className="bg-white rounded-[28px] border border-slate-200/80 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] hover:shadow-[0_28px_70px_-30px_rgba(2,132,199,0.55)] hover:border-sky-300 transition-all duration-300 flex flex-col overflow-hidden group"
     >
-      
-      {/* Top Badges Bar */}
-      <div className="absolute top-2.5 right-2.5 left-2.5 z-20 flex items-center justify-between pointer-events-none">
-        <div className="flex flex-wrap gap-1">
-          {product.discount > 0 && (
-            <span className="bg-gradient-to-r from-rose-600 to-rose-500 text-white font-black text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-md flex items-center gap-1">
-              <Flame className="w-3 h-3 animate-pulse" />
-              خصم {product.discount}%
-            </span>
-          )}
-          {product.bestseller && (
-            <span className="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-md">
-              🔥 الأكثر طلباً
-            </span>
-          )}
+      <div className="relative bg-[radial-gradient(circle_at_top,#dbeafe_0%,#ffffff_58%)] px-4 pt-4 pb-3">
+        <div className="absolute top-3 right-3 left-3 z-20 flex items-start justify-between pointer-events-none">
+          <div className="flex flex-wrap gap-1">
+            {product.discount > 0 && (
+              <span className="bg-rose-600 text-white font-black text-[10px] px-2 py-1 rounded-full shadow-md flex items-center gap-1">
+                <Flame className="w-3 h-3" />
+                خصم {product.discount}%
+              </span>
+            )}
+            {product.bestseller && (
+              <span className="bg-sky-600 text-white font-black text-[10px] px-2 py-1 rounded-full shadow-md">
+                الأكثر طلباً
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-1.5 pointer-events-auto">
+            <button
+              onClick={() => toggleWishlist(product)}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm ${
+                isFavorited ? 'bg-rose-100 text-rose-600' : 'bg-white/90 text-slate-500 hover:text-rose-500'
+              }`}
+            >
+              <Heart className={`w-4 h-4 ${isFavorited ? 'fill-rose-600' : ''}`} />
+            </button>
+            <button
+              onClick={() => toggleCompare(product)}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm ${
+                isCompared ? 'bg-sky-600 text-white' : 'bg-white/90 text-slate-500 hover:text-sky-600'
+              }`}
+            >
+              <Scale className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Quick Action Floating Buttons (Wishlist & Compare) */}
-        <div className="flex items-center gap-1 pointer-events-auto">
-          <motion.button
-            whileTap={{ scale: 0.88 }}
-            onClick={() => toggleCompare(product)}
-            title={isCompared ? 'إزالة من المقارنة' : 'إضافة للمقارنة'}
-            className={`p-1.5 sm:p-2 rounded-xl backdrop-blur-md transition-all shadow-sm cursor-pointer ${
-              isCompared
-                ? 'bg-amber-500 text-white font-bold'
-                : 'bg-white/90 text-slate-600 hover:text-amber-600 hover:bg-white'
-            }`}
-          >
-            <Scale className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </motion.button>
-
-          <motion.button
-            whileTap={{ scale: 0.88 }}
-            onClick={() => toggleWishlist(product)}
-            title={isFavorited ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
-            className={`p-1.5 sm:p-2 rounded-xl backdrop-blur-md transition-all shadow-sm cursor-pointer ${
-              isFavorited
-                ? 'bg-rose-500 text-white'
-                : 'bg-white/90 text-slate-600 hover:text-rose-500 hover:bg-white'
-            }`}
-          >
-            <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isFavorited ? 'fill-white' : ''}`} />
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Image & Quick View Trigger */}
-      <div className="relative pt-10 sm:pt-12 pb-3 px-3 sm:px-4 bg-gradient-to-b from-slate-50 to-white flex items-center justify-center overflow-hidden">
-        <div className="relative w-full h-40 sm:h-44 md:h-48 flex items-center justify-center group-hover:scale-108 transition-transform duration-500 ease-out">
+        <button
+          onClick={() => setQuickViewProduct(product)}
+          className="w-full h-48 sm:h-52 flex items-center justify-center cursor-pointer"
+        >
           <img
-            src={product.image}
+            src={gallery[activeImage] || product.image}
             alt={product.name}
             loading="lazy"
-            className="max-h-full max-w-full object-contain drop-shadow-md"
+            className="max-h-full max-w-full object-contain drop-shadow-[0_18px_28px_rgba(15,23,42,0.18)] group-hover:scale-[1.04] transition-transform duration-500"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=600&q=80';
+              e.target.src = product.image;
             }}
           />
-        </div>
+        </button>
 
-        {/* Quick View Button on Hover */}
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setQuickViewProduct(product)}
-          className="absolute inset-x-6 bottom-2 bg-slate-900/90 hover:bg-slate-950 text-white text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 rounded-xl backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-1 shadow-lg transform translate-y-2 group-hover:translate-y-0 cursor-pointer"
-        >
-          <Eye className="w-3.5 h-3.5 text-sky-400" />
-          <span>معاينة المواصفات</span>
-        </motion.button>
+        {gallery.length > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-2">
+            {gallery.slice(0, 3).map((src, index) => (
+              <button
+                key={`${product.id}-thumb-${index}`}
+                onClick={() => setActiveImage(index)}
+                className={`w-12 h-12 rounded-xl overflow-hidden bg-white border ${
+                  activeImage === index ? 'border-sky-500 ring-2 ring-sky-200' : 'border-slate-200'
+                }`}
+              >
+                <img src={src} alt="" className="w-full h-full object-contain p-1" />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Product Details Content */}
-      <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
-        
-        {/* Brand & HP Row */}
+      <div className="p-4 sm:p-5 flex-1 flex flex-col gap-3">
         <div>
-          <div className="flex items-center justify-between gap-1.5 mb-1.5">
-            <span className="text-[10px] sm:text-xs font-extrabold text-brand-800 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-100 truncate">
-              {product.brandName}
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <span className="text-[11px] font-black text-white bg-[#009CDE] px-3 py-1 rounded-full">
+              {product.brandName.split(' - ')[0]}
             </span>
-            <span className="text-[10px] sm:text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg shrink-0">
+            <span className="text-[11px] font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
               {product.hpText}
             </span>
           </div>
-
-          {/* Title */}
-          <h3 
+          <h3
             onClick={() => setQuickViewProduct(product)}
-            className="font-bold text-slate-900 text-xs sm:text-sm md:text-base line-clamp-2 hover:text-sky-600 cursor-pointer transition-colors leading-snug"
+            className="font-black text-slate-900 text-sm sm:text-[15px] leading-snug line-clamp-2 cursor-pointer hover:text-sky-700"
           >
             {product.name}
           </h3>
+          <div className="text-[11px] text-slate-400 font-mono mt-1">{product.modelCode}</div>
+        </div>
 
-          <div className="text-[10px] sm:text-[11px] text-slate-400 font-mono mt-0.5 truncate">
-            كود: {product.modelCode}
+        <div className="space-y-1.5 text-[12px] text-slate-600">
+          <div className="flex items-center gap-2">
+            <Truck className="w-4 h-4 text-sky-600 shrink-0" />
+            <span>توريد خلال 5 أيام عمل</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0" />
+            <span>ضمان 5 سنوات معتمد من ميراكو</span>
           </div>
         </div>
 
-        {/* Specs highlights */}
-        <div className="space-y-1 text-[11px] sm:text-xs text-slate-600 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-100">
-          <div className="flex items-center gap-1.5 font-medium truncate">
-            <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-600 shrink-0" />
-            <span className="truncate">{product.areaCoverage}</span>
-          </div>
-          <div className="flex items-center gap-1.5 font-medium truncate">
-            <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500 shrink-0" />
-            <span className="truncate">{product.energyClass}</span>
-          </div>
-          <div className="flex items-center gap-1.5 font-medium text-emerald-700 truncate">
-            <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 shrink-0" />
-            <span className="truncate">{product.warranty}</span>
-          </div>
-        </div>
-
-        {/* Pricing Block */}
-        <div className="pt-1.5 border-t border-slate-100 flex items-baseline justify-between">
-          <div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-lg sm:text-xl md:text-2xl font-black text-slate-900">
+        <div className="pt-1 mt-auto">
+          <div className="flex items-end justify-between gap-2">
+            <div>
+              <div className="text-2xl font-black text-[#009CDE] leading-none">
                 {product.price.toLocaleString('ar-EG')}
-              </span>
-              <span className="text-[10px] sm:text-xs font-bold text-slate-600">ج.م</span>
-            </div>
-            {product.oldPrice > product.price && (
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-xs">
-                <span className="text-slate-400 line-through">
-                  {product.oldPrice.toLocaleString('ar-EG')} ج
-                </span>
-                <span className="text-rose-600 font-bold">
-                  وفر {savings.toLocaleString('ar-EG')} ج
-                </span>
+                <span className="text-xs font-bold text-slate-500 mr-1">ج.م</span>
               </div>
+              {product.oldPrice > product.price && (
+                <div className="text-[11px] text-slate-400 line-through mt-1">
+                  {product.oldPrice.toLocaleString('ar-EG')} ج.م
+                </div>
+              )}
+            </div>
+            {savings > 0 && (
+              <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-1 rounded-lg">
+                وفر {savings.toLocaleString('ar-EG')}
+              </span>
             )}
           </div>
-
-          <span className="text-[9px] sm:text-[11px] font-bold text-emerald-700 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded-md shrink-0 border border-emerald-200">
-            تركيب مجاني 🚚
-          </span>
         </div>
 
-        {/* Action Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 pt-1">
+        <div className="grid grid-cols-2 gap-2 pt-1">
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => addToCart(product, 1)}
-            className={`w-full py-2 sm:py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1 transition-all duration-200 cursor-pointer ${
+            className={`py-2.5 rounded-2xl font-black text-xs flex items-center justify-center gap-1 ${
               quantityInCart > 0
-                ? 'bg-sky-100 text-sky-900 border border-sky-300 hover:bg-sky-200'
-                : 'bg-brand-600 hover:bg-brand-700 text-white shadow-sm hover:shadow'
+                ? 'bg-sky-100 text-sky-900 border border-sky-300'
+                : 'bg-gradient-to-l from-sky-600 to-sky-500 text-white shadow-md'
             }`}
           >
-            {quantityInCart > 0 ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-sky-800" />
-                <span>في السلة ({quantityInCart})</span>
-              </>
-            ) : (
-              <>
-                <ShoppingCart className="w-3.5 h-3.5" />
-                <span>أضف للسلة</span>
-              </>
-            )}
+            {quantityInCart > 0 ? <Check className="w-3.5 h-3.5" /> : <ShoppingCart className="w-3.5 h-3.5" />}
+            <span>{quantityInCart > 0 ? `في السلة (${quantityInCart})` : 'أضف للسلة'}</span>
           </motion.button>
-
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => handleInstantProductOrder(product)}
-            className="w-full py-2 sm:py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white flex items-center justify-center gap-1 transition-all shadow-sm cursor-pointer"
+            className="py-2.5 rounded-2xl font-black text-xs bg-white text-sky-700 border border-sky-300 hover:bg-sky-50"
           >
-            <span>طلب فوري 💬</span>
+            طلب واتساب
           </motion.button>
         </div>
-
       </div>
-
     </motion.div>
   );
 };

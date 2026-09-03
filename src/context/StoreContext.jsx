@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
 
-export const CATALOG_VERSION = 3;
+export const CATALOG_VERSION = 4;
 
 const OLD_CONTACT_DIGITS = new Set([
   '01140087799',
@@ -38,7 +38,22 @@ const hydrateProducts = (saved) => {
 
   const patched = saved.map((product) => {
     const patch = PRODUCT_PATCHES[product.id];
-    return patch ? { ...product, ...patch } : product;
+    const official = DEFAULT_PRODUCTS.find((item) => item.id === product.id);
+    const next = patch ? { ...product, ...patch } : product;
+    if (!official?.images) return next;
+    return {
+      ...next,
+      name: official.name,
+      modelCode: official.modelCode,
+      image: official.image,
+      images: official.images,
+      features: official.features,
+      specs: official.specs,
+      energyClass: official.energyClass,
+      warranty: official.warranty,
+      typeName: official.typeName,
+      brandName: official.brandName,
+    };
   });
 
   const existingIds = new Set(patched.map((product) => product.id));

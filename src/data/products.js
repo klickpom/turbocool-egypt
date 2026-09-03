@@ -28,6 +28,14 @@ export const TYPES = [
   { id: 'free-stand', name: 'فري ستاند عمودي' }
 ];
 
+export const MIRACO_FEATURES = [
+  'صور أصلية من المصنع: الوحدة الداخلية + الريموت + الوحدة الخارجية',
+  'توريد خلال 5 أيام عمل من الموزع المعتمد',
+  'ضمان 5 سنوات معتمد من ميراكو',
+  'كفاءة طاقة رسمية حسب شهادة المصنع',
+  'تصميم سبليت أنيق مع فلاتر سهلة الفك والتنظيف وريموت أصلي',
+];
+
 export const PRODUCTS = [
   {
     id: 'sharp-1.5-inv-ch',
@@ -490,15 +498,15 @@ export const PRODUCTS = [
     id: 'carrier-xcool-1.5-cool',
     brand: 'carrier',
     brandName: 'كاريير - Carrier',
-    name: 'تكييف كاريير 1.5 حصان إكس كول بارد فقط ديجيتال Miraco XCOOL',
+    name: 'تكييف كاريير 1.5 حصان إكس كول بارد فقط (53KHEFT12N8-708F)',
     modelCode: '53KHEFT12N8-708F',
     hp: 1.5,
     hpText: '1.5 حصان',
     type: 'cool-only',
     typeName: 'بارد فقط عادي',
-    price: 24500,
-    oldPrice: 26800,
-    discount: 8,
+    price: 26415,
+    oldPrice: 28900,
+    discount: 9,
     areaCoverage: 'يغطي حتى 12-14 متر مربع',
     maxArea: 14,
     rating: 4.9,
@@ -506,16 +514,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S1 كفاءة طاقة معتمدة من ميراكو',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'تكنولوجيا XCOOL للتبريد القوي والسريع',
-      'ضاغط تروبيكال استوائي يتحمل درجات حرارة تصل إلى 52 درجة مئوية',
-      'فلاتر كربونية مزدوجة لتنقية الهواء من الأتربة والروائح',
-      'شاشة عرض ديجيتال رقمية جذابة',
-      'خاصية التشخيص الذاتي للأعطال والتنبيه المبكر'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_3.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_3.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/0/2/02501671_carrier_remote__3.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/o/d/odu_x2_fixed_r32_carrier_1.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53kheft12n8-708f-seer-46309116',
+    energyClass: 'S1 كفاءة طاقة معتمدة من ميراكو',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A صديق للبيئة',
       dimensionsIndoor: '822 × 289 × 220 مم',
@@ -528,7 +536,7 @@ export const PRODUCTS = [
     id: 'carrier-xcool-1.5-heat',
     brand: 'carrier',
     brandName: 'كاريير - Carrier',
-    name: 'تكييف كاريير 1.5 حصان إكس كول بارد ساخن ديجيتال Miraco XCOOL Heat Pump',
+    name: 'تكييف كاريير 1.5 حصان إكس كول بارد ساخن (53QHEFT12N8-708F)',
     modelCode: '53QHEFT12N8-708F',
     hp: 1.5,
     hpText: '1.5 حصان',
@@ -544,16 +552,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S1 نظام تدفئة وتبريد SEER',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'نظام تدفئة وتبريد متكامل لراحة تدوم طوال العام',
-      'خاصية إزالة الرطوبة المستقلة',
-      'توزيع ذكي للهواء في جميع أركان الغرفة',
-      'إعادة تشغيل تلقائي عند عودة التيار الكهربائي',
-      'فلاتر صحية مضادة للبكتيريا'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_4.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_4.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/0/2/02501671_carrier_remote__4.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/o/d/odu_x2_fixed_r32_carrier_2.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53qheft12n8-708f-seer-46309119',
+    energyClass: 'S1 نظام تدفئة وتبريد SEER',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
@@ -582,16 +590,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S1 تبريد قوي مساحات متوسطة',
-    warranty: 'ضمان 5 سنوات شامل ميراكو كاريير',
-    features: [
-      'مثالي للريسبشن وغرف المعيشة المتوسطة',
-      'تدفق هواء قوي يغطي حتى 12 متراً داخل الغرفة',
-      'كباس استوائي شديد التحمل لأقسى درجات الحرارة',
-      'تشغيل هادئ بفضل مراوح التوربين المطورة',
-      'مواسير نحاس جنوب أفريقي بأقطار معتمدة'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/0/2/02501671_carrier_remote_.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/o/d/odu_x2_fixed_r32_carrier.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53kheft18n8-78x2-5mm-seer',
+    energyClass: 'S1 تبريد قوي مساحات متوسطة',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
@@ -620,16 +628,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S1 بارد ساخن كفاءة SEER',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'تدفئة دافئة ومريحة في الشتاء وتبريد قطبي فائق في الصيف',
-      'مبادل حراري معالج ضد الصدأ والتآكل',
-      'وظيفة Follow Me لتوجيه الهواء نحو مكان وجودك',
-      'فلتر عالي الكثافة لتنقية الهواء والشوائب',
-      'ضمان شامل من الموزع المعتمد تربو كوول'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_5.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_5.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/0/2/02501671_carrier_remote__5.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/o/d/odu_x2_fixed_r32_carrier_3.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53qheft18n8-708f-seer-46309131',
+    energyClass: 'S1 بارد ساخن كفاءة SEER',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
@@ -658,16 +666,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S4 إنفرتر موفر للكهرباء',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'تكنولوجيا الانفرتر الموفرة للطاقة بنسبة تتجاوز 55%',
-      'تبريد سريع للغاية عبر خوارزمية ذكية لمراقبة درجة الحرارة',
-      'تشغيل بدون صوت ومعدوم الضجيج أثناء النوم',
-      'حماية ذكية ضد تذبذب التيار الكهربائي',
-      'شاشة ديجيتال مدمجة وعصرية'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left2.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left2.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_1.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/a/carrier_3-6-2025111641_odu_x2_right_side.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53kheft12dn8-708f',
+    energyClass: 'S4 إنفرتر موفر للكهرباء',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A صديق للبيئة',
       dimensionsIndoor: '822 × 289 × 220 مم',
@@ -696,16 +704,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S5 أعلى توفير للطاقة',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'توفير حتى 60% من فاتورة الكهرباء الشهرية',
-      'كمبروسر إنفرتر استوائي يتحمل العمل الشاق لساعات طويلة',
-      'توزيع هواء ثلاثي الأبعاد يغطي كافة جوانب الغرفة',
-      'فلاتر هواء متقدمة مضادة للأتربة والميكروبات',
-      'توريد وتركيب فوري خلال 24 ساعة من تربو كوول'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left1.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left1.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_1_1.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/a/carrier_3-6-2025111641.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53kheft18dn8-708f',
+    energyClass: 'S5 أعلى توفير للطاقة',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
@@ -734,16 +742,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S5 بارد ساخن انفرتر',
-    warranty: 'ضمان 5 سنوات شامل ميراكو كاريير',
-    features: [
-      'تكنولوجيا الانفرتر في التدفئة والتبريد',
-      'تحكم دقيق في درجات الحرارة بجزء من الدرجة المئوية',
-      'خاصية حماية التجميد التلقائي للوحدة الخارجية',
-      'تصميم داخلي أنيق يتناسب مع جميع الديكورات',
-      'معاينة مجانية وضمان معتمد من الوكيل'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left1_1.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left1_1.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_1_4.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/a/carrier_3-6-2025111641_odu_x2_right_side_1_1.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53qheft18dn8-708f',
+    energyClass: 'S5 بارد ساخن انفرتر',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
@@ -772,16 +780,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S5 قوة قصوى وتوفير',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'قوة تبريد جبارة 24000 وحدة حرارية للريسبشن والمساحات الكبيرة',
-      'تكنولوجيا الانفرتر توفر أكثر من 50% من فاتورة الكهرباء',
-      'كباس تروبيكال مصمم لتحمل حرارة الصيف الشديدة',
-      'تدفق هواء بعيد المدى يصل إلى 15 متراً',
-      'شاشة LED عصرية'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/3/_/3_left1.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/3/_/3_left1.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_1_2.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/a/carrier_3-6-2025111639.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53kheft24dn8-708f',
+    energyClass: 'S5 قوة قصوى وتوفير',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '1059 × 328 × 250 مم',
@@ -810,16 +818,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S5 فئة الريسبشن والفلل',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
-    features: [
-      'أقوى وحدة ريسبشن بارد ساخن من كاريير إنفرتر',
-      'تكنولوجيا التدفئة السريعة في الشتاء والتبريد الفائق في الصيف',
-      'مروحة توربينية عملاقة لتوزيع الهواء بكل توازن',
-      'تشخيص ذكي للأعطال مع حماية شاملة للضاغط',
-      'توريد وتركيب فوري من فريق مهندسي تربو كوول'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/3/_/3_left1_1.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/3/_/3_left1_1.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_1_5.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/a/carrier_3-6-2025111639_1.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/53qheft24dn8-708f',
+    energyClass: 'S5 فئة الريسبشن والفلل',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '1059 × 328 × 250 مم',
@@ -848,16 +856,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S1 كفاءة تبريد XTreme Pro',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو ميديا',
-    features: [
-      'تصميم إكستريم برو العصري الأنيق المقاوم للغبار',
-      'تبريد سريع ومؤثر في أقسى الظروف المناخية',
-      'ريش توجيه هواء Golden Fin مطلية بالذهب لمقاومة الصدأ',
-      'فلتر ثنائي متقدم لإزالة الروائح وحبوب اللقاح',
-      'ضمان شامل من ميراكو مصر'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/x/t/xtreme_eco_fixed.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/x/t/xtreme_eco_fixed.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/w/i/wireless_remote.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/o/d/odu_x2_midea_r32_fixed-new.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/m1seft-12crn8f-q8-seer',
+    energyClass: 'S1 كفاءة تبريد XTreme Pro',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
@@ -876,7 +884,7 @@ export const PRODUCTS = [
     hpText: '1.5 حصان',
     type: 'inverter-cool-heat',
     typeName: 'إنفرتر بارد / ساخن',
-    price: 27900,
+    price: 29990,
     oldPrice: 30500,
     discount: 9,
     areaCoverage: 'يغطي حتى 12-14 متر مربع',
@@ -886,16 +894,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S4 إنفرتر ذكي بارد ساخن',
-    warranty: 'ضمان 5 سنوات شامل ميراكو ميديا',
-    features: [
-      'توفير عالي في استهلاك الكهرباء بنظام الانفرتر المتطور',
-      'وظيفة التدفئة والتبريد الفوري بأداء استثنائي',
-      'تحكم عبر الهاتف الذكي وشبكة الواي فاي Smart App',
-      'فلتر أيونات الفضة لتعقيم الهواء الداخلي بنسبة 99%',
-      'شاشة LED مخفية وأزرار لمس ناعمة'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12_1.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12_1.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_2_3.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12-18_2.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/m1seft-12hrdnf-q8-seer',
+    energyClass: 'S4 إنفرتر ذكي بارد ساخن',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
@@ -924,16 +932,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S1 تبريد قوي مساحات 20م²',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو ميديا',
-    features: [
-      'مثالي للشقق العصرية والمكاتب المتوسطة',
-      'تبريد فائق السرعة عبر وضعية Boost السريعة',
-      'مكثف نحاسي معالج بتكنولوجيا Golden Fin ضد الأملاح والرطوبة',
-      'توزيع رباعي الأبعاد للهواء 3D Airflow',
-      'توصيل وتركيب فوري خلال 24 ساعة'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/m/_/m_2-25_right_1_6.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/m/_/m_2-25_right_1_6.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/w/i/wireless_remote_6.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/o/d/odu_x2_midea_r32_fixed-new_4.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/m1seft-18crn8f-q8-seer',
+    energyClass: 'S1 تبريد قوي مساحات 20م²',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
@@ -962,16 +970,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S4 الذكاء الاصطناعي AI ECOMASTER',
-    warranty: 'ضمان 5 سنوات شامل ميراكو ميديا',
-    features: [
-      'خوارزمية الذكاء الاصطناعي AI ECOMASTER لحساب أدق استهلاك وتوفير حتى 65% كهرباء',
-      'تحكم كامل عن بُعد عبر تطبيق الهاتف MSmartHome وتوافق مع المساعدات الصوتية',
-      'تنقية فائقة للهواء عبر تقنية Air Magic للقضاء على 99% من الفيروسات',
-      'تشغيل بدون صوت إطلاقاً 19 ديسيبل لنوم عميق',
-      'ضمان معتمد 5 سنوات من ميراكو'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12.png',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12.png',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_2.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12-18.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/m1seft-12crdn8f-q8-seer',
+    energyClass: 'S4 الذكاء الاصطناعي AI ECOMASTER',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A صديق للبيئة',
       dimensionsIndoor: '822 × 289 × 220 مم',
@@ -1000,16 +1008,16 @@ export const PRODUCTS = [
     inStock: true,
     featured: true,
     bestseller: true,
-    image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'S5 ذكاء اصطناعي AI ECOMASTER مساحات واسعة',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو ميديا',
-    features: [
-      'نظام الذكاء الاصطناعي المزدوج لضبط درجة الحرارة الذاتية بأقل تكلفة تشغيل',
-      'قوة دفع هواء فائقة لمساحات الريسبشن والمعيشة حتى 20 متراً',
-      'تطبيق ذكي MSmartHome لمراقبة استهلاك الكهرباء بالجنيه والكيلوواط لحظياً',
-      'كباس انفرتر استوائي يتحمل حتى 55 درجة مئوية',
-      'معاينة وتوريد وتركيب فوري من تربو كوول'
+    image: 'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/8/18.jpg',
+    images: [
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/8/18.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/c/o/control_2_1.jpg',
+      'https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/2/12-18_1.png'
     ],
+    sourceUrl: 'https://miraco.com.eg/en/m1seft-18crdn8f-q8-ai-ecomaster-seer',
+    energyClass: 'S5 ذكاء اصطناعي AI ECOMASTER مساحات واسعة',
+    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    features: MIRACO_FEATURES,
     specs: {
       gas: 'R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
