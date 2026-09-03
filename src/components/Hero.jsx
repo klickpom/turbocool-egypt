@@ -92,7 +92,7 @@ export const Hero = () => {
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.25] text-white"
             >
               عيش في <span className="bg-gradient-to-r from-sky-300 via-teal-200 to-white bg-clip-text text-transparent">نقاء وانتعاش</span> مع{' '}
-              <span className="text-sky-400 relative inline-block underline decoration-brand-400 decoration-wavy decoration-2">
+              <span className="text-sky-400">
                 تربو كوول
               </span>
             </motion.h1>
