@@ -5,7 +5,32 @@ import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
 
-export const CATALOG_VERSION = 4;
+export const CATALOG_VERSION = 5;
+
+const DUMMY_CATALOG_IDS = new Set([
+  'sharp-1.5-inv-ch',
+  'carrier-1.5-optimax-cool',
+  'carrier-2.25-inv-ch',
+  'lg-1.5-dual-inv-ch',
+  'fresh-1.5-smart-cool',
+  'fresh-2.25-inv-ch',
+  'sharp-3.0-inv-ch',
+  'midea-1.5-mission-pro',
+  'gree-2.25-pular-ch',
+  'tornado-1.5-cool',
+  'carrier-3.0-optimax-ch',
+  'carrier-5.0-concealed',
+]);
+
+const hasPlaceholderImage = (product) => {
+  const urls = [product?.image, ...(product?.images || [])].filter(Boolean).join(' ');
+  return /unsplash\.com|picsum\.photos|placehold/i.test(urls);
+};
+
+const isRemovedCatalogItem = (product) => {
+  if (!product?.id) return true;
+  return DUMMY_CATALOG_IDS.has(product.id) || hasPlaceholderImage(product);
+};
 
 const OLD_CONTACT_DIGITS = new Set([
   '01140087799',
@@ -36,7 +61,7 @@ const PRODUCT_PATCHES = {
 const hydrateProducts = (saved) => {
   if (!Array.isArray(saved) || saved.length === 0) return DEFAULT_PRODUCTS;
 
-  const patched = saved.map((product) => {
+  const patched = saved.filter((product) => !isRemovedCatalogItem(product)).map((product) => {
     const patch = PRODUCT_PATCHES[product.id];
     const official = DEFAULT_PRODUCTS.find((item) => item.id === product.id);
     const next = patch ? { ...product, ...patch } : product;
@@ -169,7 +194,8 @@ export const StoreProvider = ({ children }) => {
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem('turbocool_cart');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed.filter((item) => !isRemovedCatalogItem(item)) : [];
     } catch {
       return [];
     }
@@ -179,7 +205,8 @@ export const StoreProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState(() => {
     try {
       const saved = localStorage.getItem('turbocool_wishlist');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed) ? parsed.filter((item) => !isRemovedCatalogItem(item)) : [];
     } catch {
       return [];
     }
@@ -189,7 +216,10 @@ export const StoreProvider = ({ children }) => {
   const [comparisonList, setComparisonList] = useState(() => {
     try {
       const saved = localStorage.getItem('turbocool_compare');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      return Array.isArray(parsed)
+        ? parsed.filter((id) => id && !DUMMY_CATALOG_IDS.has(id))
+        : [];
     } catch {
       return [];
     }

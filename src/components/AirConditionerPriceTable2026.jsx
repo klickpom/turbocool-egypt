@@ -59,13 +59,8 @@ export const AirConditionerPriceTable2026 = () => {
             <span className="text-xs font-bold text-slate-400 shrink-0 ml-1">الماركة:</span>
             {[
               { id: 'all', name: 'الكل' },
-              { id: 'sharp', name: 'شارب' },
               { id: 'carrier', name: 'كاريير' },
-              { id: 'lg', name: 'LG' },
-              { id: 'fresh', name: 'فريش' },
               { id: 'midea', name: 'ميديا' },
-              { id: 'gree', name: 'جري' },
-              { id: 'tornado', name: 'تورنيدو' }
             ].map(b => (
               <button
                 key={b.id}

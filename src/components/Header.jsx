@@ -75,7 +75,7 @@ export const Header = () => {
               <span>{storeSettings?.phone || '01006836537'}</span>
             </a>
             <span className="hidden md:inline text-slate-700">|</span>
-            <span className="hidden lg:inline text-slate-400 text-xs">موزع معتمد (شارب - كاريير - LG - فريش)</span>
+            <span className="hidden lg:inline text-slate-400 text-xs">موزع معتمد (كاريير - ميديا)</span>
           </div>
         </div>
       </div>
@@ -266,13 +266,8 @@ export const Header = () => {
                       </button>
                       <hr className="my-1 border-slate-100" />
                       {[
-                        { id: 'sharp', name: 'شارب Sharp' },
                         { id: 'carrier', name: 'كاريير Carrier' },
-                        { id: 'lg', name: 'إل جي LG' },
-                        { id: 'fresh', name: 'فريش Fresh' },
                         { id: 'midea', name: 'ميديا Midea' },
-                        { id: 'gree', name: 'جري Gree' },
-                        { id: 'tornado', name: 'تورنيدو Tornado' },
                       ].map(brand => (
                         <button
                           key={brand.id}

@@ -141,7 +141,7 @@ export const Footer = () => {
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-extrabold text-sm text-ice-200">الماركات المعتمدة</h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              {['sharp', 'carrier', 'lg', 'fresh', 'midea', 'gree'].map(bId => (
+              {['carrier', 'midea'].map(bId => (
                 <li key={bId}>
                   <button 
                     onClick={() => {
@@ -150,7 +150,7 @@ export const Footer = () => {
                     }}
                     className="hover:text-white transition-colors capitalize"
                   >
-                    تكييفات {bId === 'sharp' ? 'شارب Sharp' : bId === 'carrier' ? 'كاريير Carrier' : bId === 'lg' ? 'إل جي LG' : bId === 'fresh' ? 'فريش Fresh' : bId === 'midea' ? 'ميديا Midea' : 'جري Gree'}
+                    تكييفات {bId === 'carrier' ? 'كاريير Carrier' : 'ميديا Midea'}
                   </button>
                 </li>
               ))}
