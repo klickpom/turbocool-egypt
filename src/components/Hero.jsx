@@ -50,29 +50,11 @@ export const Hero = () => {
   };
 
   return (
-    <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white pt-10 pb-16 md:pt-16 md:pb-24">
-      {/* Interactive Cool Mist / Frost Particle Engine */}
+    <section id="hero-section" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white pt-24 pb-16 lg:pt-16 lg:pb-24">
       <CoolBreezeParticles />
 
-      {/* Background Animated Gradient Orbs */}
-      <motion.div 
-        animate={{
-          scale: [1, 1.25, 1],
-          opacity: [0.2, 0.35, 0.2],
-          rotate: [0, 90, 0]
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-brand-500/20 rounded-full blur-3xl pointer-events-none -z-0"
-      />
-      <motion.div 
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.15, 0.3, 0.15],
-          rotate: [0, -90, 0]
-        }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-sky-400/20 rounded-full blur-3xl pointer-events-none -z-0"
-      />
+      <div className="hidden md:block absolute top-0 right-1/4 w-[500px] h-[500px] bg-brand-500/20 rounded-full blur-3xl pointer-events-none -z-0" />
+      <div className="hidden md:block absolute bottom-10 left-10 w-[450px] h-[450px] bg-sky-400/20 rounded-full blur-3xl pointer-events-none -z-0" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">

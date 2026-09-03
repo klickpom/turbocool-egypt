@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
-import { motion } from 'framer-motion';
 import {
   ShoppingCart,
   Heart,
@@ -27,18 +26,13 @@ export const ProductCard = ({ product }) => {
   const [activeImage, setActiveImage] = useState(0);
   const isFavorited = isInWishlist(product.id);
   const isCompared = isInCompare(product.id);
-  const cartItem = cart.find(item => item.id === product.id);
+  const cartItem = cart.find((item) => item.id === product.id);
   const quantityInCart = cartItem ? cartItem.quantity : 0;
   const savings = product.oldPrice - product.price;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      className="bg-white rounded-[28px] border border-slate-200/80 shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] hover:shadow-[0_28px_70px_-30px_rgba(2,132,199,0.55)] hover:border-sky-300 transition-all duration-300 flex flex-col overflow-hidden group"
-    >
-      <div className="relative bg-[radial-gradient(circle_at_top,#dbeafe_0%,#ffffff_58%)] px-4 pt-4 pb-3">
+    <article className="bg-white rounded-[24px] border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-sky-300 transition-shadow duration-200 flex flex-col overflow-hidden">
+      <div className="relative bg-gradient-to-b from-sky-50 to-white px-3 pt-3 pb-2">
         <div className="absolute top-3 right-3 left-3 z-20 flex items-start justify-between pointer-events-none">
           <div className="flex flex-wrap gap-1">
             {product.discount > 0 && (
@@ -57,7 +51,7 @@ export const ProductCard = ({ product }) => {
             <button
               onClick={() => toggleWishlist(product)}
               className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm ${
-                isFavorited ? 'bg-rose-100 text-rose-600' : 'bg-white/90 text-slate-500 hover:text-rose-500'
+                isFavorited ? 'bg-rose-100 text-rose-600' : 'bg-white/90 text-slate-500'
               }`}
             >
               <Heart className={`w-4 h-4 ${isFavorited ? 'fill-rose-600' : ''}`} />
@@ -65,7 +59,7 @@ export const ProductCard = ({ product }) => {
             <button
               onClick={() => toggleCompare(product)}
               className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm ${
-                isCompared ? 'bg-sky-600 text-white' : 'bg-white/90 text-slate-500 hover:text-sky-600'
+                isCompared ? 'bg-sky-600 text-white' : 'bg-white/90 text-slate-500'
               }`}
             >
               <Scale className="w-4 h-4" />
@@ -74,14 +68,16 @@ export const ProductCard = ({ product }) => {
         </div>
 
         <button
+          type="button"
           onClick={() => setQuickViewProduct(product)}
-          className="w-full h-48 sm:h-52 flex items-center justify-center cursor-pointer"
+          className="w-full h-44 sm:h-52 flex items-center justify-center cursor-pointer"
         >
           <img
             src={gallery[activeImage] || product.image}
             alt={product.name}
             loading="lazy"
-            className="max-h-full max-w-full object-contain drop-shadow-[0_18px_28px_rgba(15,23,42,0.18)] group-hover:scale-[1.04] transition-transform duration-500"
+            decoding="async"
+            className="max-h-full max-w-full object-contain"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = product.image;
@@ -90,25 +86,25 @@ export const ProductCard = ({ product }) => {
         </button>
 
         {gallery.length > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-2">
+          <div className="hidden sm:flex items-center justify-center gap-2 mt-1">
             {gallery.slice(0, 3).map((src, index) => (
               <button
                 key={`${product.id}-thumb-${index}`}
                 onClick={() => setActiveImage(index)}
-                className={`w-12 h-12 rounded-xl overflow-hidden bg-white border ${
-                  activeImage === index ? 'border-sky-500 ring-2 ring-sky-200' : 'border-slate-200'
+                className={`w-11 h-11 rounded-xl overflow-hidden bg-white border ${
+                  activeImage === index ? 'border-sky-500' : 'border-slate-200'
                 }`}
               >
-                <img src={src} alt="" className="w-full h-full object-contain p-1" />
+                <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
               </button>
             ))}
           </div>
         )}
       </div>
 
-      <div className="p-4 sm:p-5 flex-1 flex flex-col gap-3">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col gap-2.5">
         <div>
-          <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center justify-between gap-2 mb-1.5">
             <span className="text-[11px] font-black text-white bg-[#009CDE] px-3 py-1 rounded-full">
               {product.brandName.split(' - ')[0]}
             </span>
@@ -118,14 +114,14 @@ export const ProductCard = ({ product }) => {
           </div>
           <h3
             onClick={() => setQuickViewProduct(product)}
-            className="font-black text-slate-900 text-sm sm:text-[15px] leading-snug line-clamp-2 cursor-pointer hover:text-sky-700"
+            className="font-black text-slate-900 text-sm sm:text-[15px] leading-snug line-clamp-2 cursor-pointer"
           >
             {product.name}
           </h3>
           <div className="text-[11px] text-slate-400 font-mono mt-1">{product.modelCode}</div>
         </div>
 
-        <div className="space-y-1.5 text-[12px] text-slate-600">
+        <div className="space-y-1 text-[12px] text-slate-600">
           <div className="flex items-center gap-2">
             <Truck className="w-4 h-4 text-sky-600 shrink-0" />
             <span>توريد خلال 5 أيام عمل</span>
@@ -158,27 +154,25 @@ export const ProductCard = ({ product }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-2 pt-1">
-          <motion.button
-            whileTap={{ scale: 0.96 }}
+          <button
             onClick={() => addToCart(product, 1)}
             className={`py-2.5 rounded-2xl font-black text-xs flex items-center justify-center gap-1 ${
               quantityInCart > 0
                 ? 'bg-sky-100 text-sky-900 border border-sky-300'
-                : 'bg-gradient-to-l from-sky-600 to-sky-500 text-white shadow-md'
+                : 'bg-[#009CDE] text-white shadow-md'
             }`}
           >
             {quantityInCart > 0 ? <Check className="w-3.5 h-3.5" /> : <ShoppingCart className="w-3.5 h-3.5" />}
             <span>{quantityInCart > 0 ? `في السلة (${quantityInCart})` : 'أضف للسلة'}</span>
-          </motion.button>
-          <motion.button
-            whileTap={{ scale: 0.96 }}
+          </button>
+          <button
             onClick={() => handleInstantProductOrder(product)}
-            className="py-2.5 rounded-2xl font-black text-xs bg-white text-sky-700 border border-sky-300 hover:bg-sky-50"
+            className="py-2.5 rounded-2xl font-black text-xs bg-white text-sky-700 border border-sky-300"
           >
             طلب واتساب
-          </motion.button>
+          </button>
         </div>
       </div>
-    </motion.div>
+    </article>
   );
 };

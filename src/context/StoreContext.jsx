@@ -599,12 +599,14 @@ export const StoreProvider = ({ children }) => {
     });
 
     try {
-      confetti({
-        particleCount: 35,
-        spread: 60,
-        origin: { y: 0.8 },
-        colors: ['#006bc9', '#00A3FF', '#38bdf8']
-      });
+      if (window.matchMedia('(min-width: 768px)').matches) {
+        confetti({
+          particleCount: 35,
+          spread: 60,
+          origin: { y: 0.8 },
+          colors: ['#006bc9', '#00A3FF', '#38bdf8']
+        });
+      }
     } catch {
       // ignore
     }

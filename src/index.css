@@ -56,3 +56,9 @@
 .ice-gradient {
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

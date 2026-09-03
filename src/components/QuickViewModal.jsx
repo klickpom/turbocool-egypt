@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '../context/StoreContext';
 import {
   X,
@@ -9,7 +9,9 @@ import {
   Flame,
   Share2,
   Scale,
-  Heart
+  Heart,
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 
 export const QuickViewModal = () => {
@@ -26,9 +28,22 @@ export const QuickViewModal = () => {
   } = useStore();
 
   const [activeImage, setActiveImage] = useState(0);
+  const [entered, setEntered] = useState(false);
+  const touchStartX = useRef(0);
 
   useEffect(() => {
     setActiveImage(0);
+    if (!quickViewProduct) {
+      setEntered(false);
+      return undefined;
+    }
+    const frame = requestAnimationFrame(() => setEntered(true));
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      cancelAnimationFrame(frame);
+      document.body.style.overflow = prev;
+    };
   }, [quickViewProduct?.id]);
 
   if (!quickViewProduct) return null;
@@ -36,32 +51,77 @@ export const QuickViewModal = () => {
   const gallery = quickViewProduct.images?.length ? quickViewProduct.images : [quickViewProduct.image];
   const isFavorited = isInWishlist(quickViewProduct.id);
   const isCompared = isInCompare(quickViewProduct.id);
-  const savings = quickViewProduct.oldPrice - quickViewProduct.price;
+  const savings = (quickViewProduct.oldPrice || 0) - quickViewProduct.price;
 
-  const handleShare = () => {
+  const goImage = (dir) => {
+    setActiveImage((current) => {
+      const next = current + dir;
+      if (next < 0) return gallery.length - 1;
+      if (next >= gallery.length) return 0;
+      return next;
+    });
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: quickViewProduct.name, url });
+        return;
+      }
+    } catch {
+      // fall through to clipboard
+    }
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      showToast('تم نسخ رابط المنتج بنجاح! 📋');
+      navigator.clipboard.writeText(url);
+      showToast('تم نسخ رابط المنتج');
     }
   };
 
+  const close = () => {
+    setEntered(false);
+    window.setTimeout(() => setQuickViewProduct(null), 220);
+  };
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6">
-      <div
-        onClick={() => setQuickViewProduct(null)}
-        className="fixed inset-0 bg-slate-900/70 backdrop-blur-sm"
+    <div className="fixed inset-0 z-[70] flex items-end md:items-center justify-center">
+      <button
+        type="button"
+        aria-label="إغلاق"
+        onClick={close}
+        className={`absolute inset-0 bg-slate-950/55 backdrop-blur-[6px] transition-opacity duration-300 ${
+          entered ? 'opacity-100' : 'opacity-0'
+        }`}
       />
 
-      <div className="relative bg-white rounded-[32px] max-w-5xl w-full shadow-2xl overflow-hidden z-10 border border-slate-200">
+      <div
+        className={`relative z-10 w-full md:max-w-5xl md:mx-4 bg-white md:rounded-[32px] rounded-t-[28px] shadow-2xl overflow-hidden flex flex-col max-h-[94vh] md:max-h-[88vh] transition-transform duration-300 ease-out ${
+          entered ? 'translate-y-0' : 'translate-y-full md:translate-y-8'
+        }`}
+      >
+        <div className="md:hidden flex justify-center pt-2 pb-1">
+          <span className="w-12 h-1.5 rounded-full bg-slate-300" />
+        </div>
+
         <button
-          onClick={() => setQuickViewProduct(null)}
-          className="absolute top-4 left-4 z-20 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700"
+          onClick={close}
+          className="absolute top-3 left-3 z-20 w-10 h-10 rounded-full bg-white/90 shadow text-slate-700 flex items-center justify-center"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="p-6 bg-[radial-gradient(circle_at_top,#dbeafe_0%,#ffffff_62%)] flex flex-col items-center justify-center border-b md:border-b-0 md:border-l border-slate-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 overflow-y-auto">
+          <div
+            className="relative bg-[radial-gradient(circle_at_top,#dbeafe_0%,#ffffff_70%)] min-h-[280px] sm:min-h-[340px] flex flex-col items-center justify-center px-4 pt-8 pb-4"
+            onTouchStart={(e) => {
+              touchStartX.current = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              const dx = e.changedTouches[0].clientX - touchStartX.current;
+              if (dx > 40) goImage(-1);
+              if (dx < -40) goImage(1);
+            }}
+          >
             {quickViewProduct.discount > 0 && (
               <span className="absolute top-4 right-4 bg-rose-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                 <Flame className="w-3.5 h-3.5" />
@@ -69,74 +129,94 @@ export const QuickViewModal = () => {
               </span>
             )}
 
-            <div className="w-full h-64 sm:h-80 flex items-center justify-center">
-              <img
-                src={gallery[activeImage] || quickViewProduct.image}
-                alt={quickViewProduct.name}
-                className="max-h-full max-w-full object-contain drop-shadow-2xl"
-              />
-            </div>
+            {gallery.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => goImage(-1)}
+                  className="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow items-center justify-center text-slate-700"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => goImage(1)}
+                  className="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow items-center justify-center text-slate-700"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              </>
+            )}
+
+            <img
+              src={gallery[activeImage] || quickViewProduct.image}
+              alt={quickViewProduct.name}
+              className="max-h-[46vh] md:max-h-[420px] max-w-full object-contain drop-shadow-2xl"
+            />
 
             {gallery.length > 1 && (
               <div className="flex items-center justify-center gap-2 mt-4">
-                {gallery.slice(0, 4).map((src, index) => (
+                {gallery.map((src, index) => (
                   <button
                     key={`qv-${index}`}
                     onClick={() => setActiveImage(index)}
-                    className={`w-16 h-16 rounded-2xl overflow-hidden bg-white border ${
+                    className={`w-14 h-14 rounded-2xl overflow-hidden bg-white border ${
                       activeImage === index ? 'border-sky-500 ring-2 ring-sky-200' : 'border-slate-200'
                     }`}
                   >
-                    <img src={src} alt="" className="w-full h-full object-contain p-1.5" />
+                    <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="p-6 sm:p-8 flex flex-col justify-between space-y-5">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-xs font-black text-white bg-[#009CDE] px-3 py-1 rounded-full">
-                  {quickViewProduct.brandName.split(' - ')[0]}
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => toggleWishlist(quickViewProduct)}
-                    className={`w-10 h-10 rounded-xl ${isFavorited ? 'bg-rose-100 text-rose-600' : 'bg-rose-50 text-rose-400'}`}
-                  >
-                    <Heart className={`w-4 h-4 mx-auto ${isFavorited ? 'fill-rose-600' : ''}`} />
-                  </button>
-                  <button onClick={handleShare} className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600">
-                    <Share2 className="w-4 h-4 mx-auto" />
-                  </button>
-                </div>
+          <div className="p-5 sm:p-8 flex flex-col gap-4 pb-28 md:pb-8">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-black text-white bg-[#009CDE] px-3 py-1 rounded-full">
+                {quickViewProduct.brandName.split(' - ')[0]}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => toggleWishlist(quickViewProduct)}
+                  className={`w-10 h-10 rounded-xl ${isFavorited ? 'bg-rose-100 text-rose-600' : 'bg-rose-50 text-rose-400'}`}
+                >
+                  <Heart className={`w-4 h-4 mx-auto ${isFavorited ? 'fill-rose-600' : ''}`} />
+                </button>
+                <button onClick={handleShare} className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600">
+                  <Share2 className="w-4 h-4 mx-auto" />
+                </button>
               </div>
+            </div>
 
+            <div>
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">
                 {quickViewProduct.name}
               </h3>
-              <div className="text-xs text-slate-400 font-mono">كود الموديل: {quickViewProduct.modelCode}</div>
+              <div className="text-xs text-slate-400 font-mono mt-1">كود الموديل: {quickViewProduct.modelCode}</div>
+            </div>
+
+            <div>
               <div className="text-3xl font-black text-[#009CDE]">
                 {quickViewProduct.price.toLocaleString('ar-EG')}
                 <span className="text-sm font-bold text-slate-500 mr-1">ج.م</span>
               </div>
               {savings > 0 && (
-                <div className="text-xs text-slate-400">
+                <div className="text-xs text-slate-400 mt-1">
                   <span className="line-through">{quickViewProduct.oldPrice.toLocaleString('ar-EG')} ج.م</span>
                   <span className="text-rose-600 font-bold mr-2">وفر {savings.toLocaleString('ar-EG')} ج.م</span>
                 </div>
               )}
+            </div>
 
-              <div className="space-y-2 text-sm text-slate-600">
-                <div className="flex items-center gap-2">
-                  <Truck className="w-4 h-4 text-sky-600" />
-                  <span>توريد خلال 5 أيام عمل</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-sky-600" />
-                  <span>{quickViewProduct.warranty || 'ضمان 5 سنوات معتمد من ميراكو'}</span>
-                </div>
+            <div className="space-y-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2">
+                <Truck className="w-4 h-4 text-sky-600" />
+                <span>توريد خلال 5 أيام عمل</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-sky-600" />
+                <span>{quickViewProduct.warranty || 'ضمان 5 سنوات معتمد من ميراكو'}</span>
               </div>
             </div>
 
@@ -150,25 +230,6 @@ export const QuickViewModal = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => {
-                  addToCart(quickViewProduct, 1);
-                  setQuickViewProduct(null);
-                }}
-                className="py-3.5 bg-gradient-to-l from-sky-600 to-sky-500 hover:from-sky-700 hover:to-sky-600 text-white font-black text-sm rounded-2xl shadow flex items-center justify-center gap-1.5"
-              >
-                <ShoppingCart className="w-4 h-4" />
-                <span>أضف للسلة</span>
-              </button>
-              <button
-                onClick={() => handleInstantProductOrder(quickViewProduct)}
-                className="py-3.5 bg-white hover:bg-sky-50 text-sky-700 font-black text-sm rounded-2xl border border-sky-300 flex items-center justify-center gap-1.5"
-              >
-                <span>طلب واتساب</span>
-              </button>
-            </div>
-
             <button
               onClick={() => toggleCompare(quickViewProduct)}
               className={`w-full py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 ${
@@ -179,6 +240,27 @@ export const QuickViewModal = () => {
               <span>{isCompared ? 'مضاف للمقارنة' : 'أضف للمقارنة'}</span>
             </button>
           </div>
+        </div>
+
+        <div className="sticky bottom-0 grid grid-cols-2 gap-2 p-3 bg-white/95 backdrop-blur-md border-t border-slate-100"
+          style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}
+        >
+          <button
+            onClick={() => handleInstantProductOrder(quickViewProduct)}
+            className="py-3.5 bg-white text-sky-700 font-black text-sm rounded-2xl border border-sky-300"
+          >
+            طلب واتساب
+          </button>
+          <button
+            onClick={() => {
+              addToCart(quickViewProduct, 1);
+              close();
+            }}
+            className="py-3.5 bg-[#009CDE] text-white font-black text-sm rounded-2xl shadow flex items-center justify-center gap-1.5"
+          >
+            <ShoppingCart className="w-4 h-4" />
+            أضف للسلة
+          </button>
         </div>
       </div>
     </div>

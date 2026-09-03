@@ -4,6 +4,10 @@ export const CoolBreezeParticles = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (reduce || isMobile) return undefined;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -83,7 +87,7 @@ export const CoolBreezeParticles = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-0 opacity-75"
+      className="hidden md:block absolute inset-0 pointer-events-none z-0 opacity-75"
       style={{ mixBlendMode: 'screen' }}
     />
   );

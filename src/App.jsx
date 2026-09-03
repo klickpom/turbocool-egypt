@@ -1,79 +1,55 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { StoreProvider, useStore } from './context/StoreContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { BrandBar } from './components/BrandBar';
 import { CapacityCalculator } from './components/CapacityCalculator';
-import { AcRemoteSimulator } from './components/AcRemoteSimulator';
 import { ProductCatalog } from './components/ProductCatalog';
-import { AirConditionerPriceTable2026 } from './components/AirConditionerPriceTable2026';
-import { ServicesSection } from './components/ServicesSection';
-import { WhyChooseUs } from './components/WhyChooseUs';
-import { CustomerReviews } from './components/CustomerReviews';
-import { SeoContentHub } from './components/SeoContentHub';
 import { Footer } from './components/Footer';
-import { LiveSalesNotification } from './components/LiveSalesNotification';
 import { FloatingContactHub } from './components/FloatingContactHub';
 import { CartDrawer } from './components/CartDrawer';
 import { QuickViewModal } from './components/QuickViewModal';
+import { MobileBottomBar } from './components/MobileBottomBar';
 import { BookingModal } from './components/BookingModal';
 import { ComparisonModal } from './components/ComparisonModal';
-import { MobileBottomBar } from './components/MobileBottomBar';
-import { AdminDashboard } from './components/AdminDashboard';
+import { LiveSalesNotification } from './components/LiveSalesNotification';
+import { LazySection } from './components/LazySection';
+
+const AdminDashboard = lazy(() =>
+  import('./components/AdminDashboard').then((mod) => ({ default: mod.AdminDashboard }))
+);
 
 function AppContent() {
   const { currentView } = useStore();
 
   if (currentView === 'admin') {
-    return <AdminDashboard />;
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+        <AdminDashboard />
+      </Suspense>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-cairo selection:bg-brand-500 selection:text-white" dir="rtl">
-      {/* Navigation & Header */}
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-cairo selection:bg-brand-500 selection:text-white pb-20 lg:pb-0" dir="rtl">
       <Header />
 
-      {/* Main Content Sections */}
       <main className="flex-1">
-        {/* Hero Section with Official Brand Slogan */}
         <Hero />
-
-        {/* Authorized Brands Fast Bar */}
         <BrandBar />
-
-        {/* Smart AC Room Capacity Calculator */}
         <CapacityCalculator />
-
-        {/* Interactive AC Remote Simulator Experience */}
-        <AcRemoteSimulator />
-
-        {/* Full E-Commerce Product Catalog */}
+        <LazySection loader={() => import('./components/AcRemoteSimulator').then((m) => ({ default: m.AcRemoteSimulator }))} />
         <ProductCatalog />
-
-        {/* Dedicated 2026 Air Conditioner Price Table (SEO Top Ranker) */}
-        <AirConditionerPriceTable2026 />
-
-        {/* Maintenance & Installation Services */}
-        <ServicesSection />
-
-        {/* Why Turbo Cool & Warranty Guarantees */}
-        <WhyChooseUs />
-
-        {/* Testimonials & Social Proof */}
-        <CustomerReviews />
-
-        {/* Continuous SEO, GEO & AEO Knowledge Hub & FAQs */}
-        <SeoContentHub />
+        <LazySection loader={() => import('./components/AirConditionerPriceTable2026').then((m) => ({ default: m.AirConditionerPriceTable2026 }))} />
+        <LazySection loader={() => import('./components/ServicesSection').then((m) => ({ default: m.ServicesSection }))} />
+        <LazySection loader={() => import('./components/WhyChooseUs').then((m) => ({ default: m.WhyChooseUs }))} />
+        <LazySection loader={() => import('./components/CustomerReviews').then((m) => ({ default: m.CustomerReviews }))} />
+        <LazySection loader={() => import('./components/SeoContentHub').then((m) => ({ default: m.SeoContentHub }))} />
       </main>
 
-      {/* Full Footer */}
       <Footer />
-
-      {/* Floating Marketing & Help Hubs */}
       <LiveSalesNotification />
       <FloatingContactHub />
-
-      {/* Interactive Modals & Drawers */}
       <CartDrawer />
       <QuickViewModal />
       <BookingModal />

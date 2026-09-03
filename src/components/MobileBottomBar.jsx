@@ -5,8 +5,7 @@ import {
   ShoppingBag, 
   Calculator, 
   Wrench, 
-  ShoppingCart, 
-  MessageSquare
+  ShoppingCart
 } from 'lucide-react';
 
 export const MobileBottomBar = () => {
@@ -28,7 +27,9 @@ export const MobileBottomBar = () => {
   };
 
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-2xl py-2 px-3 lg:hidden">
+    <div className="fixed bottom-0 inset-x-0 z-40 bg-white/80 backdrop-blur-xl border-t border-white/60 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] py-1.5 px-2 lg:hidden"
+      style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}
+    >
       <div className="flex items-center justify-around">
         
         {/* Home */}
@@ -60,10 +61,7 @@ export const MobileBottomBar = () => {
             activeTab === 'calculator' ? 'text-brand-600 font-black' : 'text-slate-500'
           }`}
         >
-          <div className="relative">
             <Calculator className="w-5 h-5 text-brand-600" />
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-ice-400 rounded-full animate-ping"></span>
-          </div>
           <span>الحاسبة</span>
         </button>
 
