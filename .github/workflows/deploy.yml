@@ -23,9 +23,15 @@ jobs:
       - name: Build Production Project
         run: npx vite build
 
+      - name: Verify production bundle
+        run: |
+          test -f dist/index.html
+          ls dist/assets/*.js
+          grep -q "01097640898" dist/assets/*.js
+          grep -q "53KHEFT12N8-708F" dist/assets/*.js
+
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        continue-on-error: true
         with:
           server: 82.198.227.38
           username: u541491486

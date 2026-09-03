@@ -507,7 +507,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'كفاءة طاقة متقدمة SEER',
+    energyClass: 'S1 كفاءة طاقة معتمدة من ميراكو',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'تكنولوجيا XCOOL للتبريد القوي والسريع',
@@ -518,7 +518,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A صديق للبيئة',
-      dimensionsIndoor: '812 × 300 × 192 مم',
+      dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار مواسير نحاس أصلية',
       soundLevel: '26 ديسيبل هادئ',
       wifi: 'اختياري'
@@ -542,10 +542,10 @@ export const PRODUCTS = [
     rating: 4.8,
     reviewsCount: 65,
     inStock: true,
-    featured: false,
-    bestseller: false,
+    featured: true,
+    bestseller: true,
     image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'نظام تدفئة وتبريد SEER متطور',
+    energyClass: 'S1 نظام تدفئة وتبريد SEER',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'نظام تدفئة وتبريد متكامل لراحة تدوم طوال العام',
@@ -556,7 +556,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '812 × 300 × 192 مم',
+      dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس كاريير معتمد',
       soundLevel: '27 ديسيبل',
       wifi: 'اختياري'
@@ -567,7 +567,7 @@ export const PRODUCTS = [
     brand: 'carrier',
     brandName: 'كاريير - Carrier',
     name: 'تكييف كاريير 2.25 حصان إكس كول بارد فقط ديجيتال Miraco XCOOL',
-    modelCode: '53KHEFT18N8',
+    modelCode: '53KHEFT18N8-708F',
     hp: 2.25,
     hpText: '2.25 حصان',
     type: 'cool-only',
@@ -583,7 +583,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'تبريد قوي مساحات متوسطة',
+    energyClass: 'S1 تبريد قوي مساحات متوسطة',
     warranty: 'ضمان 5 سنوات شامل ميراكو كاريير',
     features: [
       'مثالي للريسبشن وغرف المعيشة المتوسطة',
@@ -594,7 +594,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '965 × 319 × 215 مم',
+      dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '29 ديسيبل',
       wifi: 'اختياري'
@@ -618,10 +618,10 @@ export const PRODUCTS = [
     rating: 4.8,
     reviewsCount: 71,
     inStock: true,
-    featured: false,
-    bestseller: false,
+    featured: true,
+    bestseller: true,
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'بارد ساخن كفاءة SEER',
+    energyClass: 'S1 بارد ساخن كفاءة SEER',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'تدفئة دافئة ومريحة في الشتاء وتبريد قطبي فائق في الصيف',
@@ -632,7 +632,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '965 × 319 × 215 مم',
+      dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس كاريير',
       soundLevel: '30 ديسيبل',
       wifi: 'اختياري'
@@ -648,9 +648,9 @@ export const PRODUCTS = [
     hpText: '1.5 حصان',
     type: 'inverter-cool',
     typeName: 'إنفرتر بارد فقط',
-    price: 28800,
-    oldPrice: 31500,
-    discount: 9,
+    price: 30390,
+    oldPrice: 32900,
+    discount: 8,
     areaCoverage: 'يغطي حتى 12-14 متر مربع',
     maxArea: 14,
     rating: 4.9,
@@ -659,7 +659,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A+++ إنفرتر موفر للكهرباء 55%',
+    energyClass: 'S4 إنفرتر موفر للكهرباء',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'تكنولوجيا الانفرتر الموفرة للطاقة بنسبة تتجاوز 55%',
@@ -670,7 +670,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A صديق للبيئة',
-      dimensionsIndoor: '812 × 300 × 192 مم',
+      dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس كاريير معتمد',
       soundLevel: '22 ديسيبل فائق الهدوء',
       wifi: 'مدعوم'
@@ -686,9 +686,9 @@ export const PRODUCTS = [
     hpText: '2.25 حصان',
     type: 'inverter-cool',
     typeName: 'إنفرتر بارد فقط',
-    price: 39900,
-    oldPrice: 43500,
-    discount: 8,
+    price: 44910,
+    oldPrice: 47900,
+    discount: 6,
     areaCoverage: 'يغطي حتى 18-20 متر مربع',
     maxArea: 20,
     rating: 4.9,
@@ -697,7 +697,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A+++ أعلى توفير للطاقة',
+    energyClass: 'S5 أعلى توفير للطاقة',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'توفير حتى 60% من فاتورة الكهرباء الشهرية',
@@ -708,7 +708,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '965 × 319 × 215 مم',
+      dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس أصلي',
       soundLevel: '24 ديسيبل',
       wifi: 'مدعوم'
@@ -732,10 +732,10 @@ export const PRODUCTS = [
     rating: 5.0,
     reviewsCount: 78,
     inStock: true,
-    featured: false,
-    bestseller: false,
+    featured: true,
+    bestseller: true,
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A++++ بارد ساخن انفرتر فائق',
+    energyClass: 'S5 بارد ساخن انفرتر',
     warranty: 'ضمان 5 سنوات شامل ميراكو كاريير',
     features: [
       'تكنولوجيا الانفرتر في التدفئة والتبريد',
@@ -746,7 +746,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '965 × 319 × 215 مم',
+      dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس كاريير',
       soundLevel: '24 ديسيبل',
       wifi: 'مدعوم'
@@ -762,9 +762,9 @@ export const PRODUCTS = [
     hpText: '3 حصان',
     type: 'inverter-cool',
     typeName: 'إنفرتر بارد فقط',
-    price: 48500,
-    oldPrice: 52800,
-    discount: 8,
+    price: 50995,
+    oldPrice: 54800,
+    discount: 7,
     areaCoverage: 'يغطي حتى 24-28 متر مربع',
     maxArea: 28,
     rating: 4.9,
@@ -773,7 +773,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A+++ قوة قصوى وتوفير',
+    energyClass: 'S5 قوة قصوى وتوفير',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'قوة تبريد جبارة 24000 وحدة حرارية للريسبشن والمساحات الكبيرة',
@@ -784,7 +784,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '1080 × 335 × 226 مم',
+      dimensionsIndoor: '1059 × 328 × 250 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '28 ديسيبل',
       wifi: 'مدعوم'
@@ -800,18 +800,18 @@ export const PRODUCTS = [
     hpText: '3 حصان',
     type: 'inverter-cool-heat',
     typeName: 'إنفرتر بارد / ساخن',
-    price: 51800,
-    oldPrice: 56000,
-    discount: 8,
+    price: 55140,
+    oldPrice: 58900,
+    discount: 6,
     areaCoverage: 'يغطي حتى 24-28 متر مربع',
     maxArea: 28,
     rating: 5.0,
     reviewsCount: 63,
     inStock: true,
-    featured: false,
-    bestseller: false,
+    featured: true,
+    bestseller: true,
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A++++ فئة الريسبشن والفلل',
+    energyClass: 'S5 فئة الريسبشن والفلل',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو كاريير',
     features: [
       'أقوى وحدة ريسبشن بارد ساخن من كاريير إنفرتر',
@@ -822,7 +822,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '1080 × 335 × 226 مم',
+      dimensionsIndoor: '1059 × 328 × 250 مم',
       pipeLength: '3 أمتار نحاس كاريير معتمد',
       soundLevel: '29 ديسيبل',
       wifi: 'مدعوم'
@@ -849,7 +849,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'كفاءة تبريد عالية XTreme',
+    energyClass: 'S1 كفاءة تبريد XTreme Pro',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو ميديا',
     features: [
       'تصميم إكستريم برو العصري الأنيق المقاوم للغبار',
@@ -860,7 +860,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '805 × 285 × 194 مم',
+      dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '25 ديسيبل',
       wifi: 'اختياري'
@@ -870,8 +870,8 @@ export const PRODUCTS = [
     id: 'midea-xtreme-pro-inv-1.5-heat',
     brand: 'midea',
     brandName: 'ميديا - Midea',
-    name: 'تكييف ميديا 1.5 حصان إكستريم برو إنفرتر بارد ساخن ديجيتال Miraco Midea XTreme Pro Inverter',
-    modelCode: 'M1SEFT-12HRDNF-Q8',
+    name: 'تكييف ميديا 1.5 حصان إنفرتر ذكي AI ECOMASTER بارد ساخن Miraco Midea',
+    modelCode: 'M1SEFT-12HRDN8F-Q8',
     hp: 1.5,
     hpText: '1.5 حصان',
     type: 'inverter-cool-heat',
@@ -884,10 +884,10 @@ export const PRODUCTS = [
     rating: 4.9,
     reviewsCount: 95,
     inStock: true,
-    featured: false,
-    bestseller: false,
+    featured: true,
+    bestseller: true,
     image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A+++ إنفرتر موفر للطاقة 60%',
+    energyClass: 'S4 إنفرتر ذكي بارد ساخن',
     warranty: 'ضمان 5 سنوات شامل ميراكو ميديا',
     features: [
       'توفير عالي في استهلاك الكهرباء بنظام الانفرتر المتطور',
@@ -898,7 +898,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '805 × 285 × 194 مم',
+      dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس ميديا معتمد',
       soundLevel: '22 ديسيبل فائق الهدوء',
       wifi: 'مدعوم'
@@ -914,9 +914,9 @@ export const PRODUCTS = [
     hpText: '2.25 حصان',
     type: 'cool-only',
     typeName: 'بارد فقط عادي',
-    price: 34900,
+    price: 35210,
     oldPrice: 37800,
-    discount: 8,
+    discount: 7,
     areaCoverage: 'يغطي حتى 18-20 متر مربع',
     maxArea: 20,
     rating: 4.8,
@@ -925,7 +925,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'تبريد قوي مساحات 20م²',
+    energyClass: 'S1 تبريد قوي مساحات 20م²',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو ميديا',
     features: [
       'مثالي للشقق العصرية والمكاتب المتوسطة',
@@ -936,7 +936,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '958 × 302 × 223 مم',
+      dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '28 ديسيبل',
       wifi: 'اختياري'
@@ -963,7 +963,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A++++ الذكاء الاصطناعي AI ECO توفير 65%',
+    energyClass: 'S4 الذكاء الاصطناعي AI ECOMASTER',
     warranty: 'ضمان 5 سنوات شامل ميراكو ميديا',
     features: [
       'خوارزمية الذكاء الاصطناعي AI ECOMASTER لحساب أدق استهلاك وتوفير حتى 65% كهرباء',
@@ -974,7 +974,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A صديق للبيئة',
-      dimensionsIndoor: '805 × 285 × 194 مم',
+      dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس ميديا معتمد',
       soundLevel: '19 ديسيبل فائق الهدوء',
       wifi: 'مدمج مسبقاً Built-in Wi-Fi'
@@ -1001,7 +1001,7 @@ export const PRODUCTS = [
     featured: true,
     bestseller: true,
     image: 'https://images.unsplash.com/photo-1614633833026-0620ba57a263?auto=format&fit=crop&w=800&q=80',
-    energyClass: 'A++++ ذكاء اصطناعي AI ECO مساحات واسعة',
+    energyClass: 'S5 ذكاء اصطناعي AI ECOMASTER مساحات واسعة',
     warranty: 'ضمان 5 سنوات معتمد من ميراكو ميديا',
     features: [
       'نظام الذكاء الاصطناعي المزدوج لضبط درجة الحرارة الذاتية بأقل تكلفة تشغيل',
@@ -1012,7 +1012,7 @@ export const PRODUCTS = [
     ],
     specs: {
       gas: 'R410A',
-      dimensionsIndoor: '958 × 302 × 223 مم',
+      dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس ميديا معتمد',
       soundLevel: '22 ديسيبل',
       wifi: 'مدمج مسبقاً Built-in Wi-Fi'

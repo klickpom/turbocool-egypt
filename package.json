@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "echo ready",
-    "vercel-build": "echo ready",
+    "build": "vite build",
+    "vercel-build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },

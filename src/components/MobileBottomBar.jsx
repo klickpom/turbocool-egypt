@@ -14,8 +14,10 @@ export const MobileBottomBar = () => {
     cartCount, 
     setIsCartOpen, 
     activeTab, 
-    setActiveTab 
+    setActiveTab,
+    storeSettings
   } = useStore();
+  const cleanWhatsapp = (storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '');
 
   const handleNav = (id, tab) => {
     setActiveTab(tab);
@@ -94,7 +96,7 @@ export const MobileBottomBar = () => {
 
         {/* WhatsApp Fast Call */}
         <a
-          href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84"
+          href={`https://wa.me/${cleanWhatsapp}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84`}
           target="_blank"
           rel="noreferrer"
           className="flex flex-col items-center gap-1 text-[11px] font-bold text-emerald-600"

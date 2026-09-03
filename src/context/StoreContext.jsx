@@ -5,6 +5,68 @@ import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
 
+export const CATALOG_VERSION = 3;
+
+const OLD_CONTACT_DIGITS = new Set([
+  '01140087799',
+  '1140087799',
+  '201140087799',
+  '201000000000',
+  '10000000000',
+]);
+
+const isStaleContact = (value) => {
+  const digits = String(value || '').replace(/[^0-9]/g, '');
+  return !digits || OLD_CONTACT_DIGITS.has(digits);
+};
+
+const PRODUCT_PATCHES = {
+  'midea-xtreme-pro-inv-1.5-heat': {
+    modelCode: 'M1SEFT-12HRDN8F-Q8',
+    name: 'تكييف ميديا 1.5 حصان إنفرتر ذكي AI ECOMASTER بارد ساخن Miraco Midea',
+    type: 'inverter-cool-heat',
+    typeName: 'إنفرتر بارد / ساخن',
+    energyClass: 'S4 إنفرتر ذكي بارد ساخن',
+  },
+  'carrier-xcool-2.25-cool': {
+    modelCode: '53KHEFT18N8-708F',
+  },
+};
+
+const hydrateProducts = (saved) => {
+  if (!Array.isArray(saved) || saved.length === 0) return DEFAULT_PRODUCTS;
+
+  const patched = saved.map((product) => {
+    const patch = PRODUCT_PATCHES[product.id];
+    return patch ? { ...product, ...patch } : product;
+  });
+
+  const existingIds = new Set(patched.map((product) => product.id));
+  const existingCodes = new Set(
+    patched.map((product) => String(product.modelCode || '').toUpperCase())
+  );
+  const missingDefaults = DEFAULT_PRODUCTS.filter((product) => {
+    const code = String(product.modelCode || '').toUpperCase();
+    return !existingIds.has(product.id) && !existingCodes.has(code);
+  });
+
+  return missingDefaults.length > 0 ? [...patched, ...missingDefaults] : patched;
+};
+
+const hydrateSettings = (saved) => {
+  const merged = { ...DEFAULT_SETTINGS, ...(saved || {}) };
+  if (isStaleContact(merged.phone) || isStaleContact(merged.whatsapp) || isStaleContact(merged.emergencyPhone) || !merged.salesPhone) {
+    return {
+      ...merged,
+      phone: DEFAULT_SETTINGS.phone,
+      whatsapp: DEFAULT_SETTINGS.whatsapp,
+      salesPhone: DEFAULT_SETTINGS.salesPhone,
+      emergencyPhone: DEFAULT_SETTINGS.emergencyPhone,
+    };
+  }
+  return merged;
+};
+
 export const DEFAULT_SETTINGS = {
   salesPhone: '01097640898', // رقم السيلز المباشر
   whatsapp: '201097640898',   // رقم السيلز والواتساب
@@ -42,16 +104,10 @@ export const StoreProvider = ({ children }) => {
     try {
       const saved = localStorage.getItem('turbocool_products');
       if (saved) {
-        const parsed = JSON.parse(saved);
-        // Smart merge newly added official models (Carrier XCOOL & Midea models)
-        const existingIds = new Set(parsed.map(p => p.id));
-        const missingDefaults = DEFAULT_PRODUCTS.filter(p => !existingIds.has(p.id));
-        if (missingDefaults.length > 0) {
-          const merged = [...parsed, ...missingDefaults];
-          localStorage.setItem('turbocool_products', JSON.stringify(merged));
-          return merged;
-        }
-        return parsed;
+        const merged = hydrateProducts(JSON.parse(saved));
+        localStorage.setItem('turbocool_products', JSON.stringify(merged));
+        localStorage.setItem('turbocool_catalog_version', String(CATALOG_VERSION));
+        return merged;
       }
       return DEFAULT_PRODUCTS;
     } catch {
@@ -74,27 +130,9 @@ export const StoreProvider = ({ children }) => {
     try {
       const saved = localStorage.getItem('turbocool_settings');
       if (saved) {
-        const parsed = JSON.parse(saved);
-        // Automatically migrate if using old default numbers
-        if (
-          parsed.phone === '01140087799' || 
-          parsed.whatsapp === '201140087799' || 
-          parsed.whatsapp === '01140087799' ||
-          parsed.emergencyPhone === '01140087799' ||
-          !parsed.salesPhone
-        ) {
-          const updated = {
-            ...DEFAULT_SETTINGS,
-            ...parsed,
-            phone: '01006836537',
-            whatsapp: '201097640898',
-            salesPhone: '01097640898',
-            emergencyPhone: '01023499515'
-          };
-          localStorage.setItem('turbocool_settings', JSON.stringify(updated));
-          return updated;
-        }
-        return { ...DEFAULT_SETTINGS, ...parsed };
+        const updated = hydrateSettings(JSON.parse(saved));
+        localStorage.setItem('turbocool_settings', JSON.stringify(updated));
+        return updated;
       }
       return DEFAULT_SETTINGS;
     } catch {

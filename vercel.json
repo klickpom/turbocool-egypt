@@ -1,6 +1,6 @@
 {
-  "buildCommand": "echo ready",
-  "outputDirectory": "docs",
+  "buildCommand": "npx vite build",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
