@@ -1,5 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStore } from '../context/StoreContext';
+import { BRANDS, TYPES, PRODUCTS as FACTORY_PRODUCTS } from '../data/products';
+import { compressImageFile } from '../lib/imageCompress';
+import { setAdminPin } from '../lib/catalogApi';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import {
@@ -41,14 +44,13 @@ import {
   MapPin
 } from 'lucide-react';
 
-const PRESET_AC_IMAGES = [
-  { label: 'كاريير أوبتيماكس أبيض', url: 'https://images.unsplash.com/photo-1614633833026-6204481b4c93?w=600&auto=format&fit=crop&q=80' },
-  { label: 'شارب بلازما كلاستر', url: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=600&auto=format&fit=crop&q=80' },
-  { label: 'إل جي دوال إنفرتر أسود', url: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80' },
-  { label: 'فريش سمارت سيلفر', url: 'https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?w=600&auto=format&fit=crop&q=80' },
-  { label: 'ميديا ميشن إنفرتر', url: 'https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?w=600&auto=format&fit=crop&q=80' },
-  { label: 'تكييف كونسيلد مخفي', url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80' }
-];
+const PRESET_AC_IMAGES = FACTORY_PRODUCTS.flatMap((product) => {
+  const urls = product.images?.length ? product.images : [product.image];
+  return urls.filter(Boolean).slice(0, 1).map((url) => ({
+    label: `${product.brandName.split(' - ')[0]} ${product.hpText}`,
+    url,
+  }));
+}).slice(0, 12);
 
 const AVAILABLE_TAGS = [
   'توفير كهرباء 60% (إنفرتر)',
@@ -85,6 +87,8 @@ export const AdminDashboard = () => {
     clearOrders,
     navigateToView,
     showToast,
+    syncStatus = 'local',
+    publishNow,
   } = useStore();
 
   const fileInputRef = useRef(null);
@@ -154,20 +158,26 @@ export const AdminDashboard = () => {
   // Settings Local Form
   const [settingsForm, setSettingsForm] = useState(storeSettings);
 
+  useEffect(() => {
+    setSettingsForm(storeSettings);
+  }, [storeSettings]);
+
   // Handle PIN Login
   const handlePinSubmit = (e) => {
     e?.preventDefault();
     if (pinInput === '1234' || pinInput.toLowerCase() === 'turbo2026' || pinInput.toLowerCase() === 'admin') {
       setIsAuthenticated(true);
       localStorage.setItem('turbocool_admin_auth', 'true');
+      setAdminPin(pinInput);
       setPinError(false);
       try {
         confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
       } catch {}
-      showToast('أهلاً بك في لوحة تحكم تربو كوول 👑❄️');
+      showToast('أهلاً بك في لوحة تحكم تربو كوول. التعديلات تظهر على المتجر فوراً');
+      publishNow?.();
     } else {
       setPinError(true);
-      showToast('رمز الدخول غير صحيح! الرمز الافتراضي: 1234', 'warning');
+      showToast('رمز الدخول غير صحيح', 'warning');
     }
   };
 
@@ -178,25 +188,31 @@ export const AdminDashboard = () => {
   };
 
   // Handle Direct Image File Upload
-  const handleImageFileUpload = (e) => {
+  const handleImageFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      showToast('حجم الصورة كبير جداً، يرجى اختيار صورة أقل من 5 ميجابايت', 'warning');
+    if (file.size > 8 * 1024 * 1024) {
+      showToast('حجم الصورة كبير جداً، اختار صورة أقل من 8 ميجا', 'warning');
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64Url = event.target?.result;
-      if (base64Url) {
-        setImagePreview(base64Url);
-        setProductForm(prev => ({ ...prev, image: base64Url }));
-        showToast('تم رفع صورة التكييف بنجاح! 📸');
-      }
-    };
-    reader.readAsDataURL(file);
+    try {
+      const compressed = await compressImageFile(file);
+      setImagePreview(compressed);
+      setProductForm((prev) => ({ ...prev, image: compressed }));
+      showToast('تم تجهيز الصورة وهتظهر على كارت المتجر فوراً بعد الحفظ');
+    } catch {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64Url = event.target?.result;
+        if (base64Url) {
+          setImagePreview(base64Url);
+          setProductForm((prev) => ({ ...prev, image: base64Url }));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   // Toggle Feature Tag
@@ -218,7 +234,7 @@ export const AdminDashboard = () => {
       setImagePreview(product.image || '');
     } else {
       setEditingProduct(null);
-      const defaultImg = PRESET_AC_IMAGES[0].url;
+      const defaultImg = FACTORY_PRODUCTS[0]?.image || '';
       setProductForm({
         name: '',
         brand: 'carrier',
@@ -226,13 +242,13 @@ export const AdminDashboard = () => {
         modelCode: `TC-${Math.floor(1000 + Math.random() * 9000)}`,
         hp: 1.5,
         hpText: '1.5 حصان',
-        type: 'cool-inverter',
-        typeName: 'بارد / إنفرتر موفر للطاقة',
+        type: 'cool-only',
+        typeName: 'بارد فقط عادي',
         price: 23500,
         oldPrice: 26000,
         discount: 10,
-        warranty: 'ضمان 5 سنوات شامل من الوكيل',
-        image: defaultImg,
+        warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+        image: FACTORY_PRODUCTS[0]?.image || '',
         features: ['توفير كهرباء 60% (إنفرتر)', 'تبريد نفاث فائق السرعة Turbo', 'فلتر بلازما منقي للبكتيريا'],
         bestseller: false,
         inStock: true,
@@ -252,26 +268,31 @@ export const AdminDashboard = () => {
     }
 
     const brandNamesMap = {
-      carrier: 'كاريير',
-      sharp: 'شارب',
-      lg: 'إل جي LG',
-      fresh: 'فريش',
-      midea: 'ميديا',
-      gree: 'جري Gree',
-      tornado: 'تورنيدو'
+      carrier: 'كاريير - Carrier',
+      sharp: 'شارب - Sharp',
+      lg: 'إل جي - LG',
+      fresh: 'فريش - Fresh',
+      midea: 'ميديا - Midea',
+      gree: 'جري - Gree',
+      tornado: 'تورنيدو - Tornado'
     };
+
+    const typeMeta = TYPES.find((item) => item.id === productForm.type);
 
     const calculatedDiscount = productForm.oldPrice > productForm.price 
       ? Math.round(((productForm.oldPrice - productForm.price) / productForm.oldPrice) * 100)
       : 0;
 
+    const nextImage = imagePreview || productForm.image;
     const updatedData = {
       ...productForm,
       brandName: brandNamesMap[productForm.brand] || productForm.brand,
+      typeName: typeMeta?.name || productForm.typeName,
       price: Number(productForm.price),
       oldPrice: Number(productForm.oldPrice || productForm.price),
       discount: calculatedDiscount,
-      image: imagePreview || productForm.image
+      image: nextImage,
+      images: [nextImage, ...(productForm.images || []).filter((url) => url && url !== nextImage)].slice(0, 4),
     };
 
     if (editingProduct) {
@@ -283,6 +304,7 @@ export const AdminDashboard = () => {
       } catch {}
     }
     setIsProductModalOpen(false);
+    publishNow?.();
   };
 
   // Open Service Modal
@@ -383,14 +405,14 @@ export const AdminDashboard = () => {
                 maxLength={10}
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="رمز الدخول (1234)"
+                placeholder="رمز الدخول"
                 autoFocus
                 className={`w-full text-center tracking-widest text-lg font-bold py-3 px-4 rounded-2xl bg-slate-800/90 border text-white placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
                   pinError ? 'border-red-500 focus:border-red-500 ring-2 ring-red-500/20' : 'border-slate-700 focus:border-sky-400'
                 }`}
               />
               {pinError && (
-                <p className="text-xs text-red-400 mt-1.5 font-semibold">رمز المرور غير صحيح! الرمز الافتراضي: 1234</p>
+                <p className="text-xs text-red-400 mt-1.5 font-semibold">رمز المرور غير صحيح</p>
               )}
             </div>
 
@@ -411,7 +433,7 @@ export const AdminDashboard = () => {
               <ArrowRight className="w-3.5 h-3.5" />
               <span>العودة للمتجر</span>
             </button>
-            <span className="text-slate-500 font-mono">الرمز: 1234</span>
+            <span className="text-slate-500">تربو كوول</span>
           </div>
         </motion.div>
       </div>
@@ -433,11 +455,17 @@ export const AdminDashboard = () => {
           <div>
             <div className="flex items-center gap-1.5">
               <h1 className="text-xs sm:text-base font-black text-white leading-none">لوحة تحكم تربو كوول</h1>
-              <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] sm:text-[10px] font-bold">
-                متصل ⚡
+              <span className={`px-1.5 sm:px-2 py-0.5 rounded-full border text-[9px] sm:text-[10px] font-bold ${
+                syncStatus === 'live'
+                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                  : syncStatus === 'saving'
+                    ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                    : 'bg-sky-500/15 text-sky-300 border-sky-500/30'
+              }`}>
+                {syncStatus === 'live' ? 'منشور للزوار' : syncStatus === 'saving' ? 'جاري النشر' : 'متصل محلياً'}
               </span>
             </div>
-            <p className="text-[10px] sm:text-xs text-slate-400 mt-0.5 hidden sm:block">تعديل الأسعار والمنتجات مباشرة على المتجر</p>
+            <p className="text-[10px] sm:text-xs text-slate-400 mt-0.5 hidden sm:block">أي تعديل بيتسجل على واجهة المتجر في نفس اللحظة</p>
           </div>
         </div>
 
@@ -551,6 +579,24 @@ export const AdminDashboard = () => {
           {/* ================= TAB 1: PRODUCTS MANAGEMENT ================= */}
           {activeTab === 'products' && (
             <div className="space-y-4">
+              <div className="rounded-2xl border border-sky-500/20 bg-sky-500/10 px-4 py-3 text-xs text-sky-100">
+                السعر والصورة والتوفر بيتحدثوا على كتالوج المتجر فوراً. بعد الحفظ بيتنشروا لكل الزوار على الموقع الحي.
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-2xl bg-slate-900 border border-slate-800 p-3">
+                  <div className="text-[10px] text-slate-400">الأجهزة المعروضة</div>
+                  <div className="text-lg font-black text-white">{totalProductsCount}</div>
+                </div>
+                <div className="rounded-2xl bg-slate-900 border border-slate-800 p-3">
+                  <div className="text-[10px] text-slate-400">متوفر للتوريد</div>
+                  <div className="text-lg font-black text-emerald-400">{inStockCount}</div>
+                </div>
+                <div className="rounded-2xl bg-slate-900 border border-slate-800 p-3">
+                  <div className="text-[10px] text-slate-400">الأكثر طلباً</div>
+                  <div className="text-lg font-black text-amber-400">{bestsellersCount}</div>
+                </div>
+              </div>
               
               {/* Add Button & Search Row */}
               <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-col gap-3 shadow-lg">
@@ -583,13 +629,9 @@ export const AdminDashboard = () => {
                     className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-400 cursor-pointer"
                   >
                     <option value="all">جميع الماركات ({products.length})</option>
-                    <option value="carrier">كاريير (Carrier)</option>
-                    <option value="sharp">شارب (Sharp)</option>
-                    <option value="lg">إل جي (LG)</option>
-                    <option value="fresh">فريش (Fresh)</option>
-                    <option value="midea">ميديا (Midea)</option>
-                    <option value="gree">جري (Gree)</option>
-                    <option value="tornado">تورنيدو (Tornado)</option>
+                    {BRANDS.filter((brand) => brand.id !== 'all').map((brand) => (
+                      <option key={brand.id} value={brand.id}>{brand.name}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -613,7 +655,7 @@ export const AdminDashboard = () => {
                             className="w-full h-full object-contain"
                             onError={(e) => {
                               e.target.onerror = null;
-                              e.target.src = 'https://images.unsplash.com/photo-1614633833026-6204481b4c93?w=600&auto=format&fit=crop&q=80';
+                              e.target.src = FACTORY_PRODUCTS[0]?.image || '';
                             }}
                           />
                         </div>
@@ -1075,13 +1117,9 @@ export const AdminDashboard = () => {
                       onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
                       className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-white focus:border-sky-400 focus:outline-none"
                     >
-                      <option value="carrier">كاريير (Carrier)</option>
-                      <option value="sharp">شارب (Sharp)</option>
-                      <option value="lg">إل جي (LG)</option>
-                      <option value="fresh">فريش (Fresh)</option>
-                      <option value="midea">ميديا (Midea)</option>
-                      <option value="gree">جري (Gree)</option>
-                      <option value="tornado">تورنيدو (Tornado)</option>
+                      {BRANDS.filter((brand) => brand.id !== 'all').map((brand) => (
+                        <option key={brand.id} value={brand.id}>{brand.name}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -1103,6 +1141,26 @@ export const AdminDashboard = () => {
                       <option value={5}>5 حصان</option>
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-bold mb-1">نوع التكييف</label>
+                  <select
+                    value={productForm.type}
+                    onChange={(e) => {
+                      const typeMeta = TYPES.find((item) => item.id === e.target.value);
+                      setProductForm({
+                        ...productForm,
+                        type: e.target.value,
+                        typeName: typeMeta?.name || productForm.typeName,
+                      });
+                    }}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-white focus:border-sky-400 focus:outline-none"
+                  >
+                    {TYPES.filter((item) => item.id !== 'all').map((item) => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* Prices */}
@@ -1161,7 +1219,7 @@ export const AdminDashboard = () => {
                     </button>
 
                     {imagePreview && (
-                      <div className="w-10 h-10 rounded-lg bg-slate-900 border border-slate-700 p-0.5 overflow-hidden shrink-0">
+                      <div className="w-20 h-20 rounded-xl bg-white border border-slate-700 p-1 overflow-hidden shrink-0">
                         <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
                       </div>
                     )}
@@ -1169,7 +1227,7 @@ export const AdminDashboard = () => {
 
                   {/* Quick Presets */}
                   <div>
-                    <span className="text-[10px] text-slate-400 block mb-1">أو اختر صورة جاهزة:</span>
+                    <span className="text-[10px] text-slate-400 block mb-1">أو صورة أصلية من كتالوج ميراكو:</span>
                     <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                       {PRESET_AC_IMAGES.map((preset, idx) => (
                         <button
@@ -1252,7 +1310,7 @@ export const AdminDashboard = () => {
                     type="submit"
                     className="py-2 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold shadow-md hover:brightness-110"
                   >
-                    حفظ ونشر على المتجر 🚀
+                    حفظ وظهور فوري على المتجر
                   </button>
                 </div>
 

@@ -1,11 +1,17 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { PRODUCTS as DEFAULT_PRODUCTS } from '../data/products';
 import { SERVICES as DEFAULT_SERVICES } from '../data/services';
 import confetti from 'canvas-confetti';
+import {
+  fetchRemoteCatalog,
+  publishRemoteCatalog,
+  publishRemoteOrder,
+  openCatalogChannel,
+} from '../lib/catalogApi';
 
 const StoreContext = createContext();
 
-export const CATALOG_VERSION = 5;
+export const CATALOG_VERSION = 6;
 
 const DUMMY_CATALOG_IDS = new Set([
   'sharp-1.5-inv-ch',
@@ -58,39 +64,47 @@ const PRODUCT_PATCHES = {
   },
 };
 
+const pickCommercialFields = (edited, official) => {
+  if (!edited) return official;
+  const patch = PRODUCT_PATCHES[official.id] || {};
+  const useCustomPhoto = edited.image && !hasPlaceholderImage(edited);
+  return {
+    ...official,
+    ...patch,
+    name: edited.name || official.name,
+    price: Number(edited.price) || official.price,
+    oldPrice: Number(edited.oldPrice) || official.oldPrice,
+    discount: edited.discount ?? official.discount,
+    inStock: edited.inStock !== false,
+    bestseller: edited.bestseller ?? official.bestseller,
+    featured: edited.featured ?? official.featured,
+    warranty: edited.warranty || official.warranty,
+    features: Array.isArray(edited.features) && edited.features.length ? edited.features : official.features,
+    image: useCustomPhoto ? edited.image : official.image,
+    images: useCustomPhoto && Array.isArray(edited.images) && edited.images.length
+      ? edited.images
+      : official.images,
+  };
+};
+
 const hydrateProducts = (saved) => {
   if (!Array.isArray(saved) || saved.length === 0) return DEFAULT_PRODUCTS;
 
-  const patched = saved.filter((product) => !isRemovedCatalogItem(product)).map((product) => {
-    const patch = PRODUCT_PATCHES[product.id];
-    const official = DEFAULT_PRODUCTS.find((item) => item.id === product.id);
-    const next = patch ? { ...product, ...patch } : product;
-    if (!official?.images) return next;
-    return {
-      ...next,
-      name: official.name,
-      modelCode: official.modelCode,
-      image: official.image,
-      images: official.images,
-      features: official.features,
-      specs: official.specs,
-      energyClass: official.energyClass,
-      warranty: official.warranty,
-      typeName: official.typeName,
-      brandName: official.brandName,
-    };
-  });
-
-  const existingIds = new Set(patched.map((product) => product.id));
-  const existingCodes = new Set(
-    patched.map((product) => String(product.modelCode || '').toUpperCase())
+  const savedById = new Map(
+    saved.filter((product) => product?.id).map((product) => [product.id, product])
   );
-  const missingDefaults = DEFAULT_PRODUCTS.filter((product) => {
-    const code = String(product.modelCode || '').toUpperCase();
-    return !existingIds.has(product.id) && !existingCodes.has(code);
+
+  const official = DEFAULT_PRODUCTS.map((product) =>
+    pickCommercialFields(savedById.get(product.id), product)
+  );
+
+  const custom = saved.filter((product) => {
+    if (isRemovedCatalogItem(product)) return false;
+    if (DEFAULT_PRODUCTS.some((item) => item.id === product.id)) return false;
+    return true;
   });
 
-  return missingDefaults.length > 0 ? [...patched, ...missingDefaults] : patched;
+  return custom.length > 0 ? [...custom, ...official] : official;
 };
 
 const hydrateSettings = (saved) => {
@@ -229,19 +243,9 @@ export const StoreProvider = ({ children }) => {
   const [orders, setOrders] = useState(() => {
     try {
       const saved = localStorage.getItem('turbocool_orders');
-      return saved ? JSON.parse(saved) : [
-        {
-          id: 'ORD-708101',
-          date: 'اليوم، 04:15 م',
-          timestamp: Date.now() - 3600000,
-          customerName: 'أحمد محمود',
-          customerPhone: '01012345678',
-          customerAddress: 'الشيخ زايد - الحي الثامن',
-          items: [{ name: 'تكييف كاريير 1.5 حصان إكس كول بارد فقط ديجيتال Miraco XCOOL', quantity: 1, price: 24500, hpText: '1.5 حصان' }],
-          total: 24500,
-          status: 'جديد 🟢'
-        }
-      ];
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed.filter((order) => order?.id && order.id !== 'ORD-708101') : [];
     } catch {
       return [];
     }
@@ -263,6 +267,13 @@ export const StoreProvider = ({ children }) => {
 
   // Toast notification
   const [toast, setToast] = useState(null);
+  const [syncStatus, setSyncStatus] = useState('local');
+
+  const catalogReadyRef = useRef(false);
+  const applyingRemoteRef = useRef(false);
+  const publishTimerRef = useRef(null);
+  const channelRef = useRef(null);
+  const latestCatalogRef = useRef({ products: [], services: [], settings: {}, coupons: [], orders: [] });
 
   // Sync to LocalStorage
   useEffect(() => {
@@ -290,7 +301,7 @@ export const StoreProvider = ({ children }) => {
     const handleStorage = (e) => {
       try {
         if (e.key === 'turbocool_products' && e.newValue) {
-          setProducts(JSON.parse(e.newValue));
+          setProducts(hydrateProducts(JSON.parse(e.newValue)));
         }
         if (e.key === 'turbocool_services' && e.newValue) {
           setServices(JSON.parse(e.newValue));
@@ -311,6 +322,125 @@ export const StoreProvider = ({ children }) => {
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
+
+  useEffect(() => {
+    latestCatalogRef.current = {
+      products,
+      services,
+      settings: storeSettings,
+      coupons,
+      orders,
+      catalogVersion: CATALOG_VERSION,
+    };
+  }, [products, services, storeSettings, coupons, orders]);
+
+  const isAdminSession = () => {
+    try {
+      return localStorage.getItem('turbocool_admin_auth') === 'true';
+    } catch {
+      return false;
+    }
+  };
+
+  const applyRemotePayload = (payload) => {
+    if (!payload) return;
+    applyingRemoteRef.current = true;
+    if (Array.isArray(payload.products) && payload.products.length) {
+      setProducts(hydrateProducts(payload.products));
+    }
+    if (Array.isArray(payload.services) && payload.services.length) {
+      setServices(payload.services);
+    }
+    if (payload.settings) {
+      setStoreSettings(hydrateSettings(payload.settings));
+    }
+    if (Array.isArray(payload.coupons) && payload.coupons.length) {
+      setCoupons(payload.coupons);
+    }
+    if (Array.isArray(payload.orders)) {
+      setOrders((prev) => {
+        const map = new Map();
+        [...payload.orders, ...prev].forEach((order) => {
+          if (order?.id && !map.has(order.id)) map.set(order.id, order);
+        });
+        return Array.from(map.values()).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      });
+    }
+    window.setTimeout(() => {
+      applyingRemoteRef.current = false;
+    }, 50);
+  };
+
+  useEffect(() => {
+    const channel = openCatalogChannel((message) => {
+      if (message?.type === 'catalog' && message.payload) {
+        applyRemotePayload(message.payload);
+      }
+      if (message?.type === 'order' && message.order) {
+        setOrders((prev) => (prev.some((item) => item.id === message.order.id) ? prev : [message.order, ...prev]));
+      }
+    });
+    channelRef.current = channel;
+
+    let cancelled = false;
+    fetchRemoteCatalog().then((payload) => {
+      if (cancelled) return;
+      if (payload) {
+        applyRemotePayload(payload);
+        setSyncStatus('live');
+      } else {
+        setSyncStatus('local');
+      }
+      catalogReadyRef.current = true;
+    });
+
+    const refreshIfVisible = () => {
+      if (document.visibilityState !== 'visible') return;
+      fetchRemoteCatalog().then((payload) => {
+        if (payload) applyRemotePayload(payload);
+      });
+    };
+    document.addEventListener('visibilitychange', refreshIfVisible);
+
+    return () => {
+      cancelled = true;
+      channel.close();
+      document.removeEventListener('visibilitychange', refreshIfVisible);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!catalogReadyRef.current || applyingRemoteRef.current || !isAdminSession()) return;
+    if (publishTimerRef.current) window.clearTimeout(publishTimerRef.current);
+    setSyncStatus('saving');
+    publishTimerRef.current = window.setTimeout(async () => {
+      const payload = latestCatalogRef.current;
+      channelRef.current?.post({ type: 'catalog', payload });
+      try {
+        await publishRemoteCatalog(payload);
+        setSyncStatus('live');
+      } catch {
+        setSyncStatus('local');
+      }
+    }, 400);
+    return () => {
+      if (publishTimerRef.current) window.clearTimeout(publishTimerRef.current);
+    };
+  }, [products, services, storeSettings, coupons, orders]);
+
+  const publishNow = async () => {
+    const payload = latestCatalogRef.current;
+    setSyncStatus('saving');
+    channelRef.current?.post({ type: 'catalog', payload });
+    try {
+      await publishRemoteCatalog(payload);
+      setSyncStatus('live');
+      return true;
+    } catch {
+      setSyncStatus('local');
+      return false;
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem('turbocool_cart', JSON.stringify(cart));
@@ -373,22 +503,33 @@ export const StoreProvider = ({ children }) => {
       inStock: newProductData.inStock !== false,
       bestseller: !!newProductData.bestseller,
       energyRating: newProductData.energyRating || 'A+++',
+      image: newProductData.image,
+      images: newProductData.images?.length
+        ? newProductData.images
+        : [newProductData.image].filter(Boolean),
     };
     setProducts(prev => [product, ...prev]);
-    showToast(`تمت إضافة منتج "${product.name}" بنجاح إلى المتجر! 🎉`);
+    showToast('ظهر على المتجر فوراً. جاري نشره لكل الزوار...');
     return product;
   };
 
   const updateProduct = (id, updatedFields) => {
     setProducts(prev =>
-      prev.map(p => (p.id === id ? { ...p, ...updatedFields } : p))
+      prev.map(p => {
+        if (p.id !== id) return p;
+        const next = { ...p, ...updatedFields };
+        if (updatedFields.image && !updatedFields.images) {
+          next.images = [updatedFields.image, ...(p.images || []).filter((url) => url !== updatedFields.image)].slice(0, 4);
+        }
+        return next;
+      })
     );
-    showToast('تم حفظ التعديلات على المنتج بنجاح! 💾');
+    showToast('تم حفظ التعديل وهو ظاهر على المتجر الآن');
   };
 
   const deleteProduct = (id) => {
     setProducts(prev => prev.filter(p => p.id !== id));
-    showToast('تم حذف المنتج بنجاح من المتجر', 'info');
+    showToast('تم حذف المنتج من المتجر فوراً', 'info');
   };
 
   // --- ADMIN SERVICE ACTIONS ---
@@ -574,6 +715,8 @@ export const StoreProvider = ({ children }) => {
       status: 'جديد 🟢'
     };
     setOrders(prev => [orderRecord, ...prev]);
+    channelRef.current?.post({ type: 'order', order: orderRecord });
+    publishRemoteOrder(orderRecord).catch(() => {});
 
     let itemsList = cart.map((item, idx) => 
       `${idx + 1}. *${item.name}*\n   - الموديل: ${item.modelCode || item.id}\n   - القدرة: ${item.hpText}\n   - الكمية: ${item.quantity}\n   - السعر: ${item.price.toLocaleString('ar-EG')} ج.م`
@@ -616,6 +759,8 @@ export const StoreProvider = ({ children }) => {
       status: 'جديد 🟢'
     };
     setOrders(prev => [orderRecord, ...prev]);
+    channelRef.current?.post({ type: 'order', order: orderRecord });
+    publishRemoteOrder(orderRecord).catch(() => {});
 
     const message = `❄️ *استفسار وطلب شراء فوري - تربو كوول* ❄️\n` +
       `----------------------------------------\n` +
@@ -648,6 +793,8 @@ export const StoreProvider = ({ children }) => {
       status: 'جديد 🟢'
     };
     setOrders(prev => [orderRecord, ...prev]);
+    channelRef.current?.post({ type: 'order', order: orderRecord });
+    publishRemoteOrder(orderRecord).catch(() => {});
 
     const message = `🔧 *حجز خدمة فنية / صيانة - تربو كوول* 🔧\n` +
       `----------------------------------------\n` +
@@ -725,6 +872,8 @@ export const StoreProvider = ({ children }) => {
         addCoupon,
         deleteCoupon,
         resetToDefaults,
+        publishNow,
+        syncStatus,
         orders,
         updateOrderStatus,
         deleteOrder,
