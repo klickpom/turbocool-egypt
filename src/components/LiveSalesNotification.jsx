@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, CheckCircle2, X } from 'lucide-react';
 
 const RECENT_ACTIVITIES = [
-  { customer: 'م. هاني السعدني', area: 'الشيخ زايد - الجيزة', item: 'تكييف شارب 2.25 حصان انفرتر', time: 'منذ 3 دقائق' },
-  { customer: 'د. سارة عثمان', area: 'الدقي - الجيزة', item: 'تكييف كاريير 1.5 حصان اوبتي ماكس', time: 'منذ 7 دقائق' },
-  { customer: 'أ. محمود فؤاد', area: 'التجمع الخامس - القاهرة', item: 'تكييف ال جي 1.5 حصان دوال انفرتر', time: 'منذ 12 دقيقة' },
+  { customer: 'م. هاني السعدني', area: 'الشيخ زايد - الجيزة', item: 'تكييف كاريير 1.5 حصان إكس كول', time: 'منذ 3 دقائق' },
+  { customer: 'د. سارة عثمان', area: 'الدقي - الجيزة', item: 'تكييف ميديا 1.5 حصان إكستريم برو', time: 'منذ 7 دقائق' },
+  { customer: 'أ. محمود فؤاد', area: 'التجمع الخامس - القاهرة', item: 'تكييف كاريير 2.25 حصان إكس كول إنفرتر', time: 'منذ 12 دقيقة' },
   { customer: 'م. أحمد الشناوي', area: 'الهرم - الجيزة', item: 'خدمة صيانة دورية وغسيل كيميائي', time: 'منذ 18 دقيقة' },
-  { customer: 'أ. كريم إبراهيم', area: 'المعادي - القاهرة', item: 'تكييف فريش 1.5 حصان سمارت بلازما', time: 'منذ 24 دقيقة' },
+  { customer: 'أ. كريم إبراهيم', area: 'المعادي - القاهرة', item: 'تكييف ميديا AI ECOMASTER إنفرتر', time: 'منذ 24 دقيقة' },
 ];
 
 export const LiveSalesNotification = () => {
