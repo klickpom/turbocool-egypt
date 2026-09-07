@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { PRODUCTS as DEFAULT_PRODUCTS } from '../data/products';
+import { PRODUCTS as DEFAULT_PRODUCTS, STORE_DELIVERY_TEXT, STORE_GAS_TEXT, isStaleWarranty, warrantyForProduct } from '../data/products';
 import { SERVICES as DEFAULT_SERVICES } from '../data/services';
 import confetti from 'canvas-confetti';
 import {
@@ -11,7 +11,7 @@ import {
 
 const StoreContext = createContext();
 
-export const CATALOG_VERSION = 6;
+export const CATALOG_VERSION = 7;
 
 const DUMMY_CATALOG_IDS = new Set([
   'sharp-1.5-inv-ch',
@@ -64,6 +64,17 @@ const PRODUCT_PATCHES = {
   },
 };
 
+const refreshFeatures = (features, officialFeatures) => {
+  const source = Array.isArray(features) && features.length ? features : officialFeatures;
+  return source.map((feat) => {
+    if (/توريد خلال 5/.test(feat)) return STORE_DELIVERY_TEXT;
+    if (/ضمان 5 سنوات معتمد من ميراكو|ضمان 5 سنوات شامل/.test(feat)) {
+      return 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل';
+    }
+    return feat;
+  });
+};
+
 const pickCommercialFields = (edited, official) => {
   if (!edited) return official;
   const patch = PRODUCT_PATCHES[official.id] || {};
@@ -78,8 +89,8 @@ const pickCommercialFields = (edited, official) => {
     inStock: edited.inStock !== false,
     bestseller: edited.bestseller ?? official.bestseller,
     featured: edited.featured ?? official.featured,
-    warranty: edited.warranty || official.warranty,
-    features: Array.isArray(edited.features) && edited.features.length ? edited.features : official.features,
+    warranty: isStaleWarranty(edited.warranty) ? official.warranty : (edited.warranty || official.warranty),
+    features: refreshFeatures(edited.features, official.features),
     image: useCustomPhoto ? edited.image : official.image,
     images: useCustomPhoto && Array.isArray(edited.images) && edited.images.length
       ? edited.images
@@ -102,7 +113,15 @@ const hydrateProducts = (saved) => {
     if (isRemovedCatalogItem(product)) return false;
     if (DEFAULT_PRODUCTS.some((item) => item.id === product.id)) return false;
     return true;
-  });
+  }).map((product) => ({
+    ...product,
+    warranty: isStaleWarranty(product.warranty) ? warrantyForProduct(product) : product.warranty,
+    features: refreshFeatures(product.features, product.features),
+    specs: {
+      ...(product.specs || {}),
+      gas: product.specs?.gas && !/^R410A/.test(product.specs.gas) ? product.specs.gas : 'R32 و R410A',
+    },
+  }));
 
   return custom.length > 0 ? [...custom, ...official] : official;
 };
@@ -770,9 +789,10 @@ export const StoreProvider = ({ children }) => {
       `الموديل: ${product.modelCode || product.id}\n` +
       `القدرة: ${product.hpText} (${product.typeName || ''})\n` +
       `السعر: *${product.price.toLocaleString('ar-EG')} ج.م*` + (product.oldPrice ? ` (خصم بدلاً من ${product.oldPrice.toLocaleString('ar-EG')} ج.م)` : '') + `\n` +
-      `الضمان: ${product.warranty || 'ضمان معتمد'}\n` +
+      `الضمان: ${warrantyForProduct(product)}\n` +
+      `الفريون: ${STORE_GAS_TEXT}\n` +
       `----------------------------------------\n` +
-      `أرغب في الاستفسار وتأكيد إمكانية التوريد والتركيب في أقرب وقت.`;
+      `أرغب في تأكيد ${STORE_DELIVERY_TEXT}.`;
 
     const encoded = encodeURIComponent(message);
     const targetWhatsapp = storeSettings.whatsapp.replace(/[^0-9]/g, '');

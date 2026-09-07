@@ -10,6 +10,23 @@ export const BRANDS = [
 
 export const AUTHORIZED_DEALER_AR = 'وكيل معتمد: كاريير • ميديا • شارب • إل جي • أوكس • بلوتو';
 
+export const STORE_DELIVERY_TEXT = 'توريد والتركيب مجاني خلال 24 ساعة';
+export const STORE_GAS_TEXT = 'فريون R32 و R410A';
+
+export const isStaleWarranty = (text) => {
+  const value = String(text || '').trim();
+  if (!value) return true;
+  if (/ميراكو|5 سنوات معتمد|5 سنوات شامل من الوكيل|توريد خلال 5/.test(value)) return true;
+  return /^ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل$/.test(value);
+};
+
+export const warrantyForProduct = (product) => {
+  const text = String(product?.warranty || '').trim();
+  if (!isStaleWarranty(text)) return text;
+  const brand = String(product?.brandName || 'الوكيل').split(' - ')[0].trim() || 'الوكيل';
+  return `ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل معتمد من ${brand}`;
+};
+
 export const HORSEPOWERS = [
   { id: 'all', name: 'جميع القدرات' },
   { id: '1.5', name: '1.5 حصان (حتى 12 م²)', hp: 1.5, maxArea: 12 },
@@ -31,9 +48,9 @@ export const TYPES = [
 
 export const MIRACO_FEATURES = [
   'صور أصلية من المصنع: الوحدة الداخلية + الريموت + الوحدة الخارجية',
-  'توريد خلال 5 أيام عمل من الموزع المعتمد',
-  'ضمان 5 سنوات معتمد من ميراكو',
-  'كفاءة طاقة رسمية حسب شهادة المصنع',
+  'توريد والتركيب مجاني خلال 24 ساعة',
+  'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+  'فريون R32 و R410A',
   'تصميم سبليت أنيق مع فلاتر سهلة الفك والتنظيف وريموت أصلي',
 ];
 
@@ -67,10 +84,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft12n8-708f-seer-46309116',
     energyClass: 'S1 كفاءة طاقة معتمدة من ميراكو',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A صديق للبيئة',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار مواسير نحاس أصلية',
       soundLevel: '26 ديسيبل هادئ',
@@ -105,10 +122,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft12n8-708f-seer-46309119',
     energyClass: 'S1 نظام تدفئة وتبريد SEER',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس كاريير معتمد',
       soundLevel: '27 ديسيبل',
@@ -143,10 +160,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft18n8-78x2-5mm-seer',
     energyClass: 'S1 تبريد قوي مساحات متوسطة',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '29 ديسيبل',
@@ -181,10 +198,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft18n8-708f-seer-46309131',
     energyClass: 'S1 بارد ساخن كفاءة SEER',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس كاريير',
       soundLevel: '30 ديسيبل',
@@ -219,10 +236,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft12dn8-708f',
     energyClass: 'S4 إنفرتر موفر للكهرباء',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A صديق للبيئة',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس كاريير معتمد',
       soundLevel: '22 ديسيبل فائق الهدوء',
@@ -257,10 +274,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft18dn8-708f',
     energyClass: 'S5 أعلى توفير للطاقة',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس أصلي',
       soundLevel: '24 ديسيبل',
@@ -295,10 +312,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft18dn8-708f',
     energyClass: 'S5 بارد ساخن انفرتر',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس كاريير',
       soundLevel: '24 ديسيبل',
@@ -333,10 +350,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft24dn8-708f',
     energyClass: 'S5 قوة قصوى وتوفير',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '1059 × 328 × 250 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '28 ديسيبل',
@@ -371,10 +388,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft24dn8-708f',
     energyClass: 'S5 فئة الريسبشن والفلل',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '1059 × 328 × 250 مم',
       pipeLength: '3 أمتار نحاس كاريير معتمد',
       soundLevel: '29 ديسيبل',
@@ -409,10 +426,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-12crn8f-q8-seer',
     energyClass: 'S1 كفاءة تبريد XTreme Pro',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '25 ديسيبل',
@@ -447,10 +464,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-12hrdnf-q8-seer',
     energyClass: 'S4 إنفرتر ذكي بارد ساخن',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس ميديا معتمد',
       soundLevel: '22 ديسيبل فائق الهدوء',
@@ -485,10 +502,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-18crn8f-q8-seer',
     energyClass: 'S1 تبريد قوي مساحات 20م²',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس أصلية',
       soundLevel: '28 ديسيبل',
@@ -523,10 +540,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-12crdn8f-q8-seer',
     energyClass: 'S4 الذكاء الاصطناعي AI ECOMASTER',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A صديق للبيئة',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '822 × 289 × 220 مم',
       pipeLength: '3 أمتار نحاس ميديا معتمد',
       soundLevel: '19 ديسيبل فائق الهدوء',
@@ -561,10 +578,10 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-18crdn8f-q8-ai-ecomaster-seer',
     energyClass: 'S5 ذكاء اصطناعي AI ECOMASTER مساحات واسعة',
-    warranty: 'ضمان 5 سنوات معتمد من ميراكو',
+    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
     features: MIRACO_FEATURES,
     specs: {
-      gas: 'R410A',
+      gas: 'R32 و R410A',
       dimensionsIndoor: '986 × 308 × 230 مم',
       pipeLength: '3 أمتار نحاس ميديا معتمد',
       soundLevel: '22 ديسيبل',

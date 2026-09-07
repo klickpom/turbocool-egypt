@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS, STORE_GAS_TEXT, warrantyForProduct } from '../data/products';
 import { 
   X, 
   Trash2, 
@@ -140,11 +140,11 @@ export const ComparisonModal = () => {
                       <div className="h-10 flex items-center justify-center border-b border-slate-200/60 text-[11px] text-center">
                         {prod.areaCoverage}
                       </div>
-                      <div className="h-10 flex items-center justify-center border-b border-slate-200/60 text-[11px] text-emerald-700 text-center">
-                        {prod.warranty}
+                      <div className="min-h-10 py-1 flex items-center justify-center border-b border-slate-200/60 text-[11px] text-emerald-700 text-center leading-snug">
+                        {warrantyForProduct(prod)}
                       </div>
                       <div className="h-10 flex items-center justify-center border-b border-slate-200/60 text-[11px]">
-                        {prod.specs.gas}
+                        {prod.specs?.gas || STORE_GAS_TEXT}
                       </div>
                       <div className="h-10 flex items-center justify-center border-b border-slate-200/60 text-[11px]">
                         {prod.specs.soundLevel}

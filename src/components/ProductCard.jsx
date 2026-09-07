@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
+import { STORE_DELIVERY_TEXT, STORE_GAS_TEXT, warrantyForProduct } from '../data/products';
 import {
   ShoppingCart,
   Heart,
@@ -7,7 +8,8 @@ import {
   ShieldCheck,
   Truck,
   Check,
-  Flame
+  Flame,
+  Wind
 } from 'lucide-react';
 
 export const ProductCard = ({ product }) => {
@@ -119,16 +121,24 @@ export const ProductCard = ({ product }) => {
             {product.name}
           </h3>
           <div className="text-[11px] text-slate-400 font-mono mt-1">{product.modelCode}</div>
+          <div className="flex flex-wrap gap-1 mt-2">
+            <span className="text-[10px] font-black text-sky-800 bg-sky-50 border border-sky-100 px-2 py-0.5 rounded-full">R32</span>
+            <span className="text-[10px] font-black text-sky-800 bg-sky-50 border border-sky-100 px-2 py-0.5 rounded-full">R410A</span>
+          </div>
         </div>
 
         <div className="space-y-1 text-[12px] text-slate-600">
-          <div className="flex items-center gap-2">
-            <Truck className="w-4 h-4 text-sky-600 shrink-0" />
-            <span>توريد خلال 5 أيام عمل</span>
+          <div className="flex items-start gap-2">
+            <Truck className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+            <span>{STORE_DELIVERY_TEXT}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0" />
-            <span>{product.warranty || 'ضمان 5 سنوات معتمد من ميراكو'}</span>
+          <div className="flex items-start gap-2">
+            <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+            <span>{warrantyForProduct(product)}</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <Wind className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+            <span>{STORE_GAS_TEXT}</span>
           </div>
         </div>
 

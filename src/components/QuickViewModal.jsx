@@ -11,8 +11,10 @@ import {
   Scale,
   Heart,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Wind
 } from 'lucide-react';
+import { STORE_DELIVERY_TEXT, STORE_GAS_TEXT, warrantyForProduct } from '../data/products';
 
 export const QuickViewModal = () => {
   const {
@@ -194,6 +196,10 @@ export const QuickViewModal = () => {
                 {quickViewProduct.name}
               </h3>
               <div className="text-xs text-slate-400 font-mono mt-1">كود الموديل: {quickViewProduct.modelCode}</div>
+              <div className="flex flex-wrap gap-1 mt-2">
+                <span className="text-[10px] font-black text-sky-800 bg-sky-50 border border-sky-100 px-2 py-0.5 rounded-full">R32</span>
+                <span className="text-[10px] font-black text-sky-800 bg-sky-50 border border-sky-100 px-2 py-0.5 rounded-full">R410A</span>
+              </div>
             </div>
 
             <div>
@@ -210,13 +216,17 @@ export const QuickViewModal = () => {
             </div>
 
             <div className="space-y-2 text-sm text-slate-600">
-              <div className="flex items-center gap-2">
-                <Truck className="w-4 h-4 text-sky-600" />
-                <span>توريد خلال 5 أيام عمل</span>
+              <div className="flex items-start gap-2">
+                <Truck className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                <span>{STORE_DELIVERY_TEXT}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-sky-600" />
-                <span>{quickViewProduct.warranty || 'ضمان 5 سنوات معتمد من ميراكو'}</span>
+              <div className="flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                <span>{warrantyForProduct(quickViewProduct)}</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Wind className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                <span>{STORE_GAS_TEXT}</span>
               </div>
             </div>
 

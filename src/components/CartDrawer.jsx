@@ -256,7 +256,7 @@ export const CartDrawer = () => {
                 {/* Free Installation Guarantee Banner */}
                 <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex items-center gap-2.5 text-xs text-emerald-800 font-semibold">
                   <Truck className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <span>توصيل ومعاينة وتركيب فوري بواسطة مهندسين معتمدين!</span>
+                  <span>توريد والتركيب مجاني خلال 24 ساعة</span>
                 </div>
               </>
             )}
@@ -278,7 +278,7 @@ export const CartDrawer = () => {
                 )}
                 <div className="flex justify-between text-emerald-700 font-semibold">
                   <span>الشحن والتوريد:</span>
-                  <span>مجاني (عرض حصري)</span>
+                  <span>مجاني خلال 24 ساعة</span>
                 </div>
                 <div className="flex justify-between text-sm sm:text-base font-black text-slate-900 pt-2 border-t border-slate-100">
                   <span>المبلغ الإجمالي المطلوب:</span>

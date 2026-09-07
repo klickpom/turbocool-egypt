@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
-import { BRANDS } from '../data/products';
+import { BRANDS, STORE_DELIVERY_TEXT, warrantyForProduct } from '../data/products';
 import { motion } from 'framer-motion';
 import { 
   BadgePercent, 
@@ -185,12 +185,12 @@ export const AirConditionerPriceTable2026 = () => {
 
                     {/* Warranty */}
                     <td className="py-4 px-3 text-center">
-                      <div className="flex items-center justify-center gap-1 text-xs text-sky-200">
-                        <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
-                        <span className="truncate max-w-[120px]">{item.warranty}</span>
+                      <div className="flex items-start justify-center gap-1 text-xs text-sky-200">
+                        <ShieldCheck className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+                        <span className="max-w-[180px] leading-snug">{warrantyForProduct(item)}</span>
                       </div>
                       <span className="text-[10px] text-emerald-400 font-bold block mt-0.5">
-                        تركيب فوري 24 ساعة 🚚
+                        {STORE_DELIVERY_TEXT} 🚚
                       </span>
                     </td>
 
