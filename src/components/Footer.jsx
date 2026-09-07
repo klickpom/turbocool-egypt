@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
+import { BRANDS } from '../data/products';
 import { 
   PhoneCall, 
   MapPin, 
@@ -141,16 +142,16 @@ export const Footer = () => {
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-extrabold text-sm text-ice-200">الماركات المعتمدة</h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              {['carrier', 'midea'].map(bId => (
-                <li key={bId}>
+              {BRANDS.filter((brand) => brand.id !== 'all').map((brand) => (
+                <li key={brand.id}>
                   <button 
                     onClick={() => {
-                      setSelectedBrand(bId);
+                      setSelectedBrand(brand.id);
                       navigateToSection('catalog-section', 'catalog');
                     }}
-                    className="hover:text-white transition-colors capitalize"
+                    className="hover:text-white transition-colors"
                   >
-                    تكييفات {bId === 'carrier' ? 'كاريير Carrier' : 'ميديا Midea'}
+                    تكييفات {brand.name}
                   </button>
                 </li>
               ))}

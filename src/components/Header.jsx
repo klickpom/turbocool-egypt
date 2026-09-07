@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStore } from '../context/StoreContext';
+import { BRANDS } from '../data/products';
 import {
   PhoneCall,
   ShoppingCart,
@@ -238,10 +239,7 @@ export const Header = () => {
                       <span>جميع الماركات</span>
                     </button>
                     <hr className="my-1 border-slate-100" />
-                    {[
-                      { id: 'carrier', name: 'كاريير Carrier' },
-                      { id: 'midea', name: 'ميديا Midea' },
-                    ].map((brand) => (
+                    {BRANDS.filter((brand) => brand.id !== 'all').map((brand) => (
                       <button
                         key={brand.id}
                         onClick={() => selectBrandAndScroll(brand.id)}

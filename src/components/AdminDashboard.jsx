@@ -229,8 +229,13 @@ export const AdminDashboard = () => {
   // Open Product Modal
   const handleOpenProductModal = (product = null) => {
     if (product) {
+      const known = BRANDS.some((item) => item.id === product.brand);
       setEditingProduct(product);
-      setProductForm({ ...product });
+      setProductForm({
+        ...product,
+        brand: known ? product.brand : 'other',
+        customBrandName: known ? '' : (product.brandName || ''),
+      });
       setImagePreview(product.image || '');
     } else {
       setEditingProduct(null);
@@ -238,7 +243,8 @@ export const AdminDashboard = () => {
       setProductForm({
         name: '',
         brand: 'carrier',
-        brandName: 'كاريير',
+        brandName: 'كاريير - Carrier',
+        customBrandName: '',
         modelCode: `TC-${Math.floor(1000 + Math.random() * 9000)}`,
         hp: 1.5,
         hpText: '1.5 حصان',
@@ -267,16 +273,14 @@ export const AdminDashboard = () => {
       return;
     }
 
-    const brandNamesMap = {
-      carrier: 'كاريير - Carrier',
-      sharp: 'شارب - Sharp',
-      lg: 'إل جي - LG',
-      fresh: 'فريش - Fresh',
-      midea: 'ميديا - Midea',
-      gree: 'جري - Gree',
-      tornado: 'تورنيدو - Tornado'
-    };
-
+    const brandMeta = BRANDS.find((item) => item.id === productForm.brand);
+    const brandName = (productForm.customBrandName || '').trim()
+      || brandMeta?.name
+      || productForm.brandName
+      || productForm.brand;
+    const brandId = productForm.brand === 'other'
+      ? (brandName.toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/gi, '-').replace(/^-|-$/g, '') || 'other')
+      : productForm.brand;
     const typeMeta = TYPES.find((item) => item.id === productForm.type);
 
     const calculatedDiscount = productForm.oldPrice > productForm.price 
@@ -286,7 +290,8 @@ export const AdminDashboard = () => {
     const nextImage = imagePreview || productForm.image;
     const updatedData = {
       ...productForm,
-      brandName: brandNamesMap[productForm.brand] || productForm.brand,
+      brand: brandId,
+      brandName,
       typeName: typeMeta?.name || productForm.typeName,
       price: Number(productForm.price),
       oldPrice: Number(productForm.oldPrice || productForm.price),
@@ -1108,21 +1113,54 @@ export const AdminDashboard = () => {
                   />
                 </div>
 
-                {/* Brand & HP */}
-                <div className="grid grid-cols-2 gap-2.5">
-                  <div>
+                {/* Brand */}
+                <div>
                     <label className="block text-slate-300 font-bold mb-1">الماركة</label>
-                    <select
-                      value={productForm.brand}
-                      onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-white focus:border-sky-400 focus:outline-none"
-                    >
+                    <div className="flex flex-wrap gap-1.5">
                       {BRANDS.filter((brand) => brand.id !== 'all').map((brand) => (
-                        <option key={brand.id} value={brand.id}>{brand.name}</option>
+                        <button
+                          key={brand.id}
+                          type="button"
+                          onClick={() => setProductForm({
+                            ...productForm,
+                            brand: brand.id,
+                            brandName: brand.name,
+                            customBrandName: '',
+                          })}
+                          className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all ${
+                            productForm.brand === brand.id
+                              ? 'bg-sky-500 text-slate-950 border-sky-300'
+                              : 'bg-slate-800 text-slate-200 border-slate-700'
+                          }`}
+                        >
+                          {brand.name}
+                        </button>
                       ))}
-                    </select>
-                  </div>
+                      <button
+                        type="button"
+                        onClick={() => setProductForm({ ...productForm, brand: 'other' })}
+                        className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all ${
+                          productForm.brand === 'other'
+                            ? 'bg-sky-500 text-slate-950 border-sky-300'
+                            : 'bg-slate-800 text-slate-200 border-slate-700'
+                        }`}
+                      >
+                        ماركة أخرى
+                      </button>
+                    </div>
+                    {productForm.brand === 'other' && (
+                      <input
+                        type="text"
+                        value={productForm.customBrandName || ''}
+                        onChange={(e) => setProductForm({ ...productForm, customBrandName: e.target.value })}
+                        placeholder="اكتب اسم الماركة"
+                        className="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-white focus:border-sky-400 focus:outline-none"
+                      />
+                    )}
+                </div>
 
+                {/* HP */}
+                <div className="grid grid-cols-2 gap-2.5">
                   <div>
                     <label className="block text-slate-300 font-bold mb-1">القدرة</label>
                     <select
@@ -1141,26 +1179,25 @@ export const AdminDashboard = () => {
                       <option value={5}>5 حصان</option>
                     </select>
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-slate-300 font-bold mb-1">نوع التكييف</label>
-                  <select
-                    value={productForm.type}
-                    onChange={(e) => {
-                      const typeMeta = TYPES.find((item) => item.id === e.target.value);
-                      setProductForm({
-                        ...productForm,
-                        type: e.target.value,
-                        typeName: typeMeta?.name || productForm.typeName,
-                      });
-                    }}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-white focus:border-sky-400 focus:outline-none"
-                  >
-                    {TYPES.filter((item) => item.id !== 'all').map((item) => (
-                      <option key={item.id} value={item.id}>{item.name}</option>
-                    ))}
-                  </select>
+                  <div>
+                    <label className="block text-slate-300 font-bold mb-1">نوع التكييف</label>
+                    <select
+                      value={productForm.type}
+                      onChange={(e) => {
+                        const typeMeta = TYPES.find((item) => item.id === e.target.value);
+                        setProductForm({
+                          ...productForm,
+                          type: e.target.value,
+                          typeName: typeMeta?.name || productForm.typeName,
+                        });
+                      }}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2 text-white focus:border-sky-400 focus:outline-none"
+                    >
+                      {TYPES.filter((item) => item.id !== 'all').map((item) => (
+                        <option key={item.id} value={item.id}>{item.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 {/* Prices */}

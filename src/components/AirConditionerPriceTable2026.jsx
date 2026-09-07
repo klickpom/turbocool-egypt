@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
+import { BRANDS } from '../data/products';
 import { motion } from 'framer-motion';
 import { 
   BadgePercent, 
@@ -59,8 +60,10 @@ export const AirConditionerPriceTable2026 = () => {
             <span className="text-xs font-bold text-slate-400 shrink-0 ml-1">الماركة:</span>
             {[
               { id: 'all', name: 'الكل' },
-              { id: 'carrier', name: 'كاريير' },
-              { id: 'midea', name: 'ميديا' },
+              ...BRANDS.filter((brand) => brand.id !== 'all').map((brand) => ({
+                id: brand.id,
+                name: brand.name.split(' - ')[0],
+              })),
             ].map(b => (
               <button
                 key={b.id}

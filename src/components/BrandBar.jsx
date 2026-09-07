@@ -38,7 +38,7 @@ export const BrandBar = () => {
         </div>
 
         {/* Brands Badges Grid */}
-        <div className="grid grid-cols-3 gap-3 max-w-xl mx-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
           {BRANDS.map((b) => {
             const isSelected = selectedBrand === b.id;
             return (

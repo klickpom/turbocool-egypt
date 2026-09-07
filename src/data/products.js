@@ -2,6 +2,12 @@ export const BRANDS = [
   { id: 'all', name: 'جميع الماركات', logo: '❄️' },
   { id: 'carrier', name: 'كاريير - Carrier', logo: '🔵' },
   { id: 'midea', name: 'ميديا - Midea', logo: '🔷' },
+  { id: 'aux', name: 'أوكس - AUX', logo: '💠' },
+  { id: 'sharp', name: 'شارب - Sharp', logo: '🔴' },
+  { id: 'lg', name: 'إل جي - LG', logo: '🟣' },
+  { id: 'fresh', name: 'فريش - Fresh', logo: '🟢' },
+  { id: 'gree', name: 'جري - Gree', logo: '🟠' },
+  { id: 'tornado', name: 'تورنيدو - Tornado', logo: '🌀' },
 ];
 
 export const HORSEPOWERS = [
