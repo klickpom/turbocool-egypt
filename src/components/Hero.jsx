@@ -181,7 +181,7 @@ export const Hero = () => {
                 <div className="text-xs text-slate-400 font-medium">عميل سعيد في مصر</div>
               </div>
               <div className="space-y-0.5">
-                <div className="text-2xl md:text-3xl font-black text-sky-300">+10</div>
+                <div className="text-2xl md:text-3xl font-black text-sky-300">+30</div>
                 <div className="text-xs text-slate-400 font-medium">سنوات خبرة معتمدة</div>
               </div>
               <div className="space-y-0.5">
