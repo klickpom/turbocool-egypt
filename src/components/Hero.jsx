@@ -254,7 +254,7 @@ export const Hero = () => {
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.03 }} className="bg-white/5 rounded-2xl p-3 border border-white/10 hover:border-sky-400/30 transition-all">
                       <span className="text-slate-400 block text-[10px]">فريون التبريد</span>
-                      <span className="text-sky-300 font-bold">غاز R410A فائق النقاء</span>
+                      <span className="text-sky-300 font-bold">غاز R32 و R410A</span>
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.03 }} className="bg-white/5 rounded-2xl p-3 border border-white/10 hover:border-amber-400/30 transition-all">
                       <span className="text-slate-400 block text-[10px]">التغطية الجغرافية</span>
