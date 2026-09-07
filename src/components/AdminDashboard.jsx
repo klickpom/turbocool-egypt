@@ -53,6 +53,7 @@ const PRESET_AC_IMAGES = FACTORY_PRODUCTS.flatMap((product) => {
 }).slice(0, 12);
 
 const AVAILABLE_TAGS = [
+  'واي فاي للتحكم عن بُعد WiFi',
   'توفير كهرباء 60% (إنفرتر)',
   'فلتر بلازما منقي للبكتيريا',
   'تبريد نفاث فائق السرعة Turbo',
@@ -1291,7 +1292,7 @@ export const AdminDashboard = () => {
                 <div>
                   <label className="block text-slate-300 font-bold mb-1.5">المواصفات (اضغط للتحديد):</label>
                   <div className="flex flex-wrap gap-1">
-                    {AVAILABLE_TAGS.slice(0, 6).map((tag) => {
+                    {AVAILABLE_TAGS.map((tag) => {
                       const isSelected = productForm.features?.includes(tag);
                       return (
                         <button

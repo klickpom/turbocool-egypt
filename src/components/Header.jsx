@@ -91,7 +91,7 @@ export const Header = () => {
               <PhoneCall className="w-3.5 h-3.5" />
               <span>{storeSettings?.phone || '01006836537'}</span>
             </a>
-            <span className="hidden lg:inline text-slate-400 text-xs">موزع معتمد (كاريير - ميديا)</span>
+            <span className="hidden lg:inline text-slate-400 text-xs">وكيل معتمد: كاريير • ميديا • شارب • إل جي • أوكس • بلوتو</span>
           </div>
         </div>
       </div>

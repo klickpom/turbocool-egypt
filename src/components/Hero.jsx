@@ -82,7 +82,7 @@ export const Hero = () => {
             >
               <Award className="w-4 h-4 text-amber-400 md:animate-pulse" />
               <span className="text-xs md:text-sm font-extrabold text-sky-200">
-                موزع معتمد رسمي: كاريير • ميديا — توريد مباشر من ميراكو
+                موزع معتمد رسمي: كاريير • ميديا • شارب • إل جي • أوكس • بلوتو
               </span>
             </motion.div>
 

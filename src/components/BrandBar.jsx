@@ -23,7 +23,7 @@ export const BrandBar = () => {
             <Award className="w-5 h-5 text-brand-600" />
             <div>
               <h2 className="text-lg md:text-xl font-bold text-slate-900">
-                موزع معتمد لأقوى الماركات العالمية في مصر
+                وكيل معتمد: كاريير • ميديا • شارب • إل جي • أوكس • بلوتو
               </h2>
               <p className="text-xs text-slate-500">
                 اختر الماركة لتصفح جميع الموديلات والقدرات والأسعار المعتمدة بضمان الوكيل

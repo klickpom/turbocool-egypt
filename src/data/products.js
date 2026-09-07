@@ -2,14 +2,13 @@ export const BRANDS = [
   { id: 'all', name: 'جميع الماركات', logo: '❄️' },
   { id: 'carrier', name: 'كاريير - Carrier', logo: '🔵' },
   { id: 'midea', name: 'ميديا - Midea', logo: '🔷' },
-  { id: 'aux', name: 'أوكس - AUX', logo: '💠' },
-  { id: 'lg', name: 'إل جي - LG', logo: '🟣' },
   { id: 'sharp', name: 'شارب - Sharp', logo: '🔴' },
+  { id: 'lg', name: 'إل جي - LG', logo: '🟣' },
+  { id: 'aux', name: 'أوكس - AUX', logo: '💠' },
   { id: 'pluto', name: 'بلوتو - Pluto', logo: '🪐' },
-  { id: 'fresh', name: 'فريش - Fresh', logo: '🟢' },
-  { id: 'gree', name: 'جري - Gree', logo: '🟠' },
-  { id: 'tornado', name: 'تورنيدو - Tornado', logo: '🌀' },
 ];
+
+export const AUTHORIZED_DEALER_AR = 'وكيل معتمد: كاريير • ميديا • شارب • إل جي • أوكس • بلوتو';
 
 export const HORSEPOWERS = [
   { id: 'all', name: 'جميع القدرات' },
