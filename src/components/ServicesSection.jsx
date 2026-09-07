@@ -50,7 +50,7 @@ export const ServicesSection = () => {
             return (
               <div
                 key={service.id}
-                className="bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-brand-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="reveal-up bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-brand-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
               >
                 <div className="space-y-4">
                   

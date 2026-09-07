@@ -74,7 +74,7 @@ export const WhyChooseUs = () => {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-brand-300 transition-all duration-300 group"
+                className="reveal-up bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-brand-300 transition-all duration-300 group"
               >
                 <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${item.color} text-white flex items-center justify-center shadow-md mb-4 group-hover:scale-110 transition-transform`}>
                   <Icon className="w-6 h-6" />

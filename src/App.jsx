@@ -14,6 +14,7 @@ import { BookingModal } from './components/BookingModal';
 import { ComparisonModal } from './components/ComparisonModal';
 import { LiveSalesNotification } from './components/LiveSalesNotification';
 import { LazySection } from './components/LazySection';
+import { RevealOnScroll } from './components/RevealOnScroll';
 
 const AdminDashboard = lazy(() =>
   import('./components/AdminDashboard').then((mod) => ({ default: mod.AdminDashboard }))
@@ -36,10 +37,16 @@ function AppContent() {
 
       <main className="flex-1">
         <Hero />
-        <BrandBar />
-        <CapacityCalculator />
+        <RevealOnScroll>
+          <BrandBar />
+        </RevealOnScroll>
+        <RevealOnScroll>
+          <CapacityCalculator />
+        </RevealOnScroll>
         <LazySection loader={() => import('./components/AcRemoteSimulator').then((m) => ({ default: m.AcRemoteSimulator }))} />
-        <ProductCatalog />
+        <RevealOnScroll>
+          <ProductCatalog />
+        </RevealOnScroll>
         <LazySection loader={() => import('./components/AirConditionerPriceTable2026').then((m) => ({ default: m.AirConditionerPriceTable2026 }))} />
         <LazySection loader={() => import('./components/ServicesSection').then((m) => ({ default: m.ServicesSection }))} />
         <LazySection loader={() => import('./components/WhyChooseUs').then((m) => ({ default: m.WhyChooseUs }))} />
@@ -47,7 +54,9 @@ function AppContent() {
         <LazySection loader={() => import('./components/SeoContentHub').then((m) => ({ default: m.SeoContentHub }))} />
       </main>
 
-      <Footer />
+      <RevealOnScroll>
+        <Footer />
+      </RevealOnScroll>
       <LiveSalesNotification />
       <FloatingContactHub />
       <CartDrawer />

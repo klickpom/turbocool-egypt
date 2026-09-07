@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { RevealOnScroll } from './RevealOnScroll';
 
 export const LazySection = ({ loader, rootMargin = '280px' }) => {
   const ref = useRef(null);
@@ -39,5 +40,5 @@ export const LazySection = ({ loader, rootMargin = '280px' }) => {
     };
   }, [loader, rootMargin]);
 
-  return <div ref={ref}>{Component ? <Component /> : <div className="min-h-[120px]" />}</div>;
+  return <div ref={ref}>{Component ? <RevealOnScroll><Component /></RevealOnScroll> : <div className="min-h-[120px]" />}</div>;
 };

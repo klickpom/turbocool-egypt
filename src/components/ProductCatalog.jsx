@@ -2,6 +2,7 @@ import React from 'react';
 import { useStore } from '../context/StoreContext';
 import { ProductCard } from './ProductCard';
 import { BRANDS, HORSEPOWERS, TYPES } from '../data/products';
+import { useRevealOnScroll } from '../hooks/useRevealOnScroll';
 import { 
   Filter, 
   SlidersHorizontal, 
@@ -35,6 +36,8 @@ export const ProductCatalog = () => {
     setSearchQuery('');
     setSortBy('popular');
   };
+
+  const gridRef = useRevealOnScroll(filteredProducts.length, selectedBrand, selectedHp, selectedType, searchQuery, sortBy);
 
   const hasActiveFilters = selectedBrand !== 'all' || selectedHp !== 'all' || selectedType !== 'all' || searchQuery !== '';
 
@@ -192,7 +195,7 @@ export const ProductCatalog = () => {
 
         {/* Products Grid: 1 col on XS, 2 col on SM/MD, 3 col on LG, 4 col on XL */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

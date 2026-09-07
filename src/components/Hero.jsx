@@ -18,11 +18,12 @@ import {
 
 export const Hero = () => {
   const { setActiveTab, storeSettings } = useStore();
-  const [liteMotion, setLiteMotion] = useState(true);
+  const [liteMotion, setLiteMotion] = useState(false);
+  const [allowLoop, setAllowLoop] = useState(false);
 
   useEffect(() => {
-    const lite = window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)').matches;
-    setLiteMotion(lite);
+    setLiteMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    setAllowLoop(window.matchMedia('(min-width: 768px)').matches);
   }, []);
 
   const cleanWhatsapp = (storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '');
@@ -200,8 +201,8 @@ export const Hero = () => {
             className="lg:col-span-5 relative"
           >
             <motion.div 
-              animate={{ y: [-6, 6, -6] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              animate={allowLoop ? { y: [-6, 6, -6] } : undefined}
+              transition={allowLoop ? { duration: 5, repeat: Infinity, ease: 'easeInOut' } : undefined}
               className="relative mx-auto max-w-md lg:max-w-none"
             >
               
@@ -210,8 +211,8 @@ export const Hero = () => {
                 
                 {/* Floating Top Badge */}
                 <motion.div 
-                  animate={{ scale: [1, 1.06, 1] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
+                  animate={allowLoop ? { scale: [1, 1.06, 1] } : undefined}
+                  transition={allowLoop ? { duration: 2.5, repeat: Infinity } : undefined}
                   className="absolute -top-3.5 left-6 bg-gradient-to-r from-rose-600 via-amber-500 to-orange-500 text-white text-xs font-black px-3.5 py-1 rounded-full shadow-lg flex items-center gap-1.5"
                 >
                   <Flame className="w-3.5 h-3.5" />
@@ -276,8 +277,8 @@ export const Hero = () => {
 
                 {/* Floating Cool Breeze Tag with Spin Animation */}
                 <motion.div 
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  animate={allowLoop ? { y: [0, -4, 0] } : undefined}
+                  transition={allowLoop ? { duration: 3, repeat: Infinity } : undefined}
                   className="absolute -bottom-4 -right-3 bg-slate-900 text-sky-200 border border-sky-400/30 text-xs font-bold px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2 backdrop-blur-md"
                 >
                   <Wind className="w-4 h-4 text-sky-400 md:animate-spin" style={{ animationDuration: '6s' }} />

@@ -58,7 +58,7 @@ export const CustomerReviews = () => {
           {reviews.map((rev, idx) => (
             <div
               key={idx}
-              className="bg-slate-50 rounded-3xl p-6 border border-slate-200/90 flex flex-col justify-between space-y-4 hover:shadow-lg transition-all"
+              className="reveal-up bg-slate-50 rounded-3xl p-6 border border-slate-200/90 flex flex-col justify-between space-y-4 hover:shadow-lg transition-all"
             >
               <div className="space-y-3">
                 {/* Rating stars */}

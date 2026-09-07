@@ -31,7 +31,7 @@ export const ProductCard = ({ product }) => {
   const savings = product.oldPrice - product.price;
 
   return (
-    <article className="bg-white rounded-[24px] border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-sky-300 transition-shadow duration-200 flex flex-col overflow-hidden">
+    <article className="reveal-up bg-white rounded-[24px] border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-sky-300 transition-shadow duration-200 flex flex-col overflow-hidden">
       <div className="relative bg-gradient-to-b from-sky-50 to-white px-3 pt-3 pb-2">
         <div className="absolute top-3 right-3 left-3 z-20 flex items-start justify-between pointer-events-none">
           <div className="flex flex-wrap gap-1">
