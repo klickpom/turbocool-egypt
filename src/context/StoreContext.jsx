@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { PRODUCTS as DEFAULT_PRODUCTS, STORE_DELIVERY_TEXT, STORE_GAS_TEXT, isStaleWarranty, warrantyForProduct } from '../data/products';
 import { SERVICES as DEFAULT_SERVICES } from '../data/services';
+import { trackMeta, trackMetaProduct } from '../lib/metaPixel';
 import confetti from 'canvas-confetti';
 import {
   fetchRemoteCatalog,
@@ -151,6 +152,7 @@ export const DEFAULT_SETTINGS = {
   facebookUrl: 'https://www.facebook.com/share/1HKQUrdqZT/',
   workingHours: 'يومياً من 9:00 ص حتى 11:00 م (خدمة الطوارئ 24/7)',
   coverageAreas: 'الجيزة، القاهرة الكبرى، 6 أكتوبر، زايد، التجمع',
+  metaPixelId: '',
 };
 
 export const DEFAULT_COUPONS = [
@@ -631,6 +633,7 @@ export const StoreProvider = ({ children }) => {
     }
 
     showToast(`تمت إضافة "${product.name.slice(0, 30)}..." إلى السلة بنجاح! 🛒`);
+    trackMetaProduct('AddToCart', product, { contents: [{ id: String(product.id), quantity }] });
     if (openDrawer) {
       setIsCartOpen(true);
     }
@@ -762,6 +765,12 @@ export const StoreProvider = ({ children }) => {
 
     const encoded = encodeURIComponent(message);
     const targetWhatsapp = storeSettings.whatsapp.replace(/[^0-9]/g, '');
+    trackMeta('InitiateCheckout', {
+      value: finalTotal,
+      currency: 'EGP',
+      num_items: cart.reduce((sum, item) => sum + item.quantity, 0),
+    });
+    trackMeta('Contact', { content_name: 'WhatsApp Cart Order' });
     window.open(`https://wa.me/${targetWhatsapp}?text=${encoded}`, '_blank');
   };
 
@@ -796,6 +805,8 @@ export const StoreProvider = ({ children }) => {
 
     const encoded = encodeURIComponent(message);
     const targetWhatsapp = storeSettings.whatsapp.replace(/[^0-9]/g, '');
+    trackMetaProduct('InitiateCheckout', product);
+    trackMeta('Contact', { content_name: 'WhatsApp Instant Order' });
     window.open(`https://wa.me/${targetWhatsapp}?text=${encoded}`, '_blank');
   };
 
@@ -832,6 +843,7 @@ export const StoreProvider = ({ children }) => {
 
     const encoded = encodeURIComponent(message);
     const targetWhatsapp = storeSettings.whatsapp.replace(/[^0-9]/g, '');
+    trackMeta('Contact', { content_name: `WhatsApp Service ${service.title}` });
     window.open(`https://wa.me/${targetWhatsapp}?text=${encoded}`, '_blank');
     setBookingService(null);
     showToast('تم إرسال طلب الحجز بنجاح! سيتواصل معك الفني فوراً 🚀');

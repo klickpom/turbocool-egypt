@@ -6,6 +6,7 @@ import { BrandBar } from './components/BrandBar';
 import { CapacityCalculator } from './components/CapacityCalculator';
 import { ProductCatalog } from './components/ProductCatalog';
 import { Footer } from './components/Footer';
+import { MetaPixel } from './components/MetaPixel';
 import { FloatingContactHub } from './components/FloatingContactHub';
 import { CartDrawer } from './components/CartDrawer';
 import { QuickViewModal } from './components/QuickViewModal';
@@ -71,6 +72,7 @@ function AppContent() {
 function App() {
   return (
     <StoreProvider>
+      <MetaPixel />
       <AppContent />
     </StoreProvider>
   );

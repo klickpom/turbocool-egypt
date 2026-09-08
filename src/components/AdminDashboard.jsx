@@ -917,6 +917,19 @@ export const AdminDashboard = () => {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-slate-300 font-bold mb-1">بيكسل فيسبوك (Meta Pixel ID)</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={settingsForm.metaPixelId || ''}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, metaPixelId: e.target.value.replace(/\D/g, '') })}
+                    placeholder="مثال: 123456789012345"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:border-sky-400 focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">الرقم من مدير الأحداث في فيسبوك. بعد الحفظ يظهر لكل زوار الموقع.</span>
+                </div>
+
                 <div className="pt-2">
                   <button
                     type="submit"
