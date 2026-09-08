@@ -83,7 +83,7 @@ export const Hero = () => {
             >
               <Award className="w-4 h-4 text-amber-400 md:animate-pulse" />
               <span className="text-xs md:text-sm font-extrabold text-sky-200">
-                موزع معتمد رسمي: كاريير • ميديا • شارب • إل جي • أوكس • بلوتو
+                موزع معتمد لأقوى الماركات العالمية في R32 و R410A
               </span>
             </motion.div>
 
@@ -254,7 +254,7 @@ export const Hero = () => {
                       <span className="text-emerald-300 font-bold">تركيب خلال 24 ساعة</span>
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.03 }} className="bg-white/5 rounded-2xl p-3 border border-white/10 hover:border-sky-400/30 transition-all">
-                      <span className="text-slate-400 block text-[10px]">فريون التبريد</span>
+                      <span className="text-slate-400 block text-[10px]">موزع معتمد</span>
                       <span className="text-sky-300 font-bold">غاز R32 و R410A</span>
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.03 }} className="bg-white/5 rounded-2xl p-3 border border-white/10 hover:border-amber-400/30 transition-all">

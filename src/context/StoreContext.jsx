@@ -11,7 +11,7 @@ import {
 
 const StoreContext = createContext();
 
-export const CATALOG_VERSION = 7;
+export const CATALOG_VERSION = 8;
 
 const DUMMY_CATALOG_IDS = new Set([
   'sharp-1.5-inv-ch',
@@ -67,9 +67,9 @@ const PRODUCT_PATCHES = {
 const refreshFeatures = (features, officialFeatures) => {
   const source = Array.isArray(features) && features.length ? features : officialFeatures;
   return source.map((feat) => {
-    if (/توريد خلال 5/.test(feat)) return STORE_DELIVERY_TEXT;
-    if (/ضمان 5 سنوات معتمد من ميراكو|ضمان 5 سنوات شامل/.test(feat)) {
-      return 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل';
+    if (/توريد خلال [45]/.test(feat)) return STORE_DELIVERY_TEXT;
+    if (/ضمان 5 سنوات معتمد من ميراكو|10 سنوات على الكمبروسور/.test(feat)) {
+      return 'ضمان 5 سنوات شامل معتمد من الوكيل';
     }
     return feat;
   });

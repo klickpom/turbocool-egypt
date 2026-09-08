@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useStore } from '../context/StoreContext';
-import { BRANDS, TYPES, PRODUCTS as FACTORY_PRODUCTS } from '../data/products';
+import { BRANDS, TYPES, PRODUCTS as FACTORY_PRODUCTS, warrantyForProduct } from '../data/products';
 import { compressImageFile } from '../lib/imageCompress';
 import { setAdminPin } from '../lib/catalogApi';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -58,7 +58,8 @@ const AVAILABLE_TAGS = [
   'فلتر بلازما منقي للبكتيريا',
   'تبريد نفاث فائق السرعة Turbo',
   'شاشة ديجيتال LED مخفية',
-  'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+  'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل معتمد من Aux',
+  'كاريير ضمان 5 سنوات شامل',
   'توزيع هواء 4 اتجاهات 3D',
   'خاصية التتبع Follow Me',
   'فريون R32 و R410A',
@@ -128,7 +129,7 @@ export const AdminDashboard = () => {
     price: 24500,
     oldPrice: 27000,
     discount: 9,
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'كاريير ضمان 5 سنوات شامل',
     image: PRESET_AC_IMAGES[0].url,
     features: ['توفير كهرباء 60% (إنفرتر)', 'تبريد نفاث فائق السرعة Turbo', 'فلتر بلازما منقي للبكتيريا'],
     bestseller: true,
@@ -254,7 +255,7 @@ export const AdminDashboard = () => {
         price: 23500,
         oldPrice: 26000,
         discount: 10,
-        warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+        warranty: 'كاريير ضمان 5 سنوات شامل',
         image: FACTORY_PRODUCTS[0]?.image || '',
         features: ['توفير كهرباء 60% (إنفرتر)', 'تبريد نفاث فائق السرعة Turbo', 'فلتر بلازما منقي للبكتيريا'],
         bestseller: false,
@@ -1127,6 +1128,7 @@ export const AdminDashboard = () => {
                             brand: brand.id,
                             brandName: brand.name,
                             customBrandName: '',
+                            warranty: warrantyForProduct({ brand: brand.id, brandName: brand.name }),
                           })}
                           className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all ${
                             productForm.brand === brand.id

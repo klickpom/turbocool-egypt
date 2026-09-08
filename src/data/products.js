@@ -12,19 +12,36 @@ export const AUTHORIZED_DEALER_AR = 'وكيل معتمد: كاريير • مي�
 
 export const STORE_DELIVERY_TEXT = 'توريد والتركيب مجاني خلال 24 ساعة';
 export const STORE_GAS_TEXT = 'فريون R32 و R410A';
+export const AUX_WARRANTY_TEXT = 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل معتمد من Aux';
+export const CARRIER_WARRANTY_TEXT = 'كاريير ضمان 5 سنوات شامل';
+
+export const brandKeyOf = (product) => {
+  const id = String(product?.brand || '').toLowerCase().trim();
+  if (['aux', 'carrier', 'midea', 'sharp', 'lg', 'pluto'].includes(id)) return id;
+  const blob = `${product?.brand || ''} ${product?.brandName || ''} ${product?.name || ''}`;
+  if (/aux|أوكس|اوكس/i.test(blob)) return 'aux';
+  if (/carrier|كاريير/i.test(blob)) return 'carrier';
+  if (/midea|ميديا/i.test(blob)) return 'midea';
+  if (/sharp|شارب/i.test(blob)) return 'sharp';
+  if (/\blg\b|إل جي|ال جي/i.test(blob)) return 'lg';
+  if (/pluto|بلوتو/i.test(blob)) return 'pluto';
+  return id || 'other';
+};
 
 export const isStaleWarranty = (text) => {
   const value = String(text || '').trim();
   if (!value) return true;
-  if (/ميراكو|5 سنوات معتمد|5 سنوات شامل من الوكيل|توريد خلال 5/.test(value)) return true;
-  return /^ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل$/.test(value);
+  return /ميراكو|5 سنوات معتمد|5 سنوات شامل من الوكيل|توريد خلال [45]|10 سنوات على الكمبروسور|معتمد من كاريير|معتمد من ميديا|معتمد من أوكس/.test(value);
 };
 
 export const warrantyForProduct = (product) => {
+  const brand = brandKeyOf(product);
+  if (brand === 'aux') return AUX_WARRANTY_TEXT;
+  if (brand === 'carrier') return CARRIER_WARRANTY_TEXT;
   const text = String(product?.warranty || '').trim();
-  if (!isStaleWarranty(text)) return text;
-  const brand = String(product?.brandName || 'الوكيل').split(' - ')[0].trim() || 'الوكيل';
-  return `ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل معتمد من ${brand}`;
+  if (text && !isStaleWarranty(text)) return text;
+  const short = String(product?.brandName || 'الوكيل').split(' - ')[0].trim() || 'الوكيل';
+  return `ضمان 5 سنوات شامل معتمد من ${short}`;
 };
 
 export const HORSEPOWERS = [
@@ -49,7 +66,7 @@ export const TYPES = [
 export const MIRACO_FEATURES = [
   'صور أصلية من المصنع: الوحدة الداخلية + الريموت + الوحدة الخارجية',
   'توريد والتركيب مجاني خلال 24 ساعة',
-  'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+  'ضمان 5 سنوات شامل معتمد من الوكيل',
   'فريون R32 و R410A',
   'تصميم سبليت أنيق مع فلاتر سهلة الفك والتنظيف وريموت أصلي',
 ];
@@ -84,7 +101,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft12n8-708f-seer-46309116',
     energyClass: 'S1 كفاءة طاقة معتمدة من ميراكو',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -122,7 +139,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft12n8-708f-seer-46309119',
     energyClass: 'S1 نظام تدفئة وتبريد SEER',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -160,7 +177,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft18n8-78x2-5mm-seer',
     energyClass: 'S1 تبريد قوي مساحات متوسطة',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -198,7 +215,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft18n8-708f-seer-46309131',
     energyClass: 'S1 بارد ساخن كفاءة SEER',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -236,7 +253,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft12dn8-708f',
     energyClass: 'S4 إنفرتر موفر للكهرباء',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -274,7 +291,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft18dn8-708f',
     energyClass: 'S5 أعلى توفير للطاقة',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -312,7 +329,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft18dn8-708f',
     energyClass: 'S5 بارد ساخن انفرتر',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -350,7 +367,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53kheft24dn8-708f',
     energyClass: 'S5 قوة قصوى وتوفير',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -388,7 +405,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/53qheft24dn8-708f',
     energyClass: 'S5 فئة الريسبشن والفلل',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -426,7 +443,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-12crn8f-q8-seer',
     energyClass: 'S1 كفاءة تبريد XTreme Pro',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -464,7 +481,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-12hrdnf-q8-seer',
     energyClass: 'S4 إنفرتر ذكي بارد ساخن',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -502,7 +519,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-18crn8f-q8-seer',
     energyClass: 'S1 تبريد قوي مساحات 20م²',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -540,7 +557,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-12crdn8f-q8-seer',
     energyClass: 'S4 الذكاء الاصطناعي AI ECOMASTER',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
@@ -578,7 +595,7 @@ export const PRODUCTS = [
     ],
     sourceUrl: 'https://miraco.com.eg/en/m1seft-18crdn8f-q8-ai-ecomaster-seer',
     energyClass: 'S5 ذكاء اصطناعي AI ECOMASTER مساحات واسعة',
-    warranty: 'ضمان 10 سنوات على الكمبروسور و 5 على الجهاز بالكامل',
+    warranty: 'ضمان 5 سنوات شامل',
     features: MIRACO_FEATURES,
     specs: {
       gas: 'R32 و R410A',
