@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { PRODUCTS as DEFAULT_PRODUCTS, STORE_DELIVERY_TEXT, STORE_GAS_TEXT, isStaleWarranty, warrantyForProduct } from '../data/products';
 import { SERVICES as DEFAULT_SERVICES } from '../data/services';
-import { trackMeta, trackMetaProduct } from '../lib/metaPixel';
+import { trackMeta, trackMetaProduct, META_PIXEL_ID } from '../lib/metaPixel';
 import confetti from 'canvas-confetti';
 import {
   fetchRemoteCatalog,
@@ -129,6 +129,9 @@ const hydrateProducts = (saved) => {
 
 const hydrateSettings = (saved) => {
   const merged = { ...DEFAULT_SETTINGS, ...(saved || {}) };
+  if (!String(merged.metaPixelId || '').replace(/\D/g, '')) {
+    merged.metaPixelId = META_PIXEL_ID;
+  }
   if (isStaleContact(merged.phone) || isStaleContact(merged.whatsapp) || isStaleContact(merged.emergencyPhone) || !merged.salesPhone) {
     return {
       ...merged,
@@ -152,7 +155,7 @@ export const DEFAULT_SETTINGS = {
   facebookUrl: 'https://www.facebook.com/share/1HKQUrdqZT/',
   workingHours: 'يومياً من 9:00 ص حتى 11:00 م (خدمة الطوارئ 24/7)',
   coverageAreas: 'الجيزة، القاهرة الكبرى، 6 أكتوبر، زايد، التجمع',
-  metaPixelId: '',
+  metaPixelId: META_PIXEL_ID,
 };
 
 export const DEFAULT_COUPONS = [
@@ -328,7 +331,7 @@ export const StoreProvider = ({ children }) => {
           setServices(JSON.parse(e.newValue));
         }
         if (e.key === 'turbocool_settings' && e.newValue) {
-          setStoreSettings(JSON.parse(e.newValue));
+          setStoreSettings(hydrateSettings(JSON.parse(e.newValue)));
         }
         if (e.key === 'turbocool_coupons' && e.newValue) {
           setCoupons(JSON.parse(e.newValue));

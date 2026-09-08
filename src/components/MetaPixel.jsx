@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useStore } from '../context/StoreContext';
 import { initMetaPixel, trackMeta, trackMetaProduct } from '../lib/metaPixel';
 
 export const MetaPixel = () => {
   const { storeSettings, currentView, quickViewProduct, searchQuery } = useStore();
   const pixelId = storeSettings?.metaPixelId;
+  const skipFirstPageView = useRef(true);
 
   useEffect(() => {
     initMetaPixel(pixelId);
@@ -12,6 +13,10 @@ export const MetaPixel = () => {
 
   useEffect(() => {
     if (!pixelId) return;
+    if (skipFirstPageView.current) {
+      skipFirstPageView.current = false;
+      return;
+    }
     trackMeta('PageView');
   }, [currentView, pixelId]);
 
