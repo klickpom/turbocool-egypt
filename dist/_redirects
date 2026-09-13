@@ -1,1 +1,10 @@
+https://www.turbocool-egypt.shop/*  https://turbocool-egypt.shop/:splat  301!
+/products/  /products  301
+/faq/       /faq  301
+/guide/     /guide  301
+/calculator/ /calculator  301
+/services/  /services  301
+/booking/   /booking  301
+/about/     /about  301
+/prices/    /prices  301
 /*    /index.html   200

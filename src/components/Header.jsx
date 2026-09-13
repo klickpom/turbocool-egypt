@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useStore } from '../context/StoreContext';
 import { BRANDS } from '../data/products';
+import { SoftLink } from './SoftLink';
+import { navigateSoft, pathForSection } from '../seo/navigate';
 import {
   PhoneCall,
   ShoppingCart,
@@ -47,18 +49,14 @@ export const Header = () => {
   }, []);
 
   const navigateToSection = (id, tabName) => {
-    setActiveTab(tabName);
     setIsMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigateSoft(pathForSection(id), { tab: tabName, sectionId: id });
   };
 
   const selectBrandAndScroll = (brandId) => {
-    setSelectedBrand(brandId);
     setIsBrandsDropdownOpen(false);
-    navigateToSection('catalog-section', 'catalog');
+    setIsMobileMenuOpen(false);
+    navigateSoft('/products', { tab: 'catalog', sectionId: 'catalog-section', brand: brandId });
   };
 
   const glass = scrolled || isMobileMenuOpen;
@@ -98,8 +96,10 @@ export const Header = () => {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 sm:gap-4 py-2 md:py-3">
-          <div
-            onClick={() => navigateToSection('hero-section', 'home')}
+          <SoftLink
+            href="/"
+            tab="home"
+            sectionId="hero-section"
             className="flex items-center gap-2 cursor-pointer group select-none shrink-0"
           >
             <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-2xl p-0.5 flex items-center justify-center overflow-hidden ${
@@ -125,7 +125,7 @@ export const Header = () => {
                 TURBO COOL
               </span>
             </div>
-          </div>
+          </SoftLink>
 
           <div className="flex-1 min-w-0">
             <div className="relative">
@@ -210,14 +210,16 @@ export const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-2">
             <nav className="flex items-center gap-1 font-bold text-xs xl:text-sm">
-              <button
-                onClick={() => navigateToSection('hero-section', 'home')}
-                className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+              <SoftLink
+                href="/"
+                tab="home"
+                sectionId="hero-section"
+                className={`px-3.5 py-1.5 rounded-xl transition-all ${
                   activeTab === 'home' ? 'bg-brand-600 text-white shadow-sm' : 'text-slate-700 hover:text-brand-600 hover:bg-white'
                 }`}
               >
                 الرئيسية
-              </button>
+              </SoftLink>
               <div className="relative">
                 <button
                   onClick={() => setIsBrandsDropdownOpen(!isBrandsDropdownOpen)}
@@ -251,42 +253,52 @@ export const Header = () => {
                   </div>
                 )}
               </div>
-              <button
-                onClick={() => navigateToSection('catalog-section', 'catalog')}
-                className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+              <SoftLink
+                href="/products"
+                tab="catalog"
+                sectionId="catalog-section"
+                className={`px-3.5 py-1.5 rounded-xl transition-all ${
                   activeTab === 'catalog' ? 'bg-brand-600 text-white shadow-sm' : 'text-slate-700 hover:text-brand-600 hover:bg-white'
                 }`}
               >
                 كتالوج التكييفات والأسعار
-              </button>
-              <button
-                onClick={() => navigateToSection('calculator-section', 'calculator')}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-brand-800 bg-sky-100/80 hover:bg-sky-200 font-extrabold transition-all border border-sky-300/60 cursor-pointer"
+              </SoftLink>
+              <SoftLink
+                href="/calculator"
+                tab="calculator"
+                sectionId="calculator-section"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-brand-800 bg-sky-100/80 hover:bg-sky-200 font-extrabold transition-all border border-sky-300/60"
               >
                 <Calculator className="w-3.5 h-3.5 text-brand-600" />
                 <span>حاسبة الأحمال</span>
-              </button>
-              <button
-                onClick={() => navigateToSection('services-section', 'services')}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-brand-600 hover:bg-white transition-all cursor-pointer"
+              </SoftLink>
+              <SoftLink
+                href="/services"
+                tab="services"
+                sectionId="services-section"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-brand-600 hover:bg-white transition-all"
               >
                 <Wrench className="w-3.5 h-3.5 text-slate-400" />
                 <span>خدمات الصيانة والتركيب</span>
-              </button>
-              <button
-                onClick={() => navigateToSection('why-us-section', 'why-us')}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-brand-600 hover:bg-white transition-all cursor-pointer"
+              </SoftLink>
+              <SoftLink
+                href="/about"
+                tab="why-us"
+                sectionId="about-brand"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-brand-600 hover:bg-white transition-all"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
                 <span>الضمان المعتمد</span>
-              </button>
-              <button
-                onClick={() => navigateToSection('reviews-section', 'reviews')}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-brand-600 hover:bg-white transition-all cursor-pointer"
+              </SoftLink>
+              <SoftLink
+                href="/faq"
+                tab="faq"
+                sectionId="faq"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-brand-600 hover:bg-white transition-all"
               >
                 <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
-                <span>آراء العملاء</span>
-              </button>
+                <span>الأسئلة الشائعة</span>
+              </SoftLink>
             </nav>
             <a
               href={`https://wa.me/${(storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '')}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%AA%D8%B1%D8%A8%D9%88%20%D9%83%D9%88%D9%88%D9%84`}
@@ -310,20 +322,23 @@ export const Header = () => {
             {storeSettings?.phone || '01006836537'}
           </a>
           {[
-            ['hero-section', 'home', 'الرئيسية'],
-            ['catalog-section', 'catalog', 'كتالوج الأجهزة والأسعار'],
-            ['calculator-section', 'calculator', 'حاسبة قدرة التكييف'],
-            ['services-section', 'services', 'خدمات الصيانة والتركيب'],
-            ['why-us-section', 'why-us', 'الضمان المعتمد'],
-            ['reviews-section', 'reviews', 'آراء العملاء'],
-          ].map(([id, tab, label]) => (
-            <button
-              key={id}
-              onClick={() => navigateToSection(id, tab)}
+            ['/', 'home', 'hero-section', 'الرئيسية'],
+            ['/products', 'catalog', 'catalog-section', 'كتالوج الأجهزة والأسعار'],
+            ['/calculator', 'calculator', 'calculator-section', 'حاسبة قدرة التكييف'],
+            ['/services', 'services', 'services-section', 'خدمات الصيانة والتركيب'],
+            ['/about', 'why-us', 'about-brand', 'عن تربو كوول'],
+            ['/faq', 'faq', 'faq', 'الأسئلة الشائعة'],
+          ].map(([href, tab, sectionId, label]) => (
+            <SoftLink
+              key={href}
+              href={href}
+              tab={tab}
+              sectionId={sectionId}
+              onNavigate={() => setIsMobileMenuOpen(false)}
               className="w-full text-right py-2.5 px-3 rounded-xl text-slate-800 font-bold hover:bg-sky-50"
             >
               {label}
-            </button>
+            </SoftLink>
           ))}
           <button
             onClick={() => { setIsMobileMenuOpen(false); setIsCompareOpen(true); }}

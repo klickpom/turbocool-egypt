@@ -1,43 +1,75 @@
-# ========================================================
-# Optimized 2026 robots.txt for AI Search & AEO Indexing
-# Turbo Cool Egypt - https://turbocool-egypt.shop
-# ========================================================
+# Turbo Cool Egypt — https://turbocool-egypt.shop
+# GEO: allow major search + answer-engine crawlers
 
-# Standard Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: Yandex
+User-agent: GPTBot
 Allow: /
 
-# AI Search Engine & Retrieval Bots (Search Citations)
-# OAI-SearchBot - ChatGPT Search & Live Web Retrieval
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: OAI-SearchBot
 Allow: /
 
-# PerplexityBot - Perplexity AI Real-Time Search & Sourced References
-User-agent: PerplexityBot
+User-agent: ClaudeBot
 Allow: /
 
-# Claude-Web - Anthropic Claude 3.5 Real-Time Web Browsing
+User-agent: anthropic-ai
+Allow: /
+
 User-agent: Claude-Web
 Allow: /
 
-# Google-Extended - Google Gemini AI Overviews & Search Summaries
+User-agent: PerplexityBot
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
-# Applebot-Extended - Apple Intelligence Siri & Spotlight AI Answers
+User-agent: Applebot
+Allow: /
+
 User-agent: Applebot-Extended
 Allow: /
 
-# Default Directive for All Other Crawlers
+User-agent: Bytespider
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
 User-agent: *
 Allow: /
+Disallow: /admin
 Disallow: /#admin
 
-# Authoritative Sitemap Index
+# Discovery
+# https://turbocool-egypt.shop/llms.txt
+# https://turbocool-egypt.shop/llms-full.txt
+# https://turbocool-egypt.shop/ai.txt
+# https://turbocool-egypt.shop/schema.jsonld
+
 Sitemap: https://turbocool-egypt.shop/sitemap.xml

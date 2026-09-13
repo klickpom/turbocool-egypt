@@ -3,38 +3,140 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://turbocool-egypt.shop/</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://turbocool-egypt.shop/logo.jpg</image:loc>
+      <image:title>تربو كوول للتكييف والتبريد</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://turbocool-egypt.shop/#catalog</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://turbocool-egypt.shop/#calculator</loc>
-    <lastmod>2026-08-27</lastmod>
+    <loc>https://turbocool-egypt.shop/faq</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/guide</loc>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://turbocool-egypt.shop/#services</loc>
-    <lastmod>2026-08-27</lastmod>
+    <loc>https://turbocool-egypt.shop/prices</loc>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://turbocool-egypt.shop/#why-us</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://turbocool-egypt.shop/calculator</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://turbocool-egypt.shop/#reviews</loc>
-    <lastmod>2026-08-27</lastmod>
+    <loc>https://turbocool-egypt.shop/services</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/booking</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/about</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_3.png</image:loc>
+      <image:title>تكييف كاريير 1.5 حصان إكس كول بارد فقط (53KHEFT12N8-708F)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_4.png</image:loc>
+      <image:title>تكييف كاريير 1.5 حصان إكس كول بارد ساخن (53QHEFT12N8-708F)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open.png</image:loc>
+      <image:title>تكييف كاريير 2.25 حصان إكس كول بارد فقط ديجيتال Miraco XCOOL</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_xcool_front_open_5.png</image:loc>
+      <image:title>تكييف كاريير 2.25 حصان إكس كول بارد ساخن ديجيتال Miraco XCOOL Heat Pump</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left2.png</image:loc>
+      <image:title>تكييف كاريير 1.5 حصان إكس كول إنفرتر بارد فقط Miraco XCOOL Inverter</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left1.png</image:loc>
+      <image:title>تكييف كاريير 2.25 حصان إكس كول إنفرتر بارد فقط Miraco XCOOL Inverter</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/1/-/1-5_left1_1.png</image:loc>
+      <image:title>تكييف كاريير 2.25 حصان إكس كول إنفرتر بارد ساخن Miraco XCOOL Inverter Heat Pump</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://turbocool-egypt.shop/products</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://mcprod.miraco.com.eg/media/catalog/product/cache/8ddeeed85c51e5e61315f40dbec60ae7/3/_/3_left1.png</image:loc>
+      <image:title>تكييف كاريير 3 حصان إكس كول إنفرتر بارد فقط Miraco XCOOL Inverter</image:title>
+    </image:image>
   </url>
 </urlset>

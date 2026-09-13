@@ -2,16 +2,13 @@ import React from 'react';
 import { useStore } from '../context/StoreContext';
 import { BRANDS } from '../data/products';
 import { Award, CheckCircle } from 'lucide-react';
+import { navigateSoft } from '../seo/navigate';
 
 export const BrandBar = () => {
-  const { selectedBrand, setSelectedBrand, setActiveTab } = useStore();
+  const { selectedBrand } = useStore();
 
   const handleBrandClick = (brandId) => {
-    setSelectedBrand(brandId);
-    const catalogElem = document.getElementById('catalog-section');
-    if (catalogElem) {
-      catalogElem.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigateSoft('/products', { tab: 'catalog', sectionId: 'catalog-section', brand: brandId });
   };
 
   return (

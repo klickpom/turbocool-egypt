@@ -15,6 +15,8 @@ import {
   Award,
   Zap
 } from 'lucide-react';
+import { COMPANY_ANSWER_AR } from '../seo/config';
+import { SoftLink } from './SoftLink';
 
 export const Hero = () => {
   const { setActiveTab, storeSettings } = useStore();
@@ -98,12 +100,18 @@ export const Hero = () => {
               </span>
             </motion.h1>
 
-            {/* Slogan & Description */}
+            <motion.h2
+              variants={itemVariants}
+              className="text-lg sm:text-xl md:text-2xl font-black text-sky-200 leading-snug"
+            >
+              أفضل شركة تكييفات 2026 في مصر للتوريد والتركيب خلال 24 ساعة
+            </motion.h2>
+
             <motion.p 
               variants={itemVariants}
-              className="text-base sm:text-lg md:text-xl text-slate-300 font-normal leading-relaxed max-w-2xl"
+              className="seo-answer text-base sm:text-lg md:text-xl text-slate-300 font-normal leading-relaxed max-w-2xl"
             >
-              نوفر لك أقوى تشكيلة تكييفات أصلية بالضمان المعتمد في مصر، مع خدمات التوريد والتركيب الفوري خلال 24 ساعة، وصيانة دورية وفريون أصلي بأفضل الأسعار المعتمدة.
+              {COMPANY_ANSWER_AR}
             </motion.p>
 
             {/* Key Value Points with Micro-Interactions */}
@@ -139,25 +147,25 @@ export const Hero = () => {
               variants={itemVariants}
               className="flex flex-wrap items-center gap-3.5 pt-4"
             >
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => scrollToSection('catalog-section', 'catalog')}
-                className="flex items-center gap-2 bg-gradient-to-r from-brand-600 via-sky-500 to-teal-400 hover:from-brand-500 hover:to-sky-400 text-white font-extrabold text-sm md:text-base px-6 py-3.5 rounded-2xl shadow-lg shadow-sky-500/30 hover:shadow-sky-500/50 transition-all duration-300 cursor-pointer"
-              >
-                <span>تصفح أحدث عروض التكييفات</span>
-                <ArrowLeft className="w-4 h-4" />
-              </motion.button>
+              <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96 }}>
+                <SoftLink
+                  href="/products"
+                  className="flex items-center gap-2 bg-gradient-to-r from-brand-600 via-sky-500 to-teal-400 hover:from-brand-500 hover:to-sky-400 text-white font-extrabold text-sm md:text-base px-6 py-3.5 rounded-2xl shadow-lg shadow-sky-500/30 hover:shadow-sky-500/50 transition-all duration-300"
+                >
+                  <span>تصفح أحدث عروض التكييفات</span>
+                  <ArrowLeft className="w-4 h-4" />
+                </SoftLink>
+              </motion.div>
 
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => scrollToSection('calculator-section', 'calculator')}
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm md:text-base px-5 py-3.5 rounded-2xl backdrop-blur-md transition-all duration-200 cursor-pointer"
-              >
-                <Calculator className="w-4 h-4 text-sky-300" />
-                <span>احسب قدرة غرفتك 📐</span>
-              </motion.button>
+              <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96 }}>
+                <SoftLink
+                  href="/calculator"
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm md:text-base px-5 py-3.5 rounded-2xl backdrop-blur-md transition-all duration-200"
+                >
+                  <Calculator className="w-4 h-4 text-sky-300" />
+                  <span>احسب قدرة غرفتك 📐</span>
+                </SoftLink>
+              </motion.div>
 
               <motion.a
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -264,15 +272,15 @@ export const Hero = () => {
                   </div>
 
                   {/* Fast Action button */}
-                  <motion.button 
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => scrollToSection('services-section', 'services')}
-                    className="w-full py-3.5 bg-gradient-to-r from-sky-400 to-brand-500 hover:from-sky-500 hover:to-brand-600 text-slate-950 font-black rounded-2xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Wrench className="w-4 h-4 text-slate-950" />
-                    <span>احجز صيانة أو تركيب فوري</span>
-                  </motion.button>
+                  <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                    <SoftLink
+                      href="/services"
+                      className="w-full py-3.5 bg-gradient-to-r from-sky-400 to-brand-500 hover:from-sky-500 hover:to-brand-600 text-slate-950 font-black rounded-2xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2"
+                    >
+                      <Wrench className="w-4 h-4 text-slate-950" />
+                      <span>احجز صيانة أو تركيب فوري</span>
+                    </SoftLink>
+                  </motion.div>
                 </div>
 
                 {/* Floating Cool Breeze Tag with Spin Animation */}

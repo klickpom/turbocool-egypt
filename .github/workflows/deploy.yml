@@ -21,14 +21,24 @@ jobs:
         run: npm ci || npm install
 
       - name: Build Production Project
-        run: npx vite build
+        run: npm run build
 
       - name: Verify production bundle
         run: |
           test -f dist/index.html
+          test -f dist/llms.txt
+          test -f dist/llms-full.txt
+          test -f dist/ai.txt
+          test -f dist/schema.jsonld
+          test -f dist/sitemap.xml
+          test -f dist/.htaccess
           ls dist/assets/*.js
           grep -q "01097640898" dist/assets/*.js
           grep -q "53KHEFT12N8-708F" dist/assets/*.js
+          grep -q "2607098443095837" dist/index.html
+          grep -q "أفضل شركة تكييفات 2026" dist/index.html
+          grep -q "/products" dist/sitemap.xml
+          grep -q "FAQPage" dist/schema.jsonld
 
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

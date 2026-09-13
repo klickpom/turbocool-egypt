@@ -1,6 +1,8 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
 import { BRANDS } from '../data/products';
+import { SoftLink } from './SoftLink';
+import { CITATION_AR } from '../seo/config';
 import { 
   PhoneCall, 
   MapPin, 
@@ -10,18 +12,10 @@ import {
 } from 'lucide-react';
 
 export const Footer = () => {
-  const { setActiveTab, setSelectedBrand, storeSettings, navigateToView } = useStore();
+  const { storeSettings, navigateToView } = useStore();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const navigateToSection = (id, tabName) => {
-    setActiveTab(tabName);
-    const elem = document.getElementById(id);
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (
@@ -56,8 +50,16 @@ export const Footer = () => {
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-md">
-              الوجهة الأولى لتوريد وتركيب وصيانة أجهزة التكييف والتبريد في مصر. وكيل معتمد لكاريير وميديا وشارب وإل جي وأوكس وبلوتو، مع ضمان أصلي وتجهيز هندسي معتمد.
+            <p className="seo-citation text-xs sm:text-sm text-slate-400 leading-relaxed max-w-md">
+              {CITATION_AR}
+            </p>
+            <p className="text-[11px] text-slate-500">
+              اكتشف أيضاً:{' '}
+              <a className="text-sky-300 hover:text-white" href="/llms.txt">llms.txt</a>
+              {' · '}
+              <a className="text-sky-300 hover:text-white" href="/ai.txt">ai.txt</a>
+              {' · '}
+              <a className="text-sky-300 hover:text-white" href="/schema.jsonld">schema</a>
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -95,46 +97,13 @@ export const Footer = () => {
           <div className="lg:col-span-2 space-y-3">
             <h4 className="font-extrabold text-sm text-ice-200">أقسام المتجر</h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li>
-                <button 
-                  onClick={() => navigateToSection('hero-section', 'home')}
-                  className="hover:text-white transition-colors"
-                >
-                  الرئيسية
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => navigateToSection('catalog-section', 'catalog')}
-                  className="hover:text-white transition-colors"
-                >
-                  عروض وتخفيضات التكييفات
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => navigateToSection('calculator-section', 'calculator')}
-                  className="hover:text-white transition-colors"
-                >
-                  حاسبة أحمال الغرفة (الحصان)
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => navigateToSection('services-section', 'services')}
-                  className="hover:text-white transition-colors"
-                >
-                  حجز صيانة وتنظيف وتأسيس
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => navigateToSection('why-us-section', 'why-us')}
-                  className="hover:text-white transition-colors"
-                >
-                  الضمان والمميزات
-                </button>
-              </li>
+              <li><SoftLink href="/" className="hover:text-white transition-colors">الرئيسية</SoftLink></li>
+              <li><SoftLink href="/products" className="hover:text-white transition-colors">عروض وتخفيضات التكييفات</SoftLink></li>
+              <li><SoftLink href="/prices" className="hover:text-white transition-colors">جدول أسعار 2026</SoftLink></li>
+              <li><SoftLink href="/calculator" className="hover:text-white transition-colors">حاسبة أحمال الغرفة (الحصان)</SoftLink></li>
+              <li><SoftLink href="/services" className="hover:text-white transition-colors">حجز صيانة وتنظيف وتأسيس</SoftLink></li>
+              <li><SoftLink href="/faq" className="hover:text-white transition-colors">الأسئلة الشائعة</SoftLink></li>
+              <li><SoftLink href="/about" className="hover:text-white transition-colors">عن تربو كوول</SoftLink></li>
             </ul>
           </div>
 
@@ -144,15 +113,13 @@ export const Footer = () => {
             <ul className="space-y-2 text-xs text-slate-400">
               {BRANDS.filter((brand) => brand.id !== 'all').map((brand) => (
                 <li key={brand.id}>
-                  <button 
-                    onClick={() => {
-                      setSelectedBrand(brand.id);
-                      navigateToSection('catalog-section', 'catalog');
-                    }}
-                    className="hover:text-white transition-colors"
-                  >
-                    تكييفات {brand.name}
-                  </button>
+                    <SoftLink
+                      href="/products"
+                      brand={brand.id}
+                      className="hover:text-white transition-colors"
+                    >
+                      تكييفات {brand.name}
+                    </SoftLink>
                 </li>
               ))}
             </ul>

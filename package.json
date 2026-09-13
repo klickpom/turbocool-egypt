@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "seo:schema": "node scripts/seo-schema.mjs",
+    "seo:inject": "node scripts/seo-inject.mjs",
+    "prebuild": "node scripts/ensure-vite-entry.mjs && node scripts/seo-schema.mjs && node scripts/seo-inject.mjs",
     "build": "vite build",
+    "postbuild": "node scripts/copy-htaccess.mjs",
     "vercel-build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"

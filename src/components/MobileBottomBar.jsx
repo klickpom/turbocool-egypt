@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
+import { SoftLink } from './SoftLink';
 import { 
   Home, 
   ShoppingBag, 
@@ -13,18 +14,9 @@ export const MobileBottomBar = () => {
     cartCount, 
     setIsCartOpen, 
     activeTab, 
-    setActiveTab,
     storeSettings
   } = useStore();
   const cleanWhatsapp = (storeSettings?.whatsapp || '201097640898').replace(/[^0-9]/g, '');
-
-  const handleNav = (id, tab) => {
-    setActiveTab(tab);
-    const elem = document.getElementById(id);
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 bg-white/80 backdrop-blur-xl border-t border-white/60 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] py-1.5 px-2 lg:hidden"
@@ -32,49 +24,45 @@ export const MobileBottomBar = () => {
     >
       <div className="flex items-center justify-around">
         
-        {/* Home */}
-        <button
-          onClick={() => handleNav('hero-section', 'home')}
+        <SoftLink
+          href="/"
           className={`flex flex-col items-center gap-1 text-[11px] font-bold transition-colors ${
             activeTab === 'home' ? 'text-brand-600' : 'text-slate-500'
           }`}
         >
           <Home className="w-5 h-5" />
           <span>الرئيسية</span>
-        </button>
+        </SoftLink>
 
-        {/* Catalog */}
-        <button
-          onClick={() => handleNav('catalog-section', 'catalog')}
+        <SoftLink
+          href="/products"
           className={`flex flex-col items-center gap-1 text-[11px] font-bold transition-colors ${
             activeTab === 'catalog' ? 'text-brand-600' : 'text-slate-500'
           }`}
         >
           <ShoppingBag className="w-5 h-5" />
           <span>التكييفات</span>
-        </button>
+        </SoftLink>
 
-        {/* Calculator */}
-        <button
-          onClick={() => handleNav('calculator-section', 'calculator')}
+        <SoftLink
+          href="/calculator"
           className={`flex flex-col items-center gap-1 text-[11px] font-bold transition-colors ${
             activeTab === 'calculator' ? 'text-brand-600 font-black' : 'text-slate-500'
           }`}
         >
             <Calculator className="w-5 h-5 text-brand-600" />
           <span>الحاسبة</span>
-        </button>
+        </SoftLink>
 
-        {/* Services */}
-        <button
-          onClick={() => handleNav('services-section', 'services')}
+        <SoftLink
+          href="/services"
           className={`flex flex-col items-center gap-1 text-[11px] font-bold transition-colors ${
             activeTab === 'services' ? 'text-brand-600' : 'text-slate-500'
           }`}
         >
           <Wrench className="w-5 h-5" />
           <span>الصيانة</span>
-        </button>
+        </SoftLink>
 
         {/* Cart Trigger */}
         <button
