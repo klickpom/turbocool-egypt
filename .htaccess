@@ -17,8 +17,8 @@ RewriteRule ^ - [L]
 
 RewriteRule ^api/ - [L]
 
-# SPA soft routes → index.html
-RewriteRule ^ index.html [L]
+# SPA soft routes → PHP so Google sees unique title/canonical without JavaScript
+RewriteRule ^ index.php [L]
 
 <IfModule mod_headers.c>
   <FilesMatch "^(llms|llms-full|ai)\.txt$">
@@ -32,9 +32,9 @@ RewriteRule ^ index.html [L]
   <FilesMatch "\.(?:js|css|woff2|jpg|jpeg|png|webp|svg)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-  <Files "index.html">
+  <FilesMatch "^(index\.html|index\.php)$">
     Header set Cache-Control "no-cache, no-store, must-revalidate"
-  </Files>
+  </FilesMatch>
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"

@@ -32,6 +32,10 @@ jobs:
           test -f dist/schema.jsonld
           test -f dist/sitemap.xml
           test -f dist/.htaccess
+          test -f dist/index.php
+          test -f dist/seo-routes.json
+          grep -q "index.php" dist/.htaccess
+          grep -q "/products" dist/seo-routes.json
           ls dist/assets/*.js
           grep -q "01097640898" dist/assets/*.js
           grep -q "53KHEFT12N8-708F" dist/assets/*.js
