@@ -24,3 +24,4 @@ dist-ssr
 
 # Live catalog published from the admin panel
 api/catalog-data.json
+.wrangler/
