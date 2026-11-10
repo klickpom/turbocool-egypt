@@ -177,6 +177,64 @@ function validPin(pin, env) {
   return allowed.includes(String(pin ?? '').trim().toLowerCase());
 }
 
+// Pull products/services/settings/coupons from SEED_SOURCE and merge orders
+// (union by id, newest first, max 200) so no order placed on either side is lost.
+async function syncFromSource(env) {
+  const source = String(env.SEED_SOURCE || '').trim();
+  if (!/^https:\/\//.test(source)) {
+    return json({ ok: false, error: 'disabled' }, 403);
+  }
+  let remote;
+  try {
+    const r = await fetch(source, { headers: { Accept: 'application/json' }, cf: { cacheTtl: 0 } });
+    remote = await r.json();
+  } catch {
+    return json({ ok: false, error: 'source' }, 502);
+  }
+  const src = remote && isArr(remote.payload) ? remote.payload : null;
+  if (!src) {
+    return json({ ok: false, error: 'source' }, 502);
+  }
+
+  const store = await readStore(env.DB);
+  const local = isArr(store.payload) ? store.payload : {};
+  const localOrders = isArr(local.orders) ? toList(local.orders) : [];
+  const srcOrders = isArr(src.orders) ? toList(src.orders) : [];
+
+  const seen = new Set();
+  const merged = [];
+  for (const o of [...localOrders, ...srcOrders]) {
+    const id = isArr(o) ? o.id : undefined;
+    if (id === undefined || seen.has(id)) continue;
+    seen.add(id);
+    merged.push(o);
+  }
+  const ts = (o) => {
+    const v = o.timestamp ?? o.createdAt ?? o.time ?? 0;
+    const n = typeof v === 'number' ? v : Date.parse(v);
+    return Number.isFinite(n) ? n : 0;
+  };
+  merged.sort((a, b) => ts(b) - ts(a));
+
+  const next = {
+    products: isArr(src.products) ? src.products : [],
+    services: isArr(src.services) ? src.services : [],
+    settings: isArr(src.settings) ? src.settings : {},
+    coupons: isArr(src.coupons) ? src.coupons : [],
+    orders: merged.slice(0, 200),
+  };
+  for (const [k, v] of Object.entries(src)) {
+    if (!(k in next) && k !== 'updatedAt') next[k] = v;
+  }
+  await writeStore(env.DB, next);
+  return json({
+    ok: true,
+    products: toList(next.products).length,
+    orders: next.orders.length,
+    updatedAt: next.updatedAt,
+  });
+}
+
 async function catalogApi(request, env) {
   const method = request.method;
 
@@ -208,6 +266,13 @@ async function catalogApi(request, env) {
   }
 
   const action = data.action ?? 'save-catalog';
+
+  // Migration only: copy the catalog from the old Hostinger API.
+  // Active only while env.SEED_SOURCE is set; remove the variable after cutover.
+  if (action === 'sync-from-source') {
+    return syncFromSource(env);
+  }
+
   const store = await readStore(env.DB);
   const current = isArr(store.payload)
     ? store.payload

@@ -21,3 +21,8 @@ Hostinger served the repository root as-is (Apache + PHP). This branch serves th
 ## Data import (once, at cutover)
 POST the live payload to the new site with an admin PIN:
 `{"pin":"<PIN>","payload":<payload from GET https://turbocool-egypt.shop/api/catalog.php>}`
+
+## Sync from Hostinger (migration only)
+Set env var `SEED_SOURCE=https://turbocool-egypt.shop/api/catalog.php` (while the domain still points to Hostinger), then
+`POST /api/catalog.php {"action":"sync-from-source"}` copies products/services/settings/coupons and merges orders by id.
+Delete `SEED_SOURCE` right after cutover; without it the action returns 403.
